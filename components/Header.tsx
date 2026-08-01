@@ -54,7 +54,9 @@ export default function Header() {
       isScrolled ? 'bg-[#0B0F17]/95 backdrop-blur-md border-b border-white/10 shadow-2xl py-2' : 'bg-[#0B0F17]/80 backdrop-blur-sm border-b border-white/5 py-3'
     }`}>
       {/* Top Info Bar */}
-      <div className="hidden md:block border-b border-white/10 pb-2 mb-2">
+      <div className={`hidden md:block transition-all duration-300 overflow-hidden ${
+        isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-b-0 pointer-events-none' : 'max-h-12 opacity-100 pb-2 mb-2 border-b border-white/10'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xs text-gray-300">
           <div className="flex items-center space-x-6">
             <a href="tel:+917762974716" className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
