@@ -1,0 +1,201 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/seo_services",
+      "destination": "/seo-services",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/seo_services(?:/)?$"
+    },
+    {
+      "source": "/digital_marketing",
+      "destination": "/digital-marketing",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/digital_marketing(?:/)?$"
+    },
+    {
+      "source": "/ui_designing",
+      "destination": "/web",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/ui_designing(?:/)?$"
+    },
+    {
+      "source": "/privacy_policy",
+      "destination": "/privacy-policy",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/privacy_policy(?:/)?$"
+    },
+    {
+      "source": "/refund_policy",
+      "destination": "/refund-policy",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/refund_policy(?:/)?$"
+    },
+    {
+      "source": "/android",
+      "destination": "/mobile",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/android(?:/)?$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/about",
+      "regex": "^/about(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about(?:/)?$"
+    },
+    {
+      "page": "/api/contact",
+      "regex": "^/api/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/contact(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
+    },
+    {
+      "page": "/digital-marketing",
+      "regex": "^/digital\\-marketing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/digital\\-marketing(?:/)?$"
+    },
+    {
+      "page": "/disclaimer",
+      "regex": "^/disclaimer(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/disclaimer(?:/)?$"
+    },
+    {
+      "page": "/faq",
+      "regex": "^/faq(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/faq(?:/)?$"
+    },
+    {
+      "page": "/feature",
+      "regex": "^/feature(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/feature(?:/)?$"
+    },
+    {
+      "page": "/logo",
+      "regex": "^/logo(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/logo(?:/)?$"
+    },
+    {
+      "page": "/mobile",
+      "regex": "^/mobile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/mobile(?:/)?$"
+    },
+    {
+      "page": "/portfolio",
+      "regex": "^/portfolio(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/portfolio(?:/)?$"
+    },
+    {
+      "page": "/privacy-policy",
+      "regex": "^/privacy\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy\\-policy(?:/)?$"
+    },
+    {
+      "page": "/projects",
+      "regex": "^/projects(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/projects(?:/)?$"
+    },
+    {
+      "page": "/refund-policy",
+      "regex": "^/refund\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/refund\\-policy(?:/)?$"
+    },
+    {
+      "page": "/seo-services",
+      "regex": "^/seo\\-services(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/seo\\-services(?:/)?$"
+    },
+    {
+      "page": "/software",
+      "regex": "^/software(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/software(?:/)?$"
+    },
+    {
+      "page": "/team",
+      "regex": "^/team(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/team(?:/)?$"
+    },
+    {
+      "page": "/web",
+      "regex": "^/web(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/web(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

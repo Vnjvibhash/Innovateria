@@ -1,0 +1,69 @@
+import Link from 'next/link';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
+
+export const metadata = {
+  title: 'SEO Services | Innovateria',
+  description: 'Technical SEO, keyword ranking, and organic traffic growth solutions by Innovateria.',
+};
+
+export default function SeoServicesPage() {
+  const capabilities = [
+    'Comprehensive Technical SEO Audits',
+    'On-Page & Schema Markup Optimization',
+    'High-Intent Keyword Research & Mapping',
+    'Competitor Ranking Analysis',
+    'Organic Backlink & Authority Strategy',
+    'Google Search Console & Analytics Setup',
+    'Local SEO & Business Profile Growth'
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+      
+      {/* Hero */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="space-y-6">
+          <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
+            Organic Search Growth
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            Data-Driven <span className="text-gradient-brand">SEO Services</span>
+          </h1>
+          <p className="text-sm text-gray-300 leading-relaxed">
+            Dominate search engine rankings. Our search engine optimization services increase search visibility, drive high-intent organic traffic, and convert visitors into customers.
+          </p>
+
+          <div className="space-y-2.5 pt-2">
+            {capabilities.map((c, idx) => (
+              <div key={idx} className="flex items-center space-x-3 text-xs text-gray-200">
+                <CheckCircle2 size={16} className="text-brand-500 shrink-0" />
+                <span>{c}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-8 py-3.5 rounded-full font-semibold text-xs uppercase tracking-wider shadow-lg shadow-brand-500/25"
+            >
+              <span>Get Free SEO Audit</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <div className="glass-card rounded-3xl p-6 border border-white/10 relative overflow-hidden">
+            <img 
+              src="/assets/img/seo.png" 
+              alt="SEO Growth Strategy" 
+              className="w-full h-auto object-contain rounded-2xl"
+            />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
