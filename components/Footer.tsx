@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-70"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-12">
           
           {/* Column 1: Info & Brand */}
           <div className="space-y-4">
@@ -24,31 +24,31 @@ export default function Footer() {
             </p>
             <div className="space-y-2 text-xs text-gray-300 pt-2">
               <div className="flex items-center space-x-2">
-                <Phone size={14} className="text-brand-500" />
+                <Phone size={14} className="text-brand-500 shrink-0" />
                 <span>+91 77629 74716</span>
               </div>
               <div className="flex items-center space-x-2">
-                <MessageCircle size={14} className="text-green-500" />
+                <MessageCircle size={14} className="text-green-500 shrink-0" />
                 <span>+91 77629 74716 (WhatsApp)</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Mail size={14} className="text-brand-500" />
+                <Mail size={14} className="text-brand-500 shrink-0" />
                 <span>info@innovateria.in</span>
               </div>
             </div>
 
             {/* Social Links */}
             <div className="flex items-center space-x-3 pt-2">
-              <a href="https://twitter.com/Vnjvibhash" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors">
+              <a href="https://twitter.com/Vnjvibhash" target="_blank" rel="noopener noreferrer" className="w-9 h-9 sm:w-8 sm:h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors" aria-label="Twitter">
                 <Twitter size={14} />
               </a>
-              <a href="https://facebook.com/Vivekajee" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors">
+              <a href="https://facebook.com/Vivekajee" target="_blank" rel="noopener noreferrer" className="w-9 h-9 sm:w-8 sm:h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors" aria-label="Facebook">
                 <Facebook size={14} />
               </a>
-              <a href="https://instagram.com/Vivekajee" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors">
+              <a href="https://instagram.com/Vivekajee" target="_blank" rel="noopener noreferrer" className="w-9 h-9 sm:w-8 sm:h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors" aria-label="Instagram">
                 <Instagram size={14} />
               </a>
-              <a href="https://linkedin.com/in/Vivekajee" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors">
+              <a href="https://linkedin.com/in/Vivekajee" target="_blank" rel="noopener noreferrer" className="w-9 h-9 sm:w-8 sm:h-8 rounded-full glass-card flex items-center justify-center text-gray-300 hover:text-brand-500 hover:border-brand-500 transition-colors" aria-label="LinkedIn">
                 <Linkedin size={14} />
               </a>
             </div>
@@ -171,7 +171,7 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
           <p>© 2020 <strong className="text-white font-medium">Innovateria</strong>. All Rights Reserved.</p>
           <p className="mt-2 sm:mt-0">
-            Designed & Developed by <a href="https://github.com/Vnjvibhash" target="_blank" rel="noopener noreferrer" className="text-brand-500 hover:underline">Vnj Vibhash / Vivekajee</a>
+            Designed & Developed by <a href="https://vivekajee.in" target="_blank" rel="noopener noreferrer" className="text-brand-500 hover:underline font-medium">Vivek Kumar (Vivekajee)</a>
           </p>
         </div>
       </div>

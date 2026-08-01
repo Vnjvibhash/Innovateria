@@ -1,4 +1,4 @@
-import { Github, Twitter, Facebook, Instagram, Linkedin, Phone } from 'lucide-react';
+import { Github, Twitter, Facebook, Instagram, Linkedin, Phone, Globe } from 'lucide-react';
 
 export const metadata = {
   title: 'Our Team | Innovateria',
@@ -13,6 +13,7 @@ export default function TeamPage() {
       phone: '+91 7762 9747 16',
       image: '/assets/img/team/vivekajee.png',
       socials: {
+        website: 'https://vivekajee.in',
         github: 'https://github.com/VnjVibhash',
         twitter: 'https://twitter.com/Vnjvibhash',
         facebook: 'https://facebook.com/Vivekajee',
@@ -63,30 +64,35 @@ export default function TeamPage() {
               </p>
             </div>
 
-            {/* Social Links */}
+            {/* Social Links & Website */}
             <div className="flex justify-center space-x-3 pt-2">
+              {member.socials.website && (
+                <a href={member.socials.website} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-brand-500 transition-colors" title="Personal 3D Portfolio (vivekajee.in)">
+                  <Globe size={16} />
+                </a>
+              )}
               {member.socials.github && (
-                <a href={member.socials.github} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors">
+                <a href={member.socials.github} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors" title="GitHub">
                   <Github size={16} />
                 </a>
               )}
               {member.socials.twitter && (
-                <a href={member.socials.twitter} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors">
+                <a href={member.socials.twitter} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors" title="Twitter">
                   <Twitter size={16} />
                 </a>
               )}
               {member.socials.facebook && (
-                <a href={member.socials.facebook} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors">
+                <a href={member.socials.facebook} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors" title="Facebook">
                   <Facebook size={16} />
                 </a>
               )}
               {member.socials.instagram && (
-                <a href={member.socials.instagram} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors">
+                <a href={member.socials.instagram} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors" title="Instagram">
                   <Instagram size={16} />
                 </a>
               )}
               {member.socials.linkedin && (
-                <a href={member.socials.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors">
+                <a href={member.socials.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg glass-card hover:text-brand-500 text-gray-300 transition-colors" title="LinkedIn">
                   <Linkedin size={16} />
                 </a>
               )}

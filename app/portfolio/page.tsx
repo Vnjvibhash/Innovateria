@@ -85,8 +85,8 @@ export default function PortfolioPage() {
 
       {/* Timeline Section */}
       <div className="relative max-w-4xl mx-auto">
-        {/* Central Vertical Line */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-500 via-brand-500/50 to-transparent hidden md:block"></div>
+        {/* Timeline Vertical Track */}
+        <div className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-500 via-brand-500/50 to-transparent"></div>
 
         <div className="space-y-8 relative">
           {timeline.map((item, idx) => {
@@ -96,14 +96,19 @@ export default function PortfolioPage() {
             return (
               <div 
                 key={idx}
-                className={`flex flex-col md:flex-row items-center ${
+                className={`flex flex-col md:flex-row items-start md:items-center relative pl-10 md:pl-0 ${
                   isEven ? 'md:flex-row-reverse' : ''
                 }`}
               >
+                {/* Mobile Icon Badge */}
+                <div className="md:hidden absolute left-0 top-3 w-8 h-8 rounded-full bg-[#131A29] border-2 border-brand-500 flex items-center justify-center text-brand-500 z-10 shadow-lg shadow-brand-500/20">
+                  <Icon size={14} />
+                </div>
+
                 {/* Content Card */}
-                <div className="w-full md:w-1/2 p-4">
-                  <div className="glass-card glass-card-hover rounded-2xl p-6 border border-white/10 space-y-3 relative">
-                    <div className="flex items-center justify-between">
+                <div className="w-full md:w-1/2 p-2 sm:p-4">
+                  <div className="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 border border-white/10 space-y-3 relative">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${
                         item.type === 'education' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-brand-500/20 text-brand-400 border border-brand-500/30'
                       }`}>
@@ -115,7 +120,7 @@ export default function PortfolioPage() {
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white">{item.title}</h3>
+                    <h3 className="text-base sm:text-lg font-bold text-white">{item.title}</h3>
                     <p className="text-xs text-brand-500 font-medium">
                       {item.company || item.institution}
                     </p>
@@ -126,8 +131,8 @@ export default function PortfolioPage() {
 
                     <ul className="space-y-1.5 pt-2 border-t border-white/10">
                       {item.details.map((d, i) => (
-                        <li key={i} className="text-xs text-gray-300 flex items-center space-x-2">
-                          <CheckCircle2 size={12} className="text-brand-500 shrink-0" />
+                        <li key={i} className="text-xs text-gray-300 flex items-start space-x-2">
+                          <CheckCircle2 size={12} className="text-brand-500 shrink-0 mt-0.5" />
                           <span>{d}</span>
                         </li>
                       ))}
@@ -135,7 +140,7 @@ export default function PortfolioPage() {
                   </div>
                 </div>
 
-                {/* Central Icon Badge */}
+                {/* Desktop Central Icon Badge */}
                 <div className="hidden md:flex w-10 h-10 rounded-full bg-[#131A29] border-2 border-brand-500 items-center justify-center text-brand-500 z-10 my-4 md:my-0 shadow-lg shadow-brand-500/20">
                   <Icon size={18} />
                 </div>

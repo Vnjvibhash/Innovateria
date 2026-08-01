@@ -42,10 +42,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className="w-full max-w-full overflow-x-hidden">
-      <body className="bg-[#0B0F17] text-gray-100 min-h-screen min-w-full overflow-x-hidden flex flex-col font-sans antialiased m-0 p-0">
+      <body className="bg-[#0B0F17] text-gray-100 min-h-screen w-full max-w-full overflow-x-hidden flex flex-col font-sans antialiased m-0 p-0">
         <Header />
         <SocialBar />
-        <main className="flex-grow pt-24 min-h-[100dvh] w-full min-w-full overflow-x-hidden">
+        <main className="flex-grow pt-24 min-h-[100dvh] w-full max-w-full overflow-x-hidden">
           {children}
         </main>
         <Footer />

@@ -91,32 +91,32 @@ export default function HomePage() {
     <div className="space-y-24 pb-16">
       
       {/* ======= HERO SECTION ======= */}
-      <section className="relative pb-24 overflow-hidden bg-grid-pattern">
+      <section className="relative pb-16 sm:pb-24 overflow-hidden bg-grid-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,78,46,0.16),transparent_45%)]"></div>
-        <div className="absolute right-0 top-10 h-72 w-72 rounded-full bg-brand-500/10 blur-3xl"></div>
-        <div className="absolute bottom-10 left-0 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl"></div>
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div className="absolute right-0 top-10 h-72 w-72 rounded-full bg-brand-500/10 blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-10 left-0 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-brand-500/15 rounded-full blur-[140px] pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-6 lg:pt-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-7 text-center lg:text-left">
-              <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-card border border-brand-500/30 text-brand-500 text-xs font-semibold uppercase tracking-wider">
-                <Sparkles size={14} className="animate-spin" />
-                <span>Always Innovation Is Key To Stay Relevant</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-4 sm:pt-6 lg:pt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-6 sm:space-y-7 text-center lg:text-left">
+              <div className="inline-flex items-center space-x-2 px-3 sm:px-3.5 py-1.5 rounded-full glass-card border border-brand-500/30 text-brand-500 text-[11px] sm:text-xs font-semibold uppercase tracking-wider">
+                <Sparkles size={14} className="animate-spin shrink-0" />
+                <span className="truncate">Always Innovation Is Key To Stay Relevant</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
                 Transforming Ideas Into <span className="text-gradient-brand">Digital Solutions</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
+              <p className="text-sm sm:text-lg text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
                 Innovateria provides high-performance Android App Development, Enterprise Software Engineering, Custom Web Systems, and Strategic Digital Marketing to scale your business.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
                 <Link
                   href="/contact"
-                  className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white px-8 py-3.5 rounded-full font-semibold text-sm shadow-xl shadow-brand-500/25 hover:shadow-brand-500/40 transition-all transform hover:-translate-y-0.5"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white px-7 sm:px-8 py-3.5 rounded-full font-semibold text-xs sm:text-sm shadow-xl shadow-brand-500/25 hover:shadow-brand-500/40 transition-all transform hover:-translate-y-0.5"
                 >
                   <span>Start Your Project</span>
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -124,23 +124,23 @@ export default function HomePage() {
 
                 <Link
                   href="/portfolio"
-                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 glass-card hover:bg-white/10 text-white px-7 py-3.5 rounded-full font-semibold text-sm border border-white/15 transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 glass-card hover:bg-white/10 text-white px-7 py-3.5 rounded-full font-semibold text-xs sm:text-sm border border-white/15 transition-all"
                 >
                   <span>View Our Work</span>
                 </Link>
               </div>
 
-              <div className="pt-6 border-t border-white/10 flex flex-wrap justify-center lg:justify-start gap-6 text-xs text-gray-400">
+              <div className="pt-6 border-t border-white/10 flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 text-xs text-gray-400">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle2 size={16} className="text-brand-500" />
+                  <CheckCircle2 size={16} className="text-brand-500 shrink-0" />
                   <span>On-Time Delivery</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <ShieldCheck size={16} className="text-brand-500" />
+                  <ShieldCheck size={16} className="text-brand-500 shrink-0" />
                   <span>100% Secure Code</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Award size={16} className="text-brand-500" />
+                  <Award size={16} className="text-brand-500 shrink-0" />
                   <span>Agile Developers</span>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function HomePage() {
             <div className="relative flex justify-center">
               <div className="relative w-full max-w-lg">
                 <div className="absolute -inset-1 bg-gradient-to-r from-brand-500 to-amber-500 rounded-[2rem] blur-xl opacity-30 animate-pulse-slow"></div>
-                <div className="relative glass-card rounded-[2rem] p-4 border border-white/15 shadow-2xl">
+                <div className="relative glass-card rounded-[2rem] p-3 sm:p-4 border border-white/15 shadow-2xl">
                   <img
                     src="/assets/img/hero-img.png"
                     alt="Innovateria Hero Solutions"
@@ -164,16 +164,16 @@ export default function HomePage() {
 
       {/* ======= METRICS BANNER ======= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-        <div className="glass-card rounded-[2rem] p-8 border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center shadow-2xl shadow-brand-500/10">
+        <div className="glass-card rounded-[2rem] p-4 sm:p-8 border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center shadow-2xl shadow-brand-500/10">
           {metrics.map((m, idx) => {
             const Icon = m.icon;
             return (
-              <div key={idx} className="space-y-2 group">
-                <div className="inline-flex p-3 rounded-2xl bg-brand-500/10 text-brand-500 group-hover:scale-110 transition-transform">
-                  <Icon size={24} />
+              <div key={idx} className="space-y-1.5 sm:space-y-2 group p-2">
+                <div className="inline-flex p-2.5 sm:p-3 rounded-2xl bg-brand-500/10 text-brand-500 group-hover:scale-110 transition-transform">
+                  <Icon size={20} className="sm:w-6 sm:h-6" />
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-extrabold text-white">{m.number}</h3>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">{m.label}</p>
+                <h3 className="text-2xl sm:text-4xl font-extrabold text-white">{m.number}</h3>
+                <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">{m.label}</p>
               </div>
             );
           })}
@@ -194,7 +194,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {services.map((s, idx) => {
             const IconComponent = s.icon;
             return (
@@ -242,7 +242,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
           {[
             { name: 'React', img: '/assets/img/004-react.png' },
             { name: 'CodeIgniter', img: '/assets/img/white-ci.png' },
@@ -257,11 +257,11 @@ export default function HomePage() {
             { name: 'HTML5', img: '/assets/img/002-html-5.png' },
             { name: 'CSS3', img: '/assets/img/003-css-3.png' }
           ].map((t, idx) => (
-            <div key={idx} className="tech_inr flex flex-col items-center justify-center p-4 rounded-2xl glass-card glass-card-hover border border-white/10 group">
+            <div key={idx} className="tech_inr flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl glass-card glass-card-hover border border-white/10 group">
               <img 
                 src={t.img} 
                 alt={t.name} 
-                className="h-10 w-auto object-contain transition-transform group-hover:scale-110" 
+                className="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-110" 
               />
               <span className="text-[10px] font-semibold text-gray-400 mt-2 group-hover:text-brand-500 transition-colors">{t.name}</span>
             </div>

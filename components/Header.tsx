@@ -69,13 +69,14 @@ export default function Header() {
           <div className="flex items-center space-x-3">
             <span className="text-gray-400">Always Innovation is key to stay Relevant</span>
             <a 
-              href="https://www.vivekajee.in" 
+              href="https://vivekajee.in" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1 bg-[#660708] hover:bg-[#80090a] text-white px-2.5 py-1 rounded text-xs font-medium transition-colors"
+              className="inline-flex items-center space-x-1 bg-gradient-brand text-white px-2.5 py-1 rounded text-xs font-medium transition-all hover:shadow-md hover:shadow-brand-500/20"
+              title="Visit Vivek Kumar's Personal 3D Portfolio"
             >
               <Globe size={12} />
-              <span>Promotion</span>
+              <span>3D Portfolio</span>
             </a>
           </div>
         </div>
@@ -85,7 +86,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center space-x-3 group">
-          <div className="relative w-36 h-10 transition-transform group-hover:scale-105">
+          <div className="relative w-28 sm:w-36 h-10 transition-transform group-hover:scale-105">
             <img 
               src="/assets/img/logo.png" 
               alt="Innovateria Logo" 
@@ -210,68 +211,68 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden glass-card mt-3 border-t border-white/10 px-4 pt-4 pb-6 space-y-3">
+        <div className="lg:hidden glass-card mt-3 border-t border-white/10 px-4 pt-4 pb-6 space-y-3 max-h-[calc(100vh-5rem)] overflow-y-auto">
           <Link 
             href="/" 
             onClick={() => setMobileMenuOpen(false)}
-            className={`block py-2 text-sm font-medium ${isActive('/') ? 'text-brand-500' : 'text-gray-300'}`}
+            className={`block py-2.5 text-sm font-medium ${isActive('/') ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
           >
             Home
           </Link>
 
           {/* Mobile Who We Are */}
-          <div>
+          <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('who')}
-              className="flex justify-between items-center w-full py-2 text-sm font-medium text-gray-300"
+              className="flex justify-between items-center w-full py-2.5 text-sm font-medium text-gray-300"
             >
               <span>Who We Are?</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'who' ? 'rotate-180' : ''}`} />
             </button>
             {activeDropdown === 'who' && (
-              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400">
-                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block py-1">About Us</Link>
-                <Link href="/team" onClick={() => setMobileMenuOpen(false)} className="block py-1">Our Team</Link>
-                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="block py-1">Our Projects</Link>
-                <Link href="/portfolio" onClick={() => setMobileMenuOpen(false)} className="block py-1">Portfolio</Link>
-                <Link href="/feature" onClick={() => setMobileMenuOpen(false)} className="block py-1">Features</Link>
-                <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="block py-1">FAQs</Link>
+              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
+                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">About Us</Link>
+                <Link href="/team" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Our Team</Link>
+                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Our Projects</Link>
+                <Link href="/portfolio" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Portfolio</Link>
+                <Link href="/feature" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Features</Link>
+                <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">FAQs</Link>
               </div>
             )}
           </div>
 
           {/* Mobile Services */}
-          <div>
+          <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('services')}
-              className="flex justify-between items-center w-full py-2 text-sm font-medium text-gray-300"
+              className="flex justify-between items-center w-full py-2.5 text-sm font-medium text-gray-300"
             >
               <span>Services</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
             </button>
             {activeDropdown === 'services' && (
-              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400">
-                <Link href="/mobile" onClick={() => setMobileMenuOpen(false)} className="block py-1">App Development</Link>
-                <Link href="/software" onClick={() => setMobileMenuOpen(false)} className="block py-1">Software Development</Link>
-                <Link href="/web" onClick={() => setMobileMenuOpen(false)} className="block py-1">Web Development</Link>
-                <Link href="/logo" onClick={() => setMobileMenuOpen(false)} className="block py-1">Logo Designing</Link>
+              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
+                <Link href="/mobile" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">App Development</Link>
+                <Link href="/software" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Software Development</Link>
+                <Link href="/web" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Web Development</Link>
+                <Link href="/logo" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Logo Designing</Link>
               </div>
             )}
           </div>
 
           {/* Mobile Marketing */}
-          <div>
+          <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('marketing')}
-              className="flex justify-between items-center w-full py-2 text-sm font-medium text-gray-300"
+              className="flex justify-between items-center w-full py-2.5 text-sm font-medium text-gray-300"
             >
               <span>Our Marketing</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'marketing' ? 'rotate-180' : ''}`} />
             </button>
             {activeDropdown === 'marketing' && (
-              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400">
-                <Link href="/seo-services" onClick={() => setMobileMenuOpen(false)} className="block py-1">SEO Services</Link>
-                <Link href="/digital-marketing" onClick={() => setMobileMenuOpen(false)} className="block py-1">Digital Marketing</Link>
+              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
+                <Link href="/seo-services" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">SEO Services</Link>
+                <Link href="/digital-marketing" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Digital Marketing</Link>
               </div>
             )}
           </div>
@@ -279,10 +280,31 @@ export default function Header() {
           <Link 
             href="/contact" 
             onClick={() => setMobileMenuOpen(false)}
-            className={`block py-2 text-sm font-medium ${isActive('/contact') ? 'text-brand-500' : 'text-gray-300'}`}
+            className={`block py-2.5 text-sm font-medium border-t border-white/5 ${isActive('/contact') ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
           >
             Contact Us
           </Link>
+
+          {/* Mobile Quick Contact & Action */}
+          <div className="pt-4 border-t border-white/10 space-y-3">
+            <Link 
+              href="/contact" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full flex items-center justify-center space-x-2 bg-gradient-brand text-white py-3 rounded-xl text-xs font-semibold uppercase tracking-wider shadow-lg"
+            >
+              <span>Get Started</span>
+            </Link>
+            <div className="flex justify-around items-center text-xs text-gray-400 pt-1">
+              <a href="tel:+917762974716" className="flex items-center space-x-1.5 hover:text-brand-500">
+                <Phone size={14} className="text-brand-500" />
+                <span>Call Us</span>
+              </a>
+              <a href="mailto:info@innovateria.in" className="flex items-center space-x-1.5 hover:text-brand-500">
+                <Mail size={14} className="text-brand-500" />
+                <span>Email Us</span>
+              </a>
+            </div>
+          </div>
         </div>
       )}
     </header>
