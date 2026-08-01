@@ -169,7 +169,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
-          <p>© 2020 <strong className="text-white font-medium">Innovateria</strong>. All Rights Reserved.</p>
+          <p>Copyright © 2020 - Present <strong className="text-white font-medium">Innovateria</strong>. All rights reserved.</p>
           <p className="mt-2 sm:mt-0">
             Designed & Developed by <a href="https://vivekajee.in" target="_blank" rel="noopener noreferrer" className="text-brand-500 hover:underline font-medium">Vivek Kumar (Vivekajee)</a>
           </p>
