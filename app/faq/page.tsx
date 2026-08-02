@@ -1,102 +1,96 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { HelpCircle, ChevronDown, Search, ArrowRight, MessageSquare } from 'lucide-react';
+import { FAQItemCMS } from '@/lib/crm-store';
 
 export default function FaqPage() {
+  const [faqs, setFaqs] = useState<FAQItemCMS[]>([]);
   const [openIdx, setOpenIdx] = useState<number | null>(0);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const faqs = [
-    {
-      q: 'How can I buy or order software solutions from Innovateria?',
-      a: 'You can request software development by filling out our Contact Form or emailing innovateria.in@gmail.com with your project requirements. Our technical team will respond within 24 hours with a detailed scope of work and quotation. Payment can be processed via direct bank wire transfer, online card payments, or UPI.'
-    },
-    {
-      q: 'Can I try a live demo before placing an order?',
-      a: 'Yes, we provide live interactive demos for our software, mobile applications, and web platforms so you can evaluate the admin dashboard, user interface, and features before committing.'
-    },
-    {
-      q: 'Do you offer white-label software development?',
-      a: 'Yes! All software, mobile applications, and web platforms developed by Innovateria can be fully white-labeled under your organization’s branding, logo, domain, and server infrastructure.'
-    },
-    {
-      q: 'What is the pricing model for custom software projects?',
-      a: 'We offer fixed milestone-based pricing as well as flexible sprint engagements. For custom software development, payments are typically split across 3 transparent milestones (Project Kickoff, Beta Delivery, and Final Production Deployment).'
-    },
-    {
-      q: 'Do you provide server setup, deployment, and ongoing technical support?',
-      a: 'Yes, we handle complete deployment to AWS, DigitalOcean, Google Cloud, or your private VPS servers. We also provide post-launch maintenance, monitoring, security updates, and 24/7 technical support.'
-    },
-    {
-      q: 'What platforms do you support for mobile app development?',
-      a: 'We specialize in native Android development (Kotlin / Java) as well as cross-platform mobile solutions (Flutter & React Native) with native performance and offline data synchronization.'
-    },
-    {
-      q: 'Can your web apps integrate third-party payment gateways and APIs?',
-      a: 'Absolutely. We regularly integrate Stripe, Razorpay, PayPal, Bank APIs, SMS gateways, WhatsApp business APIs, and custom RESTful / GraphQL endpoints.'
-    }
-  ];
+  useEffect(() => {
+    fetch('/api/admin/faqs')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setFaqs(data.faqs);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   const filteredFaqs = faqs.filter(f => 
-    f.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    f.a.toLowerCase().includes(searchQuery.toLowerCase())
+    f.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    f.answer.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12">
       
       {/* Header Banner */}
-      <div className="text-center space-y-4">
+      <div className="text-center max-w-3xl mx-auto space-y-4">
         <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
-          Knowledge Base
+          Frequently Asked Questions
         </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Frequently Asked <span className="text-gradient-brand">Questions</span>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+          How Can We <span className="text-gradient-brand">Help You?</span>
         </h1>
-        <p className="text-sm text-gray-300 max-w-2xl mx-auto">
-          Got questions about our development process, pricing, timeline, or technology stack? Find answers below.
+        <p className="text-sm text-gray-300 leading-relaxed">
+          Clear answers about Innovateria&apos;s software development, pricing, server deployment, and technical support.
         </p>
-
-        {/* Search Bar */}
-        <div className="max-w-md mx-auto relative pt-4">
-          <Search size={18} className="absolute left-4 top-7 text-gray-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search FAQs..."
-            className="w-full pl-11 pr-4 py-3 rounded-2xl bg-[#131A29] border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 transition-colors shadow-lg"
-          />
-        </div>
       </div>
 
-      {/* FAQs Accordion */}
+      {/* Search Input */}
+      <div className="relative max-w-xl mx-auto">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+          <Search size={18} />
+        </div>
+        <input 
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search questions about pricing, timeline, mobile apps..."
+          className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[color:var(--card-bg)] border border-[color:var(--border-color)] text-white text-sm placeholder-gray-400 focus:outline-none focus:border-brand-500 transition-colors shadow-lg"
+        />
+      </div>
+
+      {/* FAQ Accordion List */}
       <div className="space-y-4">
         {filteredFaqs.length === 0 ? (
-          <div className="text-center py-12 glass-card rounded-2xl text-gray-400 text-xs">
-            No FAQs match your search query. Try searching for &quot;demo&quot;, &quot;payment&quot;, or &quot;pricing&quot;.
+          <div className="text-center py-12 text-gray-400 text-sm glass-card rounded-2xl border border-white/10">
+            No matching questions found.
           </div>
         ) : (
           filteredFaqs.map((faq, idx) => {
             const isOpen = openIdx === idx;
             return (
               <div 
-                key={idx}
-                className="glass-card rounded-2xl border border-white/10 overflow-hidden transition-colors"
+                key={faq.id || idx}
+                className="glass-card rounded-2xl border border-[color:var(--border-color)] overflow-hidden transition-all duration-300"
               >
                 <button
                   onClick={() => setOpenIdx(isOpen ? null : idx)}
-                  className="w-full flex justify-between items-center p-5 text-left text-sm font-bold text-white hover:text-brand-500 transition-colors"
+                  className="w-full p-5 sm:p-6 text-left flex justify-between items-center space-x-4 hover:bg-white/5 transition-colors focus:outline-none"
                 >
-                  <span className="pr-4">{faq.q}</span>
-                  <ChevronDown size={18} className={`transform transition-transform shrink-0 ${isOpen ? 'rotate-180 text-brand-500' : 'text-gray-400'}`} />
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold text-brand-500 uppercase tracking-wider bg-brand-500/10 px-2.5 py-0.5 rounded-full border border-brand-500/20">
+                      {faq.category}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-white tracking-tight pt-1">
+                      {faq.question}
+                    </h3>
+                  </div>
+
+                  <div className={`w-8 h-8 rounded-full bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500 shrink-0 transition-transform duration-300 ${
+                    isOpen ? 'rotate-180 bg-brand-500 text-white' : ''
+                  }`}>
+                    <ChevronDown size={18} />
+                  </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 text-xs text-gray-300 leading-relaxed border-t border-white/5 pt-3">
-                    {faq.a}
+                  <div className="px-5 sm:px-6 pb-6 pt-2 border-t border-[color:var(--border-color)] text-xs sm:text-sm text-gray-300 leading-relaxed bg-[#0B0F17]/50">
+                    {faq.answer}
                   </div>
                 )}
               </div>
@@ -105,18 +99,19 @@ export default function FaqPage() {
         )}
       </div>
 
-      {/* Still Have Questions CTA */}
-      <div className="glass-card rounded-3xl p-8 border border-white/10 text-center space-y-4">
-        <h3 className="text-xl font-bold text-white">Still have questions?</h3>
-        <p className="text-xs text-gray-400 max-w-md mx-auto">
-          Our team is available 24/7 to discuss your project requirements and answer any technical questions.
+      {/* Footer CTA */}
+      <div className="glass-card rounded-3xl p-8 border border-[color:var(--border-color)] text-center space-y-4 max-w-2xl mx-auto">
+        <MessageSquare size={32} className="mx-auto text-brand-500" />
+        <h3 className="text-xl font-bold text-white">Still Have Questions?</h3>
+        <p className="text-xs text-gray-300">
+          Our engineering team is ready to discuss your specific requirements.
         </p>
-        <Link
-          href="/contact"
-          className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider shadow-lg"
+        <Link 
+          href="/contact" 
+          className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-6 py-3 rounded-full text-xs font-semibold shadow-lg hover:shadow-brand-500/30 transition-all"
         >
-          <MessageSquare size={14} />
-          <span>Contact Technical Team</span>
+          <span>Inquire Direct Contact</span>
+          <ArrowRight size={14} />
         </Link>
       </div>
 

@@ -13,7 +13,12 @@ import {
   LogOut, 
   Menu, 
   X, 
-  Plus
+  Plus,
+  Wrench,
+  UserCheck,
+  Grid,
+  Zap,
+  HelpCircle
 } from 'lucide-react';
 
 export default function AdminLayout({
@@ -75,10 +80,15 @@ export default function AdminLayout({
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/leads', label: 'Lead Inbox', icon: Inbox, badge: unreadLeadsCount > 0 ? unreadLeadsCount : null },
+    { href: '/admin/services', label: 'Services CMS', icon: Wrench },
+    { href: '/admin/team', label: 'Team Members CMS', icon: UserCheck },
     { href: '/admin/projects', label: 'Projects CRM', icon: FolderKanban },
+    { href: '/admin/portfolio', label: 'Portfolio CMS', icon: Grid },
+    { href: '/admin/features', label: 'Features CMS', icon: Zap },
+    { href: '/admin/faqs', label: 'FAQs CMS', icon: HelpCircle },
     { href: '/admin/clients', label: 'Client Directory', icon: Users },
     { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
-    { href: '/admin/settings', label: 'CRM Settings', icon: Settings },
+    { href: '/admin/settings', label: 'CMS Settings', icon: Settings },
   ];
 
   const handleLogout = () => {
