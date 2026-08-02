@@ -1,0 +1,221 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { 
+  LayoutDashboard, 
+  Inbox, 
+  FolderKanban, 
+  Users, 
+  BarChart3, 
+  Settings, 
+  LogOut, 
+  Menu, 
+  X, 
+  Plus, 
+  Bell, 
+  Moon, 
+  Sun,
+  ShieldAlert,
+  Search,
+  CheckCircle2
+} from 'lucide-react';
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [unreadLeadsCount, setUnreadLeadsCount] = useState(0);
+
+  // Check auth session
+  useEffect(() => {
+    if (pathname === '/admin/login') {
+      setIsAuthenticated(true);
+      return;
+    }
+
+    const checkSession = async () => {
+      try {
+        const res = await fetch('/api/admin/stats');
+        if (res.ok) {
+          setIsAuthenticated(true);
+          const data = await res.json();
+          if (data.stats?.newLeads) {
+            setUnreadLeadsCount(data.stats.newLeads);
+          }
+        } else {
+          setIsAuthenticated(false);
+          router.push('/admin/login');
+        }
+      } catch {
+        setIsAuthenticated(false);
+        router.push('/admin/login');
+      }
+    };
+
+    checkSession();
+  }, [pathname, router]);
+
+  // If on login page, render full screen without sidebar
+  if (pathname === '/admin/login') {
+    return <div className="min-h-screen bg-[#0B0F17] text-gray-100">{children}</div>;
+  }
+
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-[#0B0F17] flex items-center justify-center text-white">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Verifying Admin Session...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const navItems = [
+    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/admin/leads', label: 'Lead Inbox', icon: Inbox, badge: unreadLeadsCount > 0 ? unreadLeadsCount : null },
+    { href: '/admin/projects', label: 'Projects CRM', icon: FolderKanban },
+    { href: '/admin/clients', label: 'Client Directory', icon: Users },
+    { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+    { href: '/admin/settings', label: 'CRM Settings', icon: Settings },
+  ];
+
+  const handleLogout = () => {
+    document.cookie = 'crm_admin_token=; Max-Age=0; path=/';
+    router.push('/admin/login');
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0B0F17] text-gray-100 flex flex-col md:flex-row w-full max-w-full overflow-x-hidden">
+      
+      {/* Mobile Top Header */}
+      <div className="md:hidden glass-card border-b border-white/10 p-4 flex justify-between items-center sticky top-0 z-40 bg-[#0B0F17]/90 backdrop-blur-md">
+        <div className="flex items-center space-x-3">
+          <img src="/assets/img/logo.png" alt="Innovateria" className="h-8 w-auto" />
+          <span className="text-xs font-bold uppercase tracking-wider text-brand-500 bg-brand-500/10 px-2 py-0.5 rounded border border-brand-500/20">CRM Admin</span>
+        </div>
+        <button 
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 rounded-lg text-gray-300 hover:text-white glass-card"
+        >
+          {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Sidebar Navigation */}
+      <aside 
+        className={`fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-[#0E1422] border-r border-white/10 flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}
+      >
+        <div className="space-y-6">
+          {/* Logo Brand Header */}
+          <div className="flex items-center justify-between px-2 pt-2">
+            <Link href="/" className="flex items-center space-x-3">
+              <img src="/assets/img/logo.png" alt="Innovateria" className="h-9 w-auto object-contain" />
+            </Link>
+            <span className="text-[10px] font-bold text-brand-500 uppercase tracking-wider bg-brand-500/15 border border-brand-500/30 px-2 py-0.5 rounded-full">
+              CRM v1.0
+            </span>
+          </div>
+
+          {/* Nav Items */}
+          <nav className="space-y-1 pt-2">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+              
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                    isActive 
+                      ? 'bg-gradient-brand text-white font-semibold shadow-lg shadow-brand-500/20' 
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Icon size={18} className={isActive ? 'text-white' : 'text-gray-400'} />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.badge && (
+                    <span className="bg-brand-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Sidebar Footer User Info & Logout */}
+        <div className="pt-4 border-t border-white/10 space-y-3">
+          <div className="glass-card p-3 rounded-xl flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-full bg-brand-500/20 border border-brand-500/40 flex items-center justify-center text-brand-500 font-bold text-xs">
+              VK
+            </div>
+            <div className="overflow-hidden">
+              <h4 className="text-xs font-bold text-white truncate">Vivek Kumar</h4>
+              <p className="text-[10px] text-gray-400 truncate">admin@innovateria.in</p>
+            </div>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center space-x-2 glass-card hover:bg-red-500/20 text-red-400 hover:text-red-300 py-2.5 rounded-xl text-xs font-medium transition-colors border border-red-500/20"
+          >
+            <LogOut size={16} />
+            <span>Sign Out Admin</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen bg-[#0B0F17]">
+        
+        {/* Top Header */}
+        <header className="hidden md:flex items-center justify-between px-8 py-4 bg-[#0E1422]/70 backdrop-blur-md border-b border-white/10 sticky top-0 z-30">
+          <div className="flex items-center space-x-3">
+            <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+              {pathname === '/admin' ? 'Agency Executive Dashboard' : navItems.find(i => pathname.startsWith(i.href))?.label || 'CRM Portal'}
+            </h2>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/admin/leads"
+              className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all"
+            >
+              <Plus size={16} />
+              <span>Manage Leads</span>
+            </Link>
+
+            <Link
+              href="/"
+              target="_blank"
+              className="glass-card hover:bg-white/10 text-gray-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-medium border border-white/10 transition-colors"
+            >
+              View Public Website
+            </Link>
+          </div>
+        </header>
+
+        {/* Page Body */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-8 max-w-7xl mx-auto w-full">
+          {children}
+        </main>
+      </div>
+
+    </div>
+  );
+}

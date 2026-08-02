@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { addLead } from '@/lib/crm-store';
 
 export async function POST(request: Request) {
   try {
@@ -28,19 +29,22 @@ export async function POST(request: Request) {
       );
     }
 
-    // Console log submission for verification / logging
-    console.log('[Innovateria Contact Submission]', {
-      timestamp: new Date().toISOString(),
+    // Save lead into CRM Lead Store
+    const savedLead = addLead({
       name,
       email,
       phone,
       subject,
-      message
+      message,
+      source: 'Website Contact Form'
     });
+
+    console.log('[Innovateria Contact Submission Saved to CRM]', savedLead);
 
     return NextResponse.json({
       success: true,
-      message: 'Thank you for contacting us. We will get back to you shortly!'
+      message: 'Thank you for contacting us. We will get back to you shortly!',
+      leadId: savedLead.id
     });
   } catch (error) {
     console.error('Contact API Error:', error);

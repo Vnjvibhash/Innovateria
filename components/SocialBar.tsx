@@ -1,6 +1,11 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { Github, Facebook, MessageCircle, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 export default function SocialBar() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) return null;
   const socialLinks = [
     { name: 'GitHub', icon: Github, href: 'https://github.com/VnjVibhash', color: 'hover:bg-[#333]' },
     { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/Vivekajee', color: 'hover:bg-[#1877F2]' },

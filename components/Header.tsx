@@ -100,6 +100,8 @@ export default function Header() {
       </Link>
     ));
 
+  if (pathname?.startsWith('/admin')) return null;
+
   return (
     <header
       style={{ backgroundColor: 'var(--header-bg)' }}
