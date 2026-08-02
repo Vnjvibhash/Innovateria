@@ -1,0 +1,426 @@
+{
+  "services": [
+    {
+      "id": "srv-1",
+      "title": "Mobile App Development",
+      "category": "Mobile Solutions",
+      "slug": "mobile",
+      "iconName": "Smartphone",
+      "description": "High-performance cross-platform Flutter & native Android mobile apps engineered for speed, scale, and high engagement.",
+      "features": [
+        "Flutter Cross-Platform",
+        "Kotlin Native Android",
+        "Firebase & REST API Integration",
+        "Play Store & App Store Publishing"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "srv-2",
+      "title": "Enterprise Software Engineering",
+      "category": "Software Architecture",
+      "slug": "software",
+      "iconName": "Code2",
+      "description": "Custom Enterprise ERPs, SaaS platforms, and secure automation backends built with Next.js, Laravel, and Cloud infrastructure.",
+      "features": [
+        "Custom Enterprise ERP",
+        "SaaS Platform Development",
+        "Database Optimization & Security",
+        "Real-Time Data Analytics"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "srv-3",
+      "title": "Web Application Development",
+      "category": "Web Engineering",
+      "slug": "web",
+      "iconName": "Globe2",
+      "description": "Responsive, lightning-fast web applications built with Next.js, React, Tailwind CSS, and headless backends.",
+      "features": [
+        "Next.js React Framework",
+        "Responsive Glassmorphic Design",
+        "Full SEO Optimization",
+        "Fast CDN Edge Deployment"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "srv-4",
+      "title": "SEO & Organic Growth Marketing",
+      "category": "Growth & SEO",
+      "slug": "seo-services",
+      "iconName": "TrendingUp",
+      "description": "Data-driven technical SEO, keyword ranking optimization, and organic campaign strategies designed to dominate search engine results.",
+      "features": [
+        "Technical On-Page & Schema SEO",
+        "Domain Authority & Link Building",
+        "Organic Keyword Optimization",
+        "Monthly Analytics Reporting"
+      ],
+      "status": "active"
+    }
+  ],
+  "team": [
+    {
+      "id": "team-1",
+      "name": "Vivek Kumar",
+      "role": "Founder & Full Stack Developer",
+      "company": "Innovateria",
+      "location": "Bangalore, IN",
+      "bio": "Software engineer specializing in Flutter, React, Next.js, and Laravel cloud solutions with a passion for building user-first digital products.",
+      "image": "/assets/img/team-1.png",
+      "skills": [
+        "Flutter",
+        "Next.js",
+        "Laravel",
+        "React",
+        "Firebase",
+        "Android SDK"
+      ],
+      "github": "https://github.com/VnjVibhash",
+      "linkedin": "https://linkedin.com/in/Vivekajee",
+      "twitter": "https://twitter.com/Vnjvibhash",
+      "website": "https://vivekajee.in"
+    },
+    {
+      "id": "team-2",
+      "name": "Anjali Sharma",
+      "role": "Senior UI/UX & Frontend Architect",
+      "company": "Innovateria",
+      "location": "Bangalore, IN",
+      "bio": "UI/UX specialist creating modern responsive interfaces, glassmorphism design systems, and seamless user experiences.",
+      "image": "/assets/img/team-2.png",
+      "skills": [
+        "UI/UX Design",
+        "Figma",
+        "Tailwind CSS",
+        "React",
+        "CSS Animations"
+      ],
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "Shop-Orbit 🛍️",
+      "clientName": "Rahul Sharma",
+      "clientEmail": "rahul@techventures.in",
+      "category": "App Development",
+      "techStack": [
+        "Flutter",
+        "Firebase",
+        "Dart",
+        "Payment Gateway"
+      ],
+      "status": "in_development",
+      "budget": "₹2,50,000",
+      "progress": 75,
+      "startDate": "2026-07-01",
+      "deadline": "2026-08-30",
+      "github": "https://github.com/Vnjvibhash/Shop-Orbit",
+      "desc": "A modern e-commerce mobile platform with a seamless shopping experience and intuitive UI.",
+      "bullets": [
+        "Developed with Flutter for cross-platform iOS & Android support",
+        "Integrated Firebase real-time database and secure authentication",
+        "Built-in cart, wishlist, order tracking, and payment gateways"
+      ]
+    },
+    {
+      "id": "proj-2",
+      "title": "BuddyExpense 💰",
+      "clientName": "Vikram Mehta",
+      "clientEmail": "vikram@fintech-hub.in",
+      "category": "App Development",
+      "techStack": [
+        "Flutter",
+        "Firebase",
+        "Dart"
+      ],
+      "status": "beta_testing",
+      "budget": "₹1,80,000",
+      "progress": 85,
+      "startDate": "2026-06-15",
+      "deadline": "2026-08-25",
+      "github": "https://github.com/Vnjvibhash/BuddyExpense",
+      "desc": "Smart expense tracking app for friends and groups to manage shared costs effortlessly.",
+      "bullets": [
+        "Built with Flutter for iOS & Android devices",
+        "Group-based expense tracking with dynamic split options",
+        "Data sync with Firebase for real-time group collaboration"
+      ]
+    },
+    {
+      "id": "proj-3",
+      "title": "MediMinder 💊",
+      "clientName": "HealthPlus India",
+      "clientEmail": "support@healthplus.org",
+      "category": "App Development",
+      "techStack": [
+        "Flutter",
+        "Firebase",
+        "Notifications"
+      ],
+      "status": "in_development",
+      "budget": "₹2,10,000",
+      "progress": 60,
+      "startDate": "2026-07-10",
+      "deadline": "2026-09-15",
+      "github": "https://github.com/Vnjvibhash/MediMinder",
+      "desc": "A health companion app that reminds users to take medicines on time.",
+      "bullets": [
+        "Schedule medicine reminders with push notifications",
+        "Supports dosage tracking and logs complete history",
+        "Syncs health data securely with Firebase database"
+      ]
+    },
+    {
+      "id": "proj-4",
+      "title": "SoulScripter ✍️",
+      "clientName": "LitLab Community",
+      "clientEmail": "contact@soulscripter.org",
+      "category": "Web Development",
+      "techStack": [
+        "React",
+        "Firebase",
+        "JavaScript",
+        "Tailwind CSS"
+      ],
+      "status": "completed",
+      "budget": "₹1,50,000",
+      "progress": 100,
+      "startDate": "2026-04-01",
+      "deadline": "2026-06-01",
+      "github": "https://github.com/Vnjvibhash/SoulScripter",
+      "desc": "A creative writing platform for poets & storytellers to express themselves.",
+      "bullets": [
+        "Developed with React frontend and Firebase backend",
+        "Users can write, publish, and save creative literature",
+        "Integrated likes, comments, and community engagement"
+      ]
+    },
+    {
+      "id": "proj-5",
+      "title": "iDVault – Aadhaar Scanner & Manager 🛡️",
+      "clientName": "Secure ID Solutions",
+      "clientEmail": "admin@idvault.in",
+      "category": "Software Engineering",
+      "techStack": [
+        "Flutter",
+        "Firebase",
+        "Dart",
+        "OCR Processing"
+      ],
+      "status": "beta_testing",
+      "budget": "₹3,20,000",
+      "progress": 90,
+      "startDate": "2026-05-01",
+      "deadline": "2026-08-20",
+      "github": "https://github.com/Vnjvibhash/iDVault",
+      "desc": "A Flutter app allowing users to scan/upload Aadhaar cards, extract data, and manage records securely.",
+      "bullets": [
+        "Integrated image processing / OCR for data extraction",
+        "Secure database storage with Firebase Realtime Database",
+        "Allows exporting and backing up identity records"
+      ]
+    },
+    {
+      "id": "proj-6",
+      "title": "Rangi Cabs – Premium Travel Solutions 🚕",
+      "clientName": "Travel Solutions Corp",
+      "clientEmail": "contact@rangicabs.com",
+      "category": "Web Development",
+      "techStack": [
+        "HTML5",
+        "CSS3",
+        "Bootstrap",
+        "jQuery"
+      ],
+      "status": "completed",
+      "budget": "₹1,20,000",
+      "progress": 100,
+      "startDate": "2026-03-01",
+      "deadline": "2026-05-01",
+      "github": "https://github.com/Vnjvibhash/RangiCabs",
+      "desc": "A responsive and interactive cab booking website designed to deliver a premium travel experience.",
+      "bullets": [
+        "Multi-page UI with clean, modern Bootstrap layouts",
+        "Used jQuery for smooth DOM animations and event handling",
+        "Integrated dynamic booking forms and location inputs"
+      ]
+    }
+  ],
+  "portfolio": [
+    {
+      "id": "port-1",
+      "title": "Shop-Orbit 🛍️",
+      "category": "Flutter E-Commerce App",
+      "image": "/assets/img/android.png",
+      "link": "https://github.com/Vnjvibhash/Shop-Orbit",
+      "desc": "Modern cross-platform mobile shopping app with payment gateway, cart, and live order tracking."
+    },
+    {
+      "id": "port-2",
+      "title": "BuddyExpense 💰",
+      "category": "Finance & Expense Tracker",
+      "image": "/assets/img/soft.png",
+      "link": "https://github.com/Vnjvibhash/BuddyExpense",
+      "desc": "Smart group expense tracking application for friends to manage shared costs effortlessly."
+    },
+    {
+      "id": "port-3",
+      "title": "SoulScripter ✍️",
+      "category": "React Literature Platform",
+      "image": "/assets/img/pweb.png",
+      "link": "https://github.com/Vnjvibhash/SoulScripter",
+      "desc": "Creative writing and publishing platform for poets and storytellers."
+    },
+    {
+      "id": "port-4",
+      "title": "iDVault OCR 🛡️",
+      "category": "Identity OCR & Security",
+      "image": "/assets/img/g-seo.png",
+      "link": "https://github.com/Vnjvibhash/iDVault",
+      "desc": "Aadhaar document scanner and manager with OCR data extraction."
+    }
+  ],
+  "features": [
+    {
+      "id": "feat-1",
+      "title": "Cross-Platform Mobile Excellence",
+      "category": "Mobile Engineering",
+      "tagline": "iOS & Android from a Single Codebase",
+      "desc": "Build native-performing mobile applications with Flutter and Firebase backends for instant synchronization and real-time push notifications.",
+      "bullets": [
+        "Unified iOS & Android Codebase",
+        "Firebase Real-Time DB Sync",
+        "Payment Gateway Integration",
+        "Push Notification Engines"
+      ],
+      "iconName": "Smartphone"
+    },
+    {
+      "id": "feat-2",
+      "title": "Enterprise Architecture & Cloud API",
+      "category": "Software Solutions",
+      "tagline": "Built for High Throughput & Reliability",
+      "desc": "Engineered backend architectures utilizing Laravel, PostgreSQL, and Next.js for high transactional speed and zero downtime.",
+      "bullets": [
+        "RESTful & GraphQL API Design",
+        "PostgreSQL & Cloud Infrastructure",
+        "Enterprise Role-Based Access Control",
+        "Automated Database Backups"
+      ],
+      "iconName": "Code2"
+    },
+    {
+      "id": "feat-3",
+      "title": "Organic Growth & Technical SEO Automation",
+      "category": "Digital Strategy",
+      "tagline": "Dominate Search Engine Rankings",
+      "desc": "Automated SEO pipelines tracking organic rankings, domain authority metrics, technical schema markup, and monthly analytics reporting.",
+      "bullets": [
+        "Rich Schema JSON-LD Injection",
+        "Fast Edge Load Times (<1s)",
+        "Keyword SERP Tracking",
+        "Automated SEO Audit Reports"
+      ],
+      "iconName": "TrendingUp"
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq-1",
+      "question": "What mobile app frameworks does Innovateria specialize in?",
+      "answer": "We specialize in Flutter for high-performance cross-platform iOS and Android apps, as well as native Android development using Kotlin and Android SDK.",
+      "category": "Services"
+    },
+    {
+      "id": "faq-2",
+      "question": "How long does it take to develop a custom web or mobile application?",
+      "answer": "Development timelines depend on project scope. A standard mobile or web app takes between 4 to 8 weeks, while complex enterprise systems take 10 to 16 weeks.",
+      "category": "Services"
+    },
+    {
+      "id": "faq-3",
+      "question": "Do you offer custom pricing and milestone payment plans?",
+      "answer": "Yes! We provide transparent fixed-scope milestone billing with discovery, beta testing, and deployment phases.",
+      "category": "Pricing"
+    },
+    {
+      "id": "faq-4",
+      "question": "Do you provide post-launch maintenance and technical support?",
+      "answer": "Absolutely. All our projects include 60 days of complimentary post-launch support, security updates, and performance monitoring.",
+      "category": "General"
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead-1",
+      "name": "Rahul Sharma",
+      "email": "rahul@techventures.in",
+      "phone": "9876543210",
+      "subject": "Cross-Platform E-Commerce Mobile App",
+      "message": "We want to build a Flutter e-commerce mobile app for Android and iOS with payment gateway and live inventory sync.",
+      "status": "new",
+      "notes": "High priority client interested in 2-month timeline.",
+      "source": "Website Contact Form",
+      "createdAt": "2026-08-02T16:00:00.000Z",
+      "updatedAt": "2026-08-02T16:00:00.000Z"
+    },
+    {
+      "id": "lead-2",
+      "name": "Priya Verma",
+      "email": "priya@healthplus.org",
+      "phone": "9123456789",
+      "subject": "Enterprise Healthcare Billing & OCR Software",
+      "message": "Need a custom document scanner and patient record management portal built with Next.js and Cloud storage.",
+      "status": "contacted",
+      "notes": "Sent initial discovery call invite for tomorrow at 3 PM.",
+      "source": "Direct Phone Inquiry",
+      "createdAt": "2026-08-01T10:00:00.000Z",
+      "updatedAt": "2026-08-01T15:00:00.000Z"
+    }
+  ],
+  "clients": [
+    {
+      "id": "client-1",
+      "name": "Rahul Sharma",
+      "company": "TechVentures Pvt Ltd",
+      "email": "rahul@techventures.in",
+      "phone": "9876543210",
+      "projectsCount": 1,
+      "totalSpent": "₹2,50,000",
+      "status": "active",
+      "createdAt": "2026-07-01"
+    },
+    {
+      "id": "client-2",
+      "name": "Vikram Mehta",
+      "company": "Fintech Hub India",
+      "email": "vikram@fintech-hub.in",
+      "phone": "9765432109",
+      "projectsCount": 2,
+      "totalSpent": "₹6,30,000",
+      "status": "active",
+      "createdAt": "2026-05-10"
+    }
+  ],
+  "settings": {
+    "agencyName": "Innovateria Software Solutions",
+    "adminEmail": "admin@innovateria.in",
+    "phone": "+91-7762974716",
+    "address": "Bangalore & Mysore, India / Remote",
+    "passcode": "123456",
+    "socials": {
+      "github": "https://github.com/VnjVibhash",
+      "facebook": "https://facebook.com/Vivekajee",
+      "whatsapp": "https://wa.me/917762974716",
+      "twitter": "https://twitter.com/Vnjvibhash",
+      "linkedin": "https://linkedin.com/in/Vivekajee",
+      "instagram": "https://instagram.com/Vivekajee"
+    }
+  }
+}
