@@ -20,13 +20,16 @@ export interface ProjectCRM {
   title: string;
   clientName: string;
   clientEmail: string;
-  category: 'App Development' | 'Software Engineering' | 'Web Development' | 'SEO Services' | 'Digital Marketing';
+  category: string;
   techStack: string[];
   status: 'discovery' | 'in_development' | 'beta_testing' | 'completed' | 'on_hold';
   budget: string;
   progress: number;
   startDate: string;
   deadline: string;
+  image?: string;
+  featured?: boolean;
+  showInHeader?: boolean;
   github?: string;
   desc?: string;
   bullets?: string[];
@@ -41,6 +44,7 @@ export interface Client {
   projectsCount: number;
   totalSpent: string;
   status: 'active' | 'inactive' | 'lead';
+  avatar?: string;
   createdAt: string;
 }
 
@@ -53,6 +57,11 @@ export interface ServiceCMS {
   description: string;
   features: string[];
   status: 'active' | 'draft';
+  image?: string;
+  longDescription?: string[];
+  methodology?: { title: string; desc: string }[];
+  faqs?: { q: string; a: string }[];
+  techStack?: string[];
 }
 
 export interface TeamMemberCMS {
@@ -115,9 +124,12 @@ export interface HeroStatCMS {
 }
 
 export interface TechStackCMS {
+  id: string;
   name: string;
   category: string;
   image: string;
+  description?: string;
+  status: 'active' | 'draft';
 }
 
 export interface CoreValueCMS {
@@ -147,11 +159,25 @@ export interface AgencySettingsCMS {
   };
 }
 
+export interface OpenSourceProjectCMS {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+  githubUrl: string;
+  liveDemoUrl?: string;
+  stars?: number;
+  forks?: number;
+  featured?: boolean;
+}
+
 export interface CMSJSONDatabase {
   services: ServiceCMS[];
   team: TeamMemberCMS[];
   projects: ProjectCRM[];
   portfolio: PortfolioItemCMS[];
+  openSourceProjects: OpenSourceProjectCMS[];
   features: FeatureCMS[];
   faqs: FAQItemCMS[];
   leads: Lead[];
@@ -170,40 +196,64 @@ function loadJSONData(): CMSJSONDatabase {
   try {
     if (fs.existsSync(JSON_FILE_PATH)) {
       const raw = fs.readFileSync(JSON_FILE_PATH, 'utf-8');
-      const parsed = JSON.parse(raw);
-      return {
-        services: Array.isArray(parsed.services) ? parsed.services : [],
-        team: Array.isArray(parsed.team) ? parsed.team : [],
-        projects: Array.isArray(parsed.projects) ? parsed.projects : [],
-        portfolio: Array.isArray(parsed.portfolio) ? parsed.portfolio : [],
-        features: Array.isArray(parsed.features) ? parsed.features : [],
-        faqs: Array.isArray(parsed.faqs) ? parsed.faqs : [],
-        leads: Array.isArray(parsed.leads) ? parsed.leads : [],
-        clients: Array.isArray(parsed.clients) ? parsed.clients : [],
-        timeline: Array.isArray(parsed.timeline) ? parsed.timeline : [],
-        heroStats: Array.isArray(parsed.heroStats) ? parsed.heroStats : [],
-        techStack: Array.isArray(parsed.techStack) ? parsed.techStack : [],
-        values: Array.isArray(parsed.values) ? parsed.values : [],
-        processSteps: Array.isArray(parsed.processSteps) ? parsed.processSteps : [],
-        settings: parsed.settings || {
-          agencyName: 'Innovateria Software Solutions',
-          adminEmail: 'admin@innovateria.in',
-          phone: '+91-7762974716',
-          address: 'Bangalore & Mysore, India',
-          passcode: '123456',
-          socials: {
-            github: 'https://github.com/VnjVibhash',
-            facebook: 'https://facebook.com/Vivekajee',
-            whatsapp: 'https://wa.me/917762974716',
-            twitter: 'https://twitter.com/Vnjvibhash',
-            linkedin: 'https://linkedin.com/in/Vivekajee',
-            instagram: 'https://instagram.com/Vivekajee'
+      if (raw && raw.trim().length > 0) {
+        const parsed = JSON.parse(raw);
+        return {
+          services: Array.isArray(parsed.services) ? parsed.services : [],
+          team: Array.isArray(parsed.team) ? parsed.team : [],
+          projects: Array.isArray(parsed.projects) ? parsed.projects : [],
+          portfolio: Array.isArray(parsed.portfolio) ? parsed.portfolio : [],
+          openSourceProjects: Array.isArray(parsed.openSourceProjects) ? parsed.openSourceProjects : [],
+          features: Array.isArray(parsed.features) ? parsed.features : [],
+          faqs: Array.isArray(parsed.faqs) ? parsed.faqs : [],
+          leads: Array.isArray(parsed.leads) ? parsed.leads : [],
+          clients: Array.isArray(parsed.clients) ? parsed.clients : [],
+          timeline: Array.isArray(parsed.timeline) ? parsed.timeline : [],
+          heroStats: Array.isArray(parsed.heroStats) ? parsed.heroStats : [],
+          techStack: Array.isArray(parsed.techStack) ? parsed.techStack : [],
+          values: Array.isArray(parsed.values) ? parsed.values : [],
+          processSteps: Array.isArray(parsed.processSteps) ? parsed.processSteps : [],
+          settings: parsed.settings || {
+            agencyName: 'Innovateria Software Solutions',
+            adminEmail: 'innovateria.in@gmail.com',
+            phone: '+91-7762974716',
+            address: 'Bangalore & Mysore, India',
+            passcode: '123456',
+            socials: {
+              github: 'https://github.com/VnjVibhash',
+              facebook: 'https://facebook.com/Vivekajee',
+              whatsapp: 'https://wa.me/917762974716',
+              twitter: 'https://twitter.com/Vnjvibhash',
+              linkedin: 'https://linkedin.com/in/Vivekajee',
+              instagram: 'https://instagram.com/Vivekajee'
+            }
           }
-        }
-      };
+        };
+      }
     }
   } catch (err) {
     console.error('Error reading data/cms-data.json:', err);
+  }
+
+  // Fallback to in-memory store if available
+  if (global._crmStore) {
+    return {
+      services: global._crmStore.services || [],
+      team: global._crmStore.team || [],
+      projects: global._crmStore.projects || [],
+      portfolio: global._crmStore.portfolio || [],
+      openSourceProjects: global._crmStore.openSourceProjects || [],
+      features: global._crmStore.features || [],
+      faqs: global._crmStore.faqs || [],
+      leads: global._crmStore.leads || [],
+      clients: global._crmStore.clients || [],
+      timeline: global._crmStore.timeline || [],
+      heroStats: global._crmStore.heroStats || [],
+      techStack: global._crmStore.techStack || [],
+      values: global._crmStore.values || [],
+      processSteps: global._crmStore.processSteps || [],
+      settings: global._crmStore.settings
+    };
   }
 
   return {
@@ -211,6 +261,7 @@ function loadJSONData(): CMSJSONDatabase {
     team: [],
     projects: [],
     portfolio: [],
+    openSourceProjects: [],
     features: [],
     faqs: [],
     leads: [],
@@ -222,7 +273,7 @@ function loadJSONData(): CMSJSONDatabase {
     processSteps: [],
     settings: {
       agencyName: 'Innovateria Software Solutions',
-      adminEmail: 'admin@innovateria.in',
+      adminEmail: 'innovateria.in@gmail.com',
       phone: '+91-7762974716',
       address: 'Bangalore & Mysore, India',
       passcode: '123456',
@@ -244,7 +295,9 @@ function saveJSONData(data: CMSJSONDatabase) {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    fs.writeFileSync(JSON_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    const tempFilePath = `${JSON_FILE_PATH}.tmp`;
+    fs.writeFileSync(tempFilePath, JSON.stringify(data, null, 2), 'utf-8');
+    fs.renameSync(tempFilePath, JSON_FILE_PATH);
   } catch (err) {
     console.error('Error writing to data/cms-data.json:', err);
   }
@@ -262,6 +315,7 @@ if (!global._crmStore) {
     team: Array.isArray(diskData.team) ? diskData.team : [],
     projects: Array.isArray(diskData.projects) ? diskData.projects : [],
     portfolio: Array.isArray(diskData.portfolio) ? diskData.portfolio : [],
+    openSourceProjects: Array.isArray(diskData.openSourceProjects) ? diskData.openSourceProjects : [],
     features: Array.isArray(diskData.features) ? diskData.features : [],
     faqs: Array.isArray(diskData.faqs) ? diskData.faqs : [],
     leads: Array.isArray(diskData.leads) ? diskData.leads : [],
@@ -283,6 +337,7 @@ function persistState() {
     team: crmStore.team || [],
     projects: crmStore.projects || [],
     portfolio: crmStore.portfolio || [],
+    openSourceProjects: crmStore.openSourceProjects || [],
     features: crmStore.features || [],
     faqs: crmStore.faqs || [],
     leads: crmStore.leads || [],
@@ -297,20 +352,69 @@ function persistState() {
 }
 
 // Getters
-export function getLeads(): Lead[] { return Array.isArray(crmStore.leads) ? crmStore.leads : []; }
-export function getProjects(): ProjectCRM[] { return Array.isArray(crmStore.projects) ? crmStore.projects : []; }
-export function getClients(): Client[] { return Array.isArray(crmStore.clients) ? crmStore.clients : []; }
-export function getServicesCMS(): ServiceCMS[] { return Array.isArray(crmStore.services) ? crmStore.services : []; }
-export function getTeamCMS(): TeamMemberCMS[] { return Array.isArray(crmStore.team) ? crmStore.team : []; }
-export function getFAQsCMS(): FAQItemCMS[] { return Array.isArray(crmStore.faqs) ? crmStore.faqs : []; }
-export function getFeaturesCMS(): FeatureCMS[] { return Array.isArray(crmStore.features) ? crmStore.features : []; }
-export function getPortfolioCMS(): PortfolioItemCMS[] { return Array.isArray(crmStore.portfolio) ? crmStore.portfolio : []; }
-export function getTimelineCMS(): TimelineCMS[] { return Array.isArray(crmStore.timeline) ? crmStore.timeline : []; }
-export function getHeroStatsCMS(): HeroStatCMS[] { return Array.isArray(crmStore.heroStats) ? crmStore.heroStats : []; }
-export function getTechStackCMS(): TechStackCMS[] { return Array.isArray(crmStore.techStack) ? crmStore.techStack : []; }
-export function getCompanyValuesCMS(): CoreValueCMS[] { return Array.isArray(crmStore.values) ? crmStore.values : []; }
-export function getProcessStepsCMS(): ProcessStepCMS[] { return Array.isArray(crmStore.processSteps) ? crmStore.processSteps : []; }
-export function getSettingsCMS(): AgencySettingsCMS { return crmStore.settings; }
+function syncFromDisk() {
+  const disk = loadJSONData();
+  if (disk.services && disk.services.length > 0) crmStore.services = disk.services;
+  if (disk.team && disk.team.length > 0) crmStore.team = disk.team;
+  if (disk.projects && disk.projects.length > 0) crmStore.projects = disk.projects;
+  if (disk.portfolio && disk.portfolio.length > 0) crmStore.portfolio = disk.portfolio;
+  if (disk.openSourceProjects && Array.isArray(disk.openSourceProjects)) crmStore.openSourceProjects = disk.openSourceProjects;
+  if (disk.features && disk.features.length > 0) crmStore.features = disk.features;
+  if (disk.faqs && disk.faqs.length > 0) crmStore.faqs = disk.faqs;
+  if (disk.leads && Array.isArray(disk.leads)) crmStore.leads = disk.leads;
+  if (disk.clients && Array.isArray(disk.clients)) crmStore.clients = disk.clients;
+  if (disk.timeline && disk.timeline.length > 0) crmStore.timeline = disk.timeline;
+  if (disk.heroStats && disk.heroStats.length > 0) crmStore.heroStats = disk.heroStats;
+  if (disk.techStack && disk.techStack.length > 0) crmStore.techStack = disk.techStack;
+  if (disk.values && disk.values.length > 0) crmStore.values = disk.values;
+  if (disk.processSteps && disk.processSteps.length > 0) crmStore.processSteps = disk.processSteps;
+  if (disk.settings) crmStore.settings = disk.settings;
+}
+
+export function sanitizeProjectCategory(category: string, techStack: string[] = []): string {
+  const hasJavaOrKotlin = techStack.some(t => /java|kotlin/i.test(t));
+  const hasFlutterOrRN = techStack.some(t => /flutter|react native|dart/i.test(t));
+  const isMobileAppCategory = /native android|android app|app development|mobile app|cross-platform/i.test(category);
+  
+  if (isMobileAppCategory || hasJavaOrKotlin || hasFlutterOrRN) {
+    if (hasFlutterOrRN) {
+      return 'Mobile App Development (iOS & Android)';
+    }
+    if (hasJavaOrKotlin) {
+      return 'Native Android App Development';
+    }
+  }
+  return category;
+}
+
+export function getLeads(): Lead[] { syncFromDisk(); return Array.isArray(crmStore.leads) ? crmStore.leads : []; }
+export function getProjects(): ProjectCRM[] { 
+  syncFromDisk(); 
+  const list = Array.isArray(crmStore.projects) ? crmStore.projects : []; 
+  const sanitizedList = list.map(p => ({
+    ...p,
+    category: sanitizeProjectCategory(p.category, p.techStack)
+  }));
+  return [...sanitizedList].sort((a, b) => (b.showInHeader ? 1 : 0) - (a.showInHeader ? 1 : 0));
+}
+export function getProjectById(id: string): ProjectCRM | undefined { syncFromDisk(); const projects = getProjects(); return projects.find(p => p.id === id); }
+export function getClients(): Client[] { syncFromDisk(); return Array.isArray(crmStore.clients) ? crmStore.clients : []; }
+export function getServicesCMS(): ServiceCMS[] { syncFromDisk(); return Array.isArray(crmStore.services) ? crmStore.services : []; }
+export function getServiceBySlugCMS(slug: string): ServiceCMS | undefined { syncFromDisk(); const services = getServicesCMS(); return services.find(s => s.slug === slug); }
+export function getTeamCMS(): TeamMemberCMS[] { syncFromDisk(); return Array.isArray(crmStore.team) ? crmStore.team : []; }
+export function getFAQsCMS(): FAQItemCMS[] { syncFromDisk(); return Array.isArray(crmStore.faqs) ? crmStore.faqs : []; }
+export function getFeaturesCMS(): FeatureCMS[] { syncFromDisk(); return Array.isArray(crmStore.features) ? crmStore.features : []; }
+export function getPortfolioCMS(): PortfolioItemCMS[] { syncFromDisk(); return Array.isArray(crmStore.portfolio) ? crmStore.portfolio : []; }
+export function getOpenSourceProjectsCMS(): OpenSourceProjectCMS[] { 
+  syncFromDisk(); 
+  return Array.isArray(crmStore.openSourceProjects) ? crmStore.openSourceProjects : [];
+}
+export function getTimelineCMS(): TimelineCMS[] { syncFromDisk(); return Array.isArray(crmStore.timeline) ? crmStore.timeline : []; }
+export function getHeroStatsCMS(): HeroStatCMS[] { syncFromDisk(); return Array.isArray(crmStore.heroStats) ? crmStore.heroStats : []; }
+export function getTechStackCMS(): TechStackCMS[] { syncFromDisk(); return Array.isArray(crmStore.techStack) ? crmStore.techStack : []; }
+export function getCompanyValuesCMS(): CoreValueCMS[] { syncFromDisk(); return Array.isArray(crmStore.values) ? crmStore.values : []; }
+export function getProcessStepsCMS(): ProcessStepCMS[] { syncFromDisk(); return Array.isArray(crmStore.processSteps) ? crmStore.processSteps : []; }
+export function getSettingsCMS(): AgencySettingsCMS { syncFromDisk(); return crmStore.settings; }
 
 // Mutators
 export function addLead(data: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'status'> & { status?: Lead['status'] }): Lead {
@@ -508,11 +612,86 @@ export function deletePortfolioCMS(id: string): boolean {
   return crmStore.portfolio.length < len;
 }
 
+export function addTechStackCMS(item: Omit<TechStackCMS, 'id'>): TechStackCMS {
+  if (!Array.isArray(crmStore.techStack)) crmStore.techStack = [];
+  const newItem: TechStackCMS = { ...item, id: `tech-${Date.now()}` };
+  crmStore.techStack.push(newItem);
+  persistState();
+  return newItem;
+}
+
+export function updateTechStackCMS(id: string, updates: Partial<TechStackCMS>): TechStackCMS | null {
+  if (!Array.isArray(crmStore.techStack)) crmStore.techStack = [];
+  const idx = crmStore.techStack.findIndex(t => t.id === id);
+  if (idx === -1) return null;
+  crmStore.techStack[idx] = { ...crmStore.techStack[idx], ...updates };
+  persistState();
+  return crmStore.techStack[idx];
+}
+
+export function deleteTechStackCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.techStack)) crmStore.techStack = [];
+  const len = crmStore.techStack.length;
+  crmStore.techStack = crmStore.techStack.filter(t => t.id !== id);
+  persistState();
+  return crmStore.techStack.length < len;
+}
+
+export function addTimelineCMS(item: Omit<TimelineCMS, 'id'>): TimelineCMS {
+  if (!Array.isArray(crmStore.timeline)) crmStore.timeline = [];
+  const newItem: TimelineCMS = { ...item, id: `time-${Date.now()}` };
+  crmStore.timeline.push(newItem);
+  persistState();
+  return newItem;
+}
+
+export function updateTimelineCMS(id: string, updates: Partial<TimelineCMS>): TimelineCMS | null {
+  if (!Array.isArray(crmStore.timeline)) crmStore.timeline = [];
+  const idx = crmStore.timeline.findIndex(t => t.id === id);
+  if (idx === -1) return null;
+  crmStore.timeline[idx] = { ...crmStore.timeline[idx], ...updates };
+  persistState();
+  return crmStore.timeline[idx];
+}
+
+export function deleteTimelineCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.timeline)) crmStore.timeline = [];
+  const len = crmStore.timeline.length;
+  crmStore.timeline = crmStore.timeline.filter(t => t.id !== id);
+  persistState();
+  return crmStore.timeline.length < len;
+}
+
 export function updateSettingsCMS(updates: Partial<AgencySettingsCMS>): AgencySettingsCMS {
   crmStore.settings = { ...crmStore.settings, ...updates };
   if (updates.passcode) crmStore.adminPasscode = updates.passcode;
   persistState();
   return crmStore.settings;
+}
+
+export function addOpenSourceProjectCMS(item: Omit<OpenSourceProjectCMS, 'id'>): OpenSourceProjectCMS {
+  if (!Array.isArray(crmStore.openSourceProjects)) crmStore.openSourceProjects = [];
+  const newItem: OpenSourceProjectCMS = { ...item, id: `os-${Date.now()}` };
+  crmStore.openSourceProjects.unshift(newItem);
+  persistState();
+  return newItem;
+}
+
+export function updateOpenSourceProjectCMS(id: string, updates: Partial<OpenSourceProjectCMS>): OpenSourceProjectCMS | null {
+  if (!Array.isArray(crmStore.openSourceProjects)) crmStore.openSourceProjects = [];
+  const idx = crmStore.openSourceProjects.findIndex(o => o.id === id);
+  if (idx === -1) return null;
+  crmStore.openSourceProjects[idx] = { ...crmStore.openSourceProjects[idx], ...updates };
+  persistState();
+  return crmStore.openSourceProjects[idx];
+}
+
+export function deleteOpenSourceProjectCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.openSourceProjects)) crmStore.openSourceProjects = [];
+  const len = crmStore.openSourceProjects.length;
+  crmStore.openSourceProjects = crmStore.openSourceProjects.filter(o => o.id !== id);
+  persistState();
+  return crmStore.openSourceProjects.length < len;
 }
 
 export function getCRMStats() {

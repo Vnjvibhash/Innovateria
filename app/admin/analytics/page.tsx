@@ -28,42 +28,47 @@ export default function AdminAnalyticsPage() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col h-full space-y-6 w-full min-h-0 overflow-hidden">
       
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
-          <BarChart3 size={24} className="text-brand-500" />
-          <span>Agency Performance & Growth Analytics</span>
-        </h1>
-        <p className="text-xs text-gray-400 mt-1">
-          Real-time metrics on inquiry conversion, service revenue distribution, and operational scale.
-        </p>
-      </div>
-
-      {/* Analytics KPI Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-2">
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Lead Conversion Efficiency</span>
-          <h3 className="text-3xl font-extrabold text-white">{stats?.conversionRate || 0}%</h3>
-          <p className="text-xs text-emerald-400 flex items-center space-x-1">
-            <TrendingUp size={12} />
-            <span>High qualified lead acquisition</span>
+      {/* Fixed Section: Header & Analytics KPI Bar */}
+      <div className="shrink-0 space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
+            <BarChart3 size={24} className="text-brand-500" />
+            <span>Agency Performance & Growth Analytics</span>
+          </h1>
+          <p className="text-xs text-gray-400 mt-1">
+            Real-time metrics on inquiry conversion, service revenue distribution, and operational scale.
           </p>
         </div>
 
-        <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-2">
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Pipeline Volume</span>
-          <h3 className="text-3xl font-extrabold text-brand-400">{stats?.projectedRevenue || '₹12,40,000'}</h3>
-          <p className="text-xs text-gray-400">Total active client budgets</p>
-        </div>
+        {/* Analytics KPI Bar */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-2">
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Lead Conversion Efficiency</span>
+            <h3 className="text-3xl font-extrabold text-white">{stats?.conversionRate || 0}%</h3>
+            <p className="text-xs text-emerald-400 flex items-center space-x-1">
+              <TrendingUp size={12} />
+              <span>High qualified lead acquisition</span>
+            </p>
+          </div>
 
-        <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-2">
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Projects Completed</span>
-          <h3 className="text-3xl font-extrabold text-white">{stats?.totalProjects || 0} Delivered</h3>
-          <p className="text-xs text-blue-400">100% on-time milestone delivery</p>
+          <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-2">
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Pipeline Volume</span>
+            <h3 className="text-3xl font-extrabold text-brand-400">{stats?.projectedRevenue || '₹12,40,000'}</h3>
+            <p className="text-xs text-gray-400">Total active client budgets</p>
+          </div>
+
+          <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-2">
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Projects Completed</span>
+            <h3 className="text-3xl font-extrabold text-white">{stats?.totalProjects || 0} Delivered</h3>
+            <p className="text-xs text-blue-400">100% on-time milestone delivery</p>
+          </div>
         </div>
       </div>
+
+      {/* Scrollable Section: Services Revenue Distribution Grid */}
+      <div className="flex-1 min-h-0 overflow-y-auto p-2 pb-12 pr-2">
 
       {/* Services Revenue Distribution Grid */}
       <div className="space-y-4">
@@ -91,6 +96,7 @@ export default function AdminAnalyticsPage() {
             );
           })}
         </div>
+      </div>
       </div>
 
     </div>

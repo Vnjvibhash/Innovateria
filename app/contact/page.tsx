@@ -1,5 +1,5 @@
 import ContactForm from '@/components/ContactForm';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Globe } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, MessageCircle, Globe, Github, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 export const metadata = {
   title: 'Contact Innovateria | App, Web & SEO Experts',
@@ -90,21 +90,63 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Social Profiles */}
+          {/* Social Profiles - Icon Only */}
           <div className="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider">Connect Online</h4>
-            <div className="flex flex-wrap gap-2 text-xs">
-              <a href="https://github.com/VnjVibhash" target="_blank" rel="noopener noreferrer" className="px-3.5 py-2 rounded-xl glass-card hover:bg-white/10 text-gray-300 hover:text-white transition-colors">
-                GitHub
+            <div className="flex items-center space-x-3">
+              <a
+                href="https://github.com/VnjVibhash"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                title="GitHub"
+                className="w-11 h-11 rounded-2xl glass-card border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:bg-brand-500/20 hover:border-brand-500/40 transition-all hover:scale-110 shadow-lg"
+              >
+                <Github size={20} />
               </a>
-              <a href="https://facebook.com/Vivekajee" target="_blank" rel="noopener noreferrer" className="px-3.5 py-2 rounded-xl glass-card hover:bg-white/10 text-gray-300 hover:text-white transition-colors">
-                Facebook
+
+              <a
+                href="https://facebook.com/Vivekajee"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                title="Facebook"
+                className="w-11 h-11 rounded-2xl glass-card border border-white/10 flex items-center justify-center text-gray-300 hover:text-blue-400 hover:bg-blue-500/20 hover:border-blue-500/40 transition-all hover:scale-110 shadow-lg"
+              >
+                <Facebook size={20} />
               </a>
-              <a href="https://twitter.com/Vnjvibhash" target="_blank" rel="noopener noreferrer" className="px-3.5 py-2 rounded-xl glass-card hover:bg-white/10 text-gray-300 hover:text-white transition-colors">
-                Twitter
+
+              <a
+                href="https://twitter.com/Vnjvibhash"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                title="Twitter"
+                className="w-11 h-11 rounded-2xl glass-card border border-white/10 flex items-center justify-center text-gray-300 hover:text-sky-400 hover:bg-sky-500/20 hover:border-sky-500/40 transition-all hover:scale-110 shadow-lg"
+              >
+                <Twitter size={20} />
               </a>
-              <a href="https://linkedin.com/in/Vivekajee" target="_blank" rel="noopener noreferrer" className="px-3.5 py-2 rounded-xl glass-card hover:bg-white/10 text-gray-300 hover:text-white transition-colors">
-                LinkedIn
+
+              <a
+                href="https://linkedin.com/in/Vivekajee"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                title="LinkedIn"
+                className="w-11 h-11 rounded-2xl glass-card border border-white/10 flex items-center justify-center text-gray-300 hover:text-blue-500 hover:bg-blue-600/20 hover:border-blue-600/40 transition-all hover:scale-110 shadow-lg"
+              >
+                <Linkedin size={20} />
+              </a>
+
+              <a
+                href="https://instagram.com/Vivekajee"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                title="Instagram"
+                className="w-11 h-11 rounded-2xl glass-card border border-white/10 flex items-center justify-center text-gray-300 hover:text-pink-400 hover:bg-pink-500/20 hover:border-pink-500/40 transition-all hover:scale-110 shadow-lg"
+              >
+                <Instagram size={20} />
               </a>
             </div>
           </div>

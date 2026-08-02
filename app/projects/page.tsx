@@ -1,204 +1,137 @@
 import Link from 'next/link';
-import { ShoppingBag, Wallet, Pill, PenTool, ShieldCheck, Car, Github, ExternalLink, CheckCircle2, ArrowRight } from 'lucide-react';
+import { getProjects } from '@/lib/crm-store';
+import { Github, ExternalLink, CheckCircle2, ArrowRight } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Our Projects | Innovateria',
-  description: 'Explore featured mobile, web, and software engineering projects created by Innovateria.',
+  title: 'Engineering Projects & Case Studies | Innovateria',
+  description: 'Explore featured client agency projects engineered by Innovateria.',
 };
 
 export default function ProjectsPage() {
-  const projects = [
-    {
-      id: 1,
-      title: 'Shop-Orbit 🛍️',
-      category: 'E-Commerce Mobile App',
-      tech: ['Flutter', 'Firebase', 'Dart', 'Payment Gateway'],
-      status: 'Live & Open Source',
-      desc: 'A modern e-commerce mobile platform with a seamless shopping experience and intuitive UI.',
-      bullets: [
-        'Developed with Flutter for cross-platform iOS & Android support',
-        'Integrated Firebase real-time database and secure authentication',
-        'Built-in cart, wishlist, order tracking, and payment gateways'
-      ],
-      github: 'https://github.com/Vnjvibhash/Shop-Orbit',
-      icon: ShoppingBag,
-      color: 'from-amber-500/20 to-orange-500/10'
-    },
-    {
-      id: 2,
-      title: 'BuddyExpense 💰',
-      category: 'Finance & Expense Management',
-      tech: ['Flutter', 'Firebase', 'Dart'],
-      status: 'Live & Open Source',
-      desc: 'Smart expense tracking app for friends and groups to manage shared costs effortlessly.',
-      bullets: [
-        'Built with Flutter for iOS & Android devices',
-        'Group-based expense tracking with dynamic split options',
-        'Data sync with Firebase for real-time group collaboration'
-      ],
-      github: 'https://github.com/Vnjvibhash/BuddyExpense',
-      icon: Wallet,
-      color: 'from-emerald-500/20 to-teal-500/10'
-    },
-    {
-      id: 3,
-      title: 'MediMinder 💊',
-      category: 'Healthcare Companion',
-      tech: ['Flutter', 'Firebase', 'Dart', 'Notifications'],
-      status: 'Live & Open Source',
-      desc: 'A health companion app that reminds users to take medicines on time.',
-      bullets: [
-        'Schedule medicine reminders with push notifications',
-        'Supports dosage tracking and logs complete history',
-        'Syncs health data securely with Firebase database'
-      ],
-      github: 'https://github.com/Vnjvibhash/MediMinder',
-      icon: Pill,
-      color: 'from-blue-500/20 to-cyan-500/10'
-    },
-    {
-      id: 4,
-      title: 'SoulScripter ✍️',
-      category: 'Creative Writing Platform',
-      tech: ['React', 'Firebase', 'JavaScript', 'Tailwind CSS'],
-      status: 'Live & Open Source',
-      desc: 'A creative writing platform for poets & storytellers to express themselves.',
-      bullets: [
-        'Developed with React frontend and Firebase backend',
-        'Users can write, publish, and save creative literature',
-        'Integrated likes, comments, and community engagement'
-      ],
-      github: 'https://github.com/Vnjvibhash/SoulScripter',
-      icon: PenTool,
-      color: 'from-purple-500/20 to-pink-500/10'
-    },
-    {
-      id: 5,
-      title: 'iDVault – Aadhaar Scanner & Manager 🛡️',
-      category: 'Identity OCR & Security',
-      tech: ['Flutter', 'Firebase', 'Dart', 'OCR Processing'],
-      status: 'Live & Open Source',
-      desc: 'A Flutter app allowing users to scan/upload Aadhaar cards, extract data, and manage records securely.',
-      bullets: [
-        'Integrated image processing / OCR for data extraction',
-        'Secure database storage with Firebase Realtime Database',
-        'Allows exporting and backing up identity records'
-      ],
-      github: 'https://github.com/Vnjvibhash/iDVault',
-      icon: ShieldCheck,
-      color: 'from-brand-500/20 to-red-500/10'
-    },
-    {
-      id: 6,
-      title: 'Rangi Cabs – Premium Travel Solutions 🚕',
-      category: 'Travel & Booking Web System',
-      tech: ['HTML5', 'CSS3', 'Bootstrap', 'jQuery'],
-      status: 'Live & Open Source',
-      desc: 'A responsive and interactive cab booking website designed to deliver a premium travel experience.',
-      bullets: [
-        'Multi-page UI with clean, modern Bootstrap layouts',
-        'Used jQuery for smooth DOM animations and event handling',
-        'Integrated dynamic booking forms and location inputs'
-      ],
-      github: 'https://github.com/Vnjvibhash/RangiCabs',
-      icon: Car,
-      color: 'from-yellow-500/20 to-amber-500/10'
-    }
-  ];
+  const projects = getProjects();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12 sm:space-y-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
       
-      {/* Header */}
+      {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
-          Our Open Source & Client Projects
+          Our Engineering Portfolio
         </span>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-          Featured <span className="text-gradient-brand">Software Projects</span>
+          Client Agency <span className="text-gradient-brand">Projects</span>
         </h1>
         <p className="text-sm text-gray-300 leading-relaxed">
-          High-performance mobile applications, web platforms, and custom software systems engineered by Innovateria.
+          Explore production mobile applications, custom software backends, and enterprise platforms engineered by Innovateria.
         </p>
       </div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((p) => {
-          const IconComponent = p.icon;
-          return (
+      {/* SECTION 1: Client Agency Projects */}
+      <div className="space-y-8">
+        <div className="border-b border-white/10 pb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white">Client Agency Projects</h2>
+          <p className="text-xs text-gray-400 mt-1">Production applications engineered for clients across Android, iOS, Web, and SaaS.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project) => (
             <div 
-              key={p.id} 
-              className="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 flex flex-col justify-between space-y-6 relative overflow-hidden group"
+              key={project.id}
+              className="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 flex flex-col justify-between space-y-6 group"
             >
-              <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${p.color} rounded-full blur-2xl pointer-events-none`}></div>
-              
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500 group-hover:bg-brand-500 group-hover:text-white transition-colors">
-                    <IconComponent size={24} />
-                  </div>
-                  <span className="text-[10px] uppercase font-bold text-brand-400 bg-brand-500/15 border border-brand-500/30 px-2.5 py-1 rounded-full">
-                    {p.status}
+                  <span className="text-[10px] font-bold text-brand-400 uppercase tracking-wider bg-brand-500/10 px-2.5 py-0.5 rounded-full border border-brand-500/20">
+                    {project.category}
+                  </span>
+                  <span className={`text-[10px] uppercase font-bold px-2.5 py-0.5 rounded-full border ${
+                    project.status === 'completed' 
+                      ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' 
+                      : project.status === 'beta_testing'
+                      ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                      : 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+                  }`}>
+                    {project.status.replace('_', ' ')}
                   </span>
                 </div>
 
-                <div>
-                  <span className="text-[10px] font-bold text-brand-500 uppercase tracking-wider block mb-1">
-                    {p.category}
-                  </span>
+                <Link href={`/projects/${project.id}`}>
                   <h3 className="text-xl font-bold text-white group-hover:text-brand-500 transition-colors">
-                    {p.title}
+                    {project.title}
                   </h3>
-                </div>
+                </Link>
 
                 <p className="text-xs text-gray-300 leading-relaxed">
-                  {p.desc}
+                  {project.desc}
                 </p>
 
-                <ul className="space-y-1.5 pt-2 border-t border-white/10">
-                  {p.bullets.map((bullet, i) => (
-                    <li key={i} className="text-[11px] text-gray-400 flex items-start space-x-2">
-                      <CheckCircle2 size={12} className="text-brand-500 shrink-0 mt-0.5" />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
+                {project.bullets && project.bullets.length > 0 && (
+                  <ul className="space-y-2 pt-2 border-t border-white/10">
+                    {project.bullets.map((b, i) => (
+                      <li key={i} className="text-xs text-gray-300 flex items-start space-x-2">
+                        <CheckCircle2 size={14} className="text-brand-500 shrink-0 mt-0.5" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               <div className="space-y-4 pt-4 border-t border-white/10">
                 <div className="flex flex-wrap gap-1.5">
-                  {p.tech.map((t, i) => (
-                    <span key={i} className="text-[10px] font-medium bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg text-gray-300">
+                  {project.techStack.map((t, idx) => (
+                    <span key={idx} className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full text-gray-300">
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between pt-1">
-                  <a 
-                    href={p.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
-                  >
-                    <Github size={14} className="text-brand-500" />
-                    <span>View Repository</span>
-                    <ExternalLink size={12} />
-                  </a>
+                <div className="flex justify-between items-center pt-2">
+                  {project.github ? (
+                    <a 
+                      href={project.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="inline-flex items-center space-x-1.5 text-xs font-semibold text-brand-500 hover:text-white transition-colors"
+                    >
+                      <Github size={14} />
+                      <span>View GitHub Repo</span>
+                      <ExternalLink size={12} />
+                    </a>
+                  ) : (
+                    <span className="text-xs text-gray-500 italic">Enterprise Private Repo</span>
+                  )}
 
                   <Link 
-                    href="/contact" 
-                    className="inline-flex items-center space-x-1 text-xs font-semibold text-brand-500 hover:text-white transition-colors"
+                    href={`/projects/${project.id}`}
+                    className="text-[11px] font-bold text-brand-400 hover:text-white transition-colors"
                   >
-                    <span>Inquire</span>
-                    <ArrowRight size={12} />
+                    View Details →
                   </Link>
                 </div>
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
+      </div>
+
+      {/* CTA Footer Banner */}
+      <div className="glass-card rounded-3xl p-8 sm:p-12 border border-white/10 text-center space-y-6 max-w-3xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Have a Custom Project in Mind?</h2>
+        <p className="text-xs sm:text-sm text-gray-300">
+          Our engineering team can build your mobile app, custom software platform, or modern web application.
+        </p>
+        <div>
+          <Link
+            href="/contact"
+            className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-8 py-3 rounded-full text-xs font-semibold uppercase tracking-wider shadow-lg hover:shadow-brand-500/30 transition-all"
+          >
+            <span>Discuss Your Project</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
       </div>
 
     </div>

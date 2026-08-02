@@ -46,21 +46,25 @@ export default function AdminLeadsPage() {
   });
 
   useEffect(() => {
-    fetchLeads();
+    fetchLeads(true);
+    const interval = setInterval(() => {
+      fetchLeads(false);
+    }, 10000);
+    return () => clearInterval(interval);
   }, []);
 
-  const fetchLeads = async () => {
+  const fetchLeads = async (showSpinner = true) => {
     try {
-      setLoading(true);
+      if (showSpinner) setLoading(true);
       const res = await fetch('/api/admin/leads');
       const data = await res.json();
-      if (data.success) {
+      if (data.success && Array.isArray(data.leads)) {
         setLeads(data.leads);
       }
     } catch (err) {
       console.error('Error fetching leads:', err);
     } finally {
-      setLoading(false);
+      if (showSpinner) setLoading(false);
     }
   };
 
@@ -73,6 +77,7 @@ export default function AdminLeadsPage() {
       });
       if (res.ok) {
         fetchLeads();
+        if (typeof window !== 'undefined') window.dispatchEvent(new Event('crm_leads_updated'));
         if (activeLead && activeLead.id === leadId) {
           setActiveLead(prev => prev ? { ...prev, status } : null);
         }
@@ -92,6 +97,7 @@ export default function AdminLeadsPage() {
       });
       if (res.ok) {
         fetchLeads();
+        if (typeof window !== 'undefined') window.dispatchEvent(new Event('crm_leads_updated'));
         setActiveLead(null);
       }
     } catch (err) {
@@ -105,6 +111,7 @@ export default function AdminLeadsPage() {
       const res = await fetch(`/api/admin/leads?id=${leadId}`, { method: 'DELETE' });
       if (res.ok) {
         fetchLeads();
+        if (typeof window !== 'undefined') window.dispatchEvent(new Event('crm_leads_updated'));
         if (activeLead && activeLead.id === leadId) setActiveLead(null);
       }
     } catch (err) {
@@ -122,6 +129,7 @@ export default function AdminLeadsPage() {
       });
       if (res.ok) {
         fetchLeads();
+        if (typeof window !== 'undefined') window.dispatchEvent(new Event('crm_leads_updated'));
         setShowAddModal(false);
         setNewLeadForm({
           name: '',
@@ -172,87 +180,113 @@ export default function AdminLeadsPage() {
     return matchesStatus && matchesSearch;
   });
 
+  const getStatusCount = (statusId: string) => {
+    if (statusId === 'all') return leads.length;
+    return leads.filter(l => l.status === statusId).length;
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col h-full space-y-4 w-full min-h-0 overflow-hidden">
       
-      {/* Header & Quick Actions */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
-            <Inbox size={24} className="text-brand-500" />
-            <span>Lead Inbox & Opportunity CRM</span>
-          </h1>
-          <p className="text-xs text-gray-400 mt-1">
-            Capture, track, and manage all incoming contact inquiries and lead workflows.
-          </p>
-        </div>
+      {/* Fixed Top Controls Section */}
+      <div className="shrink-0 space-y-4">
+        {/* Header & Quick Actions */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
+              <Inbox size={24} className="text-brand-500" />
+              <span>Lead Inbox & Opportunity CRM</span>
+            </h1>
+            <p className="text-xs text-gray-400 mt-1">
+              Capture, track, and manage all incoming contact inquiries and lead workflows.
+            </p>
+          </div>
 
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={exportToCSV}
-            className="inline-flex items-center space-x-2 glass-card hover:bg-white/10 text-white px-4 py-2.5 rounded-xl text-xs font-semibold border border-white/10 transition-all"
-          >
-            <Download size={14} />
-            <span>Export CSV</span>
-          </button>
-
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all"
-          >
-            <Plus size={16} />
-            <span>Add Offline Lead</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Filter & Search Bar */}
-      <div className="glass-card p-4 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-        
-        {/* Search */}
-        <div className="relative w-full md:w-80">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search leads by name, email, phone..."
-            className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#0B0F17]/80 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500"
-          />
-        </div>
-
-        {/* Status Pills */}
-        <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
-          {[
-            { id: 'all', label: 'All Inquiries' },
-            { id: 'new', label: 'New' },
-            { id: 'contacted', label: 'Contacted' },
-            { id: 'proposal_sent', label: 'Proposal Sent' },
-            { id: 'won', label: 'Won Projects' },
-            { id: 'lost', label: 'Lost' },
-          ].map((tab) => (
+          <div className="flex flex-row items-center gap-3 shrink-0 w-full sm:w-auto">
             <button
-              key={tab.id}
-              onClick={() => setSelectedStatus(tab.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                selectedStatus === tab.id
-                  ? 'bg-brand-500 text-white font-semibold shadow-md'
-                  : 'glass-card text-gray-400 hover:text-white'
-              }`}
+              onClick={exportToCSV}
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center space-x-2 glass-card hover:bg-white/10 text-white px-4 py-2.5 rounded-xl text-xs font-semibold border border-white/10 transition-all whitespace-nowrap shrink-0 shadow-sm"
             >
-              {tab.label}
+              <Download size={14} />
+              <span>Export CSV</span>
             </button>
-          ))}
+
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <Plus size={16} />
+              <span>Add Offline Lead</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Filter & Search Bar */}
+        <div className="glass-card p-4 rounded-2xl border border-white/10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 w-full">
+          
+          {/* Search Bar Input */}
+          <div className="relative flex-1 w-full max-w-md">
+            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search leads by name, email, phone, or subject..."
+              className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-[#0B0F17] border border-white/10 text-white text-xs placeholder-gray-400 focus:outline-none focus:border-brand-500 transition-colors"
+            />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          {/* Segmented Glass Status Filter Bar */}
+          <div className="p-1 rounded-2xl bg-[#0B0F17] border border-white/10 flex items-center gap-1 overflow-x-auto no-scrollbar w-full lg:w-auto">
+            {[
+              { id: 'all', label: 'All Inquiries', dot: 'bg-gray-400' },
+              { id: 'new', label: 'New', dot: 'bg-blue-400 animate-pulse' },
+              { id: 'contacted', label: 'Contacted', dot: 'bg-purple-400' },
+              { id: 'proposal_sent', label: 'Proposal Sent', dot: 'bg-amber-400' },
+              { id: 'won', label: 'Won', dot: 'bg-emerald-400' },
+              { id: 'lost', label: 'Lost', dot: 'bg-rose-400' },
+            ].map((tab) => {
+              const isSelected = selectedStatus === tab.id;
+              const count = getStatusCount(tab.id);
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setSelectedStatus(tab.id)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold inline-flex items-center space-x-2 transition-all whitespace-nowrap cursor-pointer ${
+                    isSelected
+                      ? 'bg-gradient-brand text-white shadow-lg shadow-brand-500/25 font-bold'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <span className={`w-2 h-2 rounded-full shrink-0 ${tab.dot}`} />
+                  <span>{tab.label}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                    isSelected ? 'bg-white/25 text-white' : 'bg-white/10 text-gray-400'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Leads Table / Cards */}
+      {/* Leads Table Container (Only this section scrolls) */}
       {loading ? (
-        <div className="flex justify-center items-center py-20">
+        <div className="flex-1 flex justify-center items-center py-20">
           <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : filteredLeads.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center space-y-3 border border-white/10">
+        <div className="flex-1 glass-card rounded-2xl p-12 text-center flex flex-col items-center justify-center space-y-3 border border-white/10">
           <Inbox size={40} className="mx-auto text-gray-500" />
           <h3 className="text-base font-bold text-white">No Leads Found</h3>
           <p className="text-xs text-gray-400 max-w-sm mx-auto">
@@ -260,16 +294,16 @@ export default function AdminLeadsPage() {
           </p>
         </div>
       ) : (
-        <div className="glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-          <div className="overflow-x-auto">
+        <div className="flex-1 min-h-0 glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl flex flex-col">
+          <div className="flex-1 overflow-y-auto overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="border-b border-white/10 bg-[#0E1422] text-gray-400 font-semibold">
-                  <th className="p-4">Contact Info</th>
-                  <th className="p-4">Subject & Requirement</th>
-                  <th className="p-4">Status Workflow</th>
-                  <th className="p-4">Date</th>
-                  <th className="p-4 text-right">Actions</th>
+              <thead className="sticky top-0 z-20 bg-[#0E1422] shadow-sm">
+                <tr className="border-b border-white/10 text-gray-400 font-semibold">
+                  <th className="p-4 bg-[#0E1422]">Contact Info</th>
+                  <th className="p-4 bg-[#0E1422]">Subject & Requirement</th>
+                  <th className="p-4 bg-[#0E1422]">Status Workflow</th>
+                  <th className="p-4 bg-[#0E1422]">Date</th>
+                  <th className="p-4 text-right bg-[#0E1422]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -320,10 +354,11 @@ export default function AdminLeadsPage() {
                         href={`https://wa.me/91${lead.phone}?text=Hi%20${encodeURIComponent(lead.name)},%20thank%20you%20for%20reaching%20out%20to%20Innovateria!`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg glass-card hover:bg-green-500/20 text-green-400 inline-flex transition-colors"
+                        className="px-2.5 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center space-x-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-all"
                         title="Chat on WhatsApp"
                       >
                         <MessageCircle size={14} />
+                        <span>Chat</span>
                       </a>
 
                       <button
@@ -332,18 +367,20 @@ export default function AdminLeadsPage() {
                           setEditingNotes(lead.notes || '');
                           setEditingStatus(lead.status);
                         }}
-                        className="p-1.5 rounded-lg glass-card hover:bg-brand-500/20 text-brand-400 inline-flex transition-colors"
-                        title="View Details & Notes"
+                        className="px-2.5 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center space-x-1 bg-brand-500/10 hover:bg-brand-500/20 text-brand-400 border border-brand-500/30 transition-all"
+                        title="View Details & Edit Notes"
                       >
-                        <FileText size={14} />
+                        <Edit3 size={14} />
+                        <span>Edit</span>
                       </button>
 
                       <button
                         onClick={() => handleDeleteLead(lead.id)}
-                        className="p-1.5 rounded-lg glass-card hover:bg-red-500/20 text-red-400 inline-flex transition-colors"
+                        className="px-2.5 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center space-x-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 transition-all"
                         title="Delete Lead"
                       >
                         <Trash2 size={14} />
+                        <span>Delete</span>
                       </button>
                     </td>
                   </tr>
@@ -365,9 +402,10 @@ export default function AdminLeadsPage() {
               </div>
               <button 
                 onClick={() => setActiveLead(null)}
-                className="p-2 rounded-xl text-gray-400 hover:text-white glass-card"
+                className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 glass-card transition-all cursor-pointer border border-white/10"
+                title="Close popup"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
@@ -449,9 +487,10 @@ export default function AdminLeadsPage() {
               <h3 className="text-lg font-bold text-white">Add New Offline Lead</h3>
               <button 
                 onClick={() => setShowAddModal(false)}
-                className="p-1.5 rounded-xl text-gray-400 hover:text-white glass-card"
+                className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 glass-card transition-all cursor-pointer border border-white/10"
+                title="Close popup"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
@@ -517,19 +556,19 @@ export default function AdminLeadsPage() {
                 ></textarea>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-2">
+              <div className="flex items-center space-x-3 pt-3 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl glass-card text-xs font-semibold text-gray-300"
+                  className="flex-1 py-2.5 rounded-xl glass-card text-xs font-semibold text-gray-300 hover:text-white transition-all cursor-pointer text-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-gradient-brand text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-lg"
+                  className="flex-1 inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all cursor-pointer"
                 >
-                  Save Lead
+                  <span>Save Lead</span>
                 </button>
               </div>
             </form>

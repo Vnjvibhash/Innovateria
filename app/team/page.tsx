@@ -1,6 +1,8 @@
 import { getTeamCMS } from '@/lib/crm-store';
 import { Github, Twitter, Linkedin, Globe, MapPin } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Our Team | Innovateria',
   description: 'Meet the engineering and leadership team behind Innovateria software solutions.',

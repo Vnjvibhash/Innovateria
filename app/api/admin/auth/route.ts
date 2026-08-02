@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         message: 'Authenticated successfully',
         admin: {
           name: 'Vivek Kumar',
-          email: email || 'admin@innovateria.in',
+          email: email || 'innovateria.in@gmail.com',
           role: 'Super Admin'
         }
       });

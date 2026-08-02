@@ -79,8 +79,9 @@ export default function AdminFAQsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="flex flex-col h-full space-y-4 w-full min-h-0 overflow-hidden">
+      {/* Fixed Header */}
+      <div className="shrink-0 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight flex items-center space-x-2">
             <HelpCircle size={24} className="text-brand-500" />
@@ -98,12 +99,14 @@ export default function AdminFAQsPage() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : (
-        <div className="space-y-4 max-w-4xl">
+      {/* Scrollable FAQ List */}
+      <div className="flex-1 min-h-0 overflow-y-auto p-2 pb-12 pr-2">
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="space-y-4 w-full">
           {faqs.map((faq) => (
             <div key={faq.id} className="glass-card glass-card-hover rounded-2xl p-5 border border-white/10 space-y-3">
               <div className="flex justify-between items-start">
@@ -115,11 +118,13 @@ export default function AdminFAQsPage() {
                 </div>
 
                 <div className="flex space-x-2 shrink-0">
-                  <button onClick={() => setEditingFaq(faq)} className="p-1.5 rounded-lg glass-card text-brand-400">
+                  <button onClick={() => setEditingFaq(faq)} className="px-3 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center space-x-1.5 bg-brand-500/10 hover:bg-brand-500/20 text-brand-400 border border-brand-500/30 transition-all">
                     <Edit3 size={14} />
+                    <span>Edit</span>
                   </button>
-                  <button onClick={() => handleDeleteFaq(faq.id)} className="p-1.5 rounded-lg glass-card text-red-400">
+                  <button onClick={() => handleDeleteFaq(faq.id)} className="px-3 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center space-x-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 transition-all">
                     <Trash2 size={14} />
+                    <span>Delete</span>
                   </button>
                 </div>
               </div>
@@ -131,6 +136,7 @@ export default function AdminFAQsPage() {
           ))}
         </div>
       )}
+      </div>
 
       {/* Edit FAQ Modal */}
       {editingFaq && (
@@ -138,8 +144,8 @@ export default function AdminFAQsPage() {
           <div className="glass-card rounded-3xl p-6 max-w-md w-full border border-white/10 space-y-4">
             <div className="flex justify-between items-center border-b border-white/10 pb-3">
               <h3 className="text-lg font-bold text-white">Edit FAQ</h3>
-              <button onClick={() => setEditingFaq(null)} className="p-1 rounded-lg text-gray-400 hover:text-white glass-card">
-                <X size={18} />
+              <button onClick={() => setEditingFaq(null)} className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 glass-card transition-all cursor-pointer border border-white/10" title="Close popup">
+                <X size={20} />
               </button>
             </div>
             <div className="space-y-3">
@@ -162,9 +168,9 @@ export default function AdminFAQsPage() {
                 ></textarea>
               </div>
             </div>
-            <div className="flex justify-end space-x-3 pt-2">
-              <button onClick={() => setEditingFaq(null)} className="px-4 py-2 rounded-xl glass-card text-xs text-gray-300">Cancel</button>
-              <button onClick={handleUpdateFaq} className="bg-gradient-brand text-white px-5 py-2 rounded-xl text-xs font-semibold">Save FAQ</button>
+            <div className="flex items-center space-x-3 pt-3 border-t border-white/10">
+              <button onClick={() => setEditingFaq(null)} className="flex-1 py-2.5 rounded-xl glass-card text-xs font-semibold text-gray-300 hover:text-white transition-all cursor-pointer text-center">Cancel</button>
+              <button onClick={handleUpdateFaq} className="flex-1 inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all cursor-pointer">Save FAQ</button>
             </div>
           </div>
         </div>
@@ -176,8 +182,8 @@ export default function AdminFAQsPage() {
           <div className="glass-card rounded-3xl p-6 max-w-md w-full border border-white/10 space-y-4">
             <div className="flex justify-between items-center border-b border-white/10 pb-3">
               <h3 className="text-lg font-bold text-white">Add FAQ Entry</h3>
-              <button onClick={() => setShowAddModal(false)} className="p-1 rounded-lg text-gray-400 hover:text-white glass-card">
-                <X size={18} />
+              <button onClick={() => setShowAddModal(false)} className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 glass-card transition-all cursor-pointer border border-white/10" title="Close popup">
+                <X size={20} />
               </button>
             </div>
             <form onSubmit={handleAddFaq} className="space-y-3">
@@ -216,9 +222,9 @@ export default function AdminFAQsPage() {
                   className="w-full px-3.5 py-2 rounded-xl bg-[#0B0F17] border border-white/10 text-white text-xs resize-none"
                 ></textarea>
               </div>
-              <div className="flex justify-end space-x-3 pt-2">
-                <button type="button" onClick={() => setShowAddModal(false)} className="px-4 py-2 rounded-xl glass-card text-xs text-gray-300">Cancel</button>
-                <button type="submit" className="bg-gradient-brand text-white px-5 py-2 rounded-xl text-xs font-semibold">Save Entry</button>
+              <div className="flex items-center space-x-3 pt-3 border-t border-white/10">
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-2.5 rounded-xl glass-card text-xs font-semibold text-gray-300 hover:text-white transition-all cursor-pointer text-center">Cancel</button>
+                <button type="submit" className="flex-1 inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all cursor-pointer">Save Entry</button>
               </div>
             </form>
           </div>

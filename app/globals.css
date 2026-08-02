@@ -121,12 +121,17 @@
 
 .glass-card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top center;
+  position: relative;
+  z-index: 1;
 }
 
 .glass-card-hover:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 78, 46, 0.3);
-  box-shadow: 0 12px 40px 0 rgba(255, 78, 46, 0.15);
+  transform: translateY(6px) scale(1.015);
+  border-color: rgba(255, 78, 46, 0.35);
+  box-shadow: 0 16px 40px -4px rgba(255, 78, 46, 0.25);
+  z-index: 9999 !important;
+  position: relative;
 }
 
 .text-gradient {

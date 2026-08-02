@@ -18,7 +18,11 @@ import {
   UserCheck,
   Grid,
   Zap,
-  HelpCircle
+  HelpCircle,
+  Cpu,
+  Bell,
+  Mail,
+  ArrowRight
 } from 'lucide-react';
 
 export default function AdminLayout({
@@ -31,8 +35,33 @@ export default function AdminLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [unreadLeadsCount, setUnreadLeadsCount] = useState(0);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [recentLeads, setRecentLeads] = useState<any[]>([]);
 
-  // Check auth session
+  const fetchNotifications = async () => {
+    try {
+      const statsRes = await fetch('/api/admin/stats');
+      if (statsRes.ok) {
+        const data = await statsRes.json();
+        if (data.stats?.newLeads !== undefined) {
+          setUnreadLeadsCount(data.stats.newLeads);
+        }
+      }
+
+      const leadsRes = await fetch('/api/admin/leads');
+      if (leadsRes.ok) {
+        const leadsData = await leadsRes.json();
+        if (Array.isArray(leadsData.leads)) {
+          const newLeadsOnly = leadsData.leads.filter((l: any) => l.status === 'new');
+          setRecentLeads(newLeadsOnly.slice(0, 5));
+        }
+      }
+    } catch (err) {
+      console.error('Error updating notifications:', err);
+    }
+  };
+
+  // Check auth session & setup real-time notification polling / listener
   useEffect(() => {
     if (pathname === '/admin/login') {
       setIsAuthenticated(true);
@@ -41,17 +70,16 @@ export default function AdminLayout({
 
     const checkSession = async () => {
       try {
-        const res = await fetch('/api/admin/stats');
-        if (res.ok) {
+        const statsRes = await fetch('/api/admin/stats');
+        if (statsRes.ok) {
           setIsAuthenticated(true);
-          const data = await res.json();
-          if (data.stats?.newLeads) {
-            setUnreadLeadsCount(data.stats.newLeads);
-          }
         } else {
           setIsAuthenticated(false);
           router.push('/admin/login');
+          return;
         }
+
+        await fetchNotifications();
       } catch {
         setIsAuthenticated(false);
         router.push('/admin/login');
@@ -59,6 +87,20 @@ export default function AdminLayout({
     };
 
     checkSession();
+
+    // Setup 3-second real-time polling
+    const intervalId = setInterval(fetchNotifications, 3000);
+
+    // Setup event listeners for instant local updates
+    const handleUpdate = () => fetchNotifications();
+    window.addEventListener('crm_leads_updated', handleUpdate);
+    window.addEventListener('focus', handleUpdate);
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener('crm_leads_updated', handleUpdate);
+      window.removeEventListener('focus', handleUpdate);
+    };
   }, [pathname, router]);
 
   // If on login page, render full screen without sidebar
@@ -80,11 +122,11 @@ export default function AdminLayout({
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/leads', label: 'Lead Inbox', icon: Inbox, badge: unreadLeadsCount > 0 ? unreadLeadsCount : null },
+    { href: '/admin/projects', label: 'Projects & Featured', icon: FolderKanban },
     { href: '/admin/services', label: 'Services CMS', icon: Wrench },
     { href: '/admin/team', label: 'Team Members CMS', icon: UserCheck },
-    { href: '/admin/projects', label: 'Projects CRM', icon: FolderKanban },
     { href: '/admin/portfolio', label: 'Portfolio CMS', icon: Grid },
-    { href: '/admin/features', label: 'Features CMS', icon: Zap },
+    { href: '/admin/tech-stack', label: 'Technologies CMS', icon: Cpu },
     { href: '/admin/faqs', label: 'FAQs CMS', icon: HelpCircle },
     { href: '/admin/clients', label: 'Client Directory', icon: Users },
     { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
@@ -105,12 +147,26 @@ export default function AdminLayout({
           <img src="/assets/img/logo.png" alt="Innovateria" className="h-8 w-auto" />
           <span className="text-xs font-bold uppercase tracking-wider text-brand-500 bg-brand-500/10 px-2 py-0.5 rounded border border-brand-500/20">CRM Admin</span>
         </div>
-        <button 
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-lg text-gray-300 hover:text-white glass-card"
-        >
-          {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="flex items-center space-x-2">
+          <Link
+            href="/admin/leads"
+            className="relative p-2 rounded-lg glass-card border border-white/10 text-gray-300 hover:text-white flex items-center justify-center"
+            title="Lead Notifications"
+          >
+            <Bell size={18} />
+            {unreadLeadsCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-extrabold text-white animate-pulse">
+                {unreadLeadsCount}
+              </span>
+            )}
+          </Link>
+          <button 
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="p-2 rounded-lg text-gray-300 hover:text-white glass-card"
+          >
+            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Sidebar Navigation (Fixed 100vh height, inner scrollable if small screen) */}
@@ -170,7 +226,7 @@ export default function AdminLayout({
             </div>
             <div className="overflow-hidden">
               <h4 className="text-xs font-bold text-white truncate">Vivek Kumar</h4>
-              <p className="text-[10px] text-gray-400 truncate">admin@innovateria.in</p>
+              <p className="text-[10px] text-gray-400 truncate">innovateria.in@gmail.com</p>
             </div>
           </div>
 
@@ -196,13 +252,95 @@ export default function AdminLayout({
           </div>
 
           <div className="flex items-center space-x-4">
-            <Link
-              href="/admin/leads"
-              className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-lg shadow-brand-500/20 hover:opacity-90 transition-all"
-            >
-              <Plus size={16} />
-              <span>Manage Leads</span>
-            </Link>
+            {/* Notification Bell Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setNotifOpen(!notifOpen)}
+                className={`relative p-2.5 rounded-xl glass-card border transition-all flex items-center justify-center ${
+                  notifOpen 
+                    ? 'border-brand-500/60 bg-brand-500/20 text-white shadow-lg shadow-brand-500/20' 
+                    : 'border-white/10 text-gray-300 hover:text-white hover:bg-white/10'
+                }`}
+                title="Lead Notifications"
+                aria-label="Lead Notifications"
+              >
+                <Bell size={18} />
+                {unreadLeadsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-extrabold text-white animate-pulse">
+                    {unreadLeadsCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Notification Popover Dropdown */}
+              {notifOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setNotifOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl bg-[#0E1422] border border-white/15 shadow-2xl z-50 p-4 space-y-3 backdrop-blur-xl">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                      <div className="flex items-center space-x-2">
+                        <Bell size={16} className="text-brand-400" />
+                        <h3 className="text-xs font-bold text-white uppercase tracking-wider">Notifications</h3>
+                      </div>
+                      {unreadLeadsCount > 0 ? (
+                        <span className="bg-brand-500/20 border border-brand-500/40 text-brand-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                          {unreadLeadsCount} New Lead{unreadLeadsCount > 1 ? 's' : ''}
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-gray-400">No new leads</span>
+                      )}
+                    </div>
+
+                    <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                      {recentLeads.length > 0 ? (
+                        recentLeads.map((lead) => (
+                          <Link
+                            key={lead.id}
+                            href="/admin/leads"
+                            onClick={() => setNotifOpen(false)}
+                            className="flex items-start space-x-3 p-2.5 rounded-xl bg-white/5 hover:bg-brand-500/15 border border-white/5 hover:border-brand-500/30 transition-all group"
+                          >
+                            <div className="p-2 rounded-lg bg-brand-500/10 text-brand-400 group-hover:bg-brand-500 group-hover:text-white transition-colors shrink-0">
+                              <Mail size={14} />
+                            </div>
+                            <div className="flex-1 overflow-hidden">
+                              <div className="flex items-center justify-between">
+                                <h4 className="text-xs font-bold text-white truncate">{lead.name}</h4>
+                                <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${
+                                  lead.status === 'new' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-gray-500/20 text-gray-400'
+                                }`}>
+                                  {lead.status?.toUpperCase() || 'NEW'}
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-gray-300 truncate mt-0.5">{lead.subject || lead.message || 'New contact inquiry'}</p>
+                              <p className="text-[9px] text-gray-400 mt-1">{lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : 'Recent'}</p>
+                            </div>
+                          </Link>
+                        ))
+                      ) : (
+                        <div className="py-6 text-center text-xs text-gray-400">
+                          No new lead notifications.
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-2 border-t border-white/10">
+                      <Link
+                        href="/admin/leads"
+                        onClick={() => setNotifOpen(false)}
+                        className="w-full py-2.5 rounded-xl bg-gradient-brand text-white text-xs font-semibold hover:opacity-90 transition-opacity flex items-center justify-center space-x-1.5 shadow-md shadow-brand-500/20"
+                      >
+                        <span>Manage All Leads in Inbox</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
 
             <Link
               href="/"
@@ -214,8 +352,8 @@ export default function AdminLayout({
           </div>
         </header>
 
-        {/* Page Body - Internal Scrolling Container */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8 w-full max-w-7xl mx-auto">
+        {/* Page Body - Fixed Container with Internal List Scrolling */}
+        <main className="flex-1 min-h-0 w-full max-w-full overflow-hidden p-4 sm:p-6 lg:p-8 flex flex-col">
           {children}
         </main>
       </div>

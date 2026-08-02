@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import ContactForm from '@/components/ContactForm';
+import ServiceIcon from '@/components/ServiceIcon';
+import FeaturedProjectsCarousel from '@/components/FeaturedProjectsCarousel';
 import { 
   getHeroStatsCMS, 
   getTechStackCMS, 
-  getPortfolioCMS, 
   getServicesCMS,
-  getCompanyValuesCMS
+  getCompanyValuesCMS,
+  getProjects
 } from '@/lib/crm-store';
 import { 
   Smartphone, 
@@ -22,21 +24,28 @@ import {
   FolderCheck, 
   Clock, 
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Github,
+  Star,
+  GitFork,
+  ExternalLink
 } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 export default function HomePage() {
   const services = getServicesCMS();
   const metrics = getHeroStatsCMS();
   const techStack = getTechStackCMS();
-  const portfolioSamples = getPortfolioCMS();
+  const allProjects = getProjects();
+  const featuredProjects = allProjects.filter(p => p.featured !== false);
   const values = getCompanyValuesCMS();
 
   return (
     <div className="space-y-16 sm:space-y-20 lg:space-y-24 pb-12 sm:pb-16">
       
       {/* ======= HERO SECTION ======= */}
-      <section className="relative pb-16 sm:pb-24 overflow-hidden bg-grid-pattern">
+      <section className="relative pb-4 sm:pb-8 overflow-hidden bg-grid-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,78,46,0.16),transparent_45%)]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 relative z-10">
@@ -132,7 +141,7 @@ export default function HomePage() {
       </section>
 
       {/* ======= DYNAMIC SERVICES GRID ======= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 -mt-6 sm:-mt-10">
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
             Core Agency Offerings
@@ -145,26 +154,39 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((s) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.slice(0, 6).map((s) => (
             <div key={s.id} className="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 flex flex-col justify-between space-y-4 group">
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500 group-hover:bg-brand-500 group-hover:text-white transition-colors">
-                  <Smartphone size={24} />
+                  <ServiceIcon iconName={s.iconName} title={s.title} size={24} />
                 </div>
                 <span className="text-[10px] font-bold text-brand-500 uppercase tracking-wider block">{s.category}</span>
                 <h3 className="text-lg font-bold text-white group-hover:text-brand-500 transition-colors">{s.title}</h3>
                 <p className="text-xs text-gray-300 leading-relaxed">{s.description}</p>
               </div>
 
-              <div className="pt-2 border-t border-white/10">
+              <div className="pt-2 border-t border-white/10 flex justify-between items-center">
                 <Link href={`/${s.slug}`} className="inline-flex items-center space-x-1 text-xs font-semibold text-brand-400 group-hover:text-white transition-colors">
                   <span>Explore Service</span>
                   <ChevronRight size={14} />
                 </Link>
+
+                <Link href="/contact" className="text-xs text-gray-400 hover:text-white transition-colors">
+                  Get Quote
+                </Link>
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="text-center pt-2">
+          <Link
+            href="/services"
+            className="inline-flex items-center space-x-2 text-xs font-bold text-brand-400 hover:text-white bg-brand-500/10 hover:bg-brand-500/20 border border-brand-500/30 px-6 py-3 rounded-full transition-all shadow-lg"
+          >
+            <span>Explore All 19 Services →</span>
+          </Link>
         </div>
       </section>
 
@@ -187,37 +209,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ======= DYNAMIC PORTFOLIO SHOWCASE ======= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-white/10 pb-6">
-          <div>
-            <span className="text-xs font-bold text-brand-500 uppercase tracking-widest">Our Work</span>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight mt-1">Featured Open Source Projects</h2>
-          </div>
-          <Link href="/projects" className="inline-flex items-center space-x-2 text-xs font-semibold text-brand-500 hover:underline">
-            <span>View Full Portfolio</span>
-            <ArrowRight size={14} />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {portfolioSamples.map((p, idx) => (
-            <div key={idx} className="glass-card glass-card-hover rounded-2xl p-5 border border-white/10 flex flex-col justify-between space-y-3 group">
-              <div className="space-y-2">
-                <span className="text-[10px] uppercase font-bold text-brand-500 tracking-wider">{p.category}</span>
-                <h3 className="text-base font-bold text-white group-hover:text-brand-500 transition-colors">{p.title}</h3>
-                <p className="text-xs text-gray-300 leading-relaxed">{p.desc}</p>
-              </div>
-
-              <div className="pt-3 border-t border-white/10">
-                <a href={p.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center space-x-1 text-xs font-semibold text-brand-400 hover:text-white">
-                  <span>View Repository</span>
-                  <ChevronRight size={12} />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* ======= DYNAMIC FEATURED PROJECTS SHOWCASE CAROUSEL ======= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FeaturedProjectsCarousel projects={featuredProjects} />
       </section>
 
       {/* ======= CONTACT FORM SECTION ======= */}

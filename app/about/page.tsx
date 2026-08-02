@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getCompanyValuesCMS } from '@/lib/crm-store';
 import { Target, Eye, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'About Innovateria | Digital Agency in India',
   description: 'Learn how Innovateria builds high-impact Android apps, enterprise software, modern websites, SEO strategies, and digital marketing solutions.',

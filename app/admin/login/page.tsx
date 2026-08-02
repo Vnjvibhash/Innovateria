@@ -6,7 +6,7 @@ import { Lock, Mail, KeyRound, ShieldAlert, ArrowRight, Loader2, Sparkles } from
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@innovateria.in');
+  const [email, setEmail] = useState('innovateria.in@gmail.com');
   const [passcode, setPasscode] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -81,7 +81,7 @@ export default function AdminLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@innovateria.in"
+                  placeholder="innovateria.in@gmail.com"
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#0B0F17]/90 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
                 />
               </div>

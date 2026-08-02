@@ -1,26 +1,30 @@
 import Link from 'next/link';
-import { getTimelineCMS, getProjects } from '@/lib/crm-store';
+import OpenSourceProjectsCarousel from '@/components/OpenSourceProjectsCarousel';
+import { getTimelineCMS, getOpenSourceProjectsCMS } from '@/lib/crm-store';
 import { 
   GraduationCap, 
   Briefcase, 
-  University, 
-  Laptop, 
   Calendar, 
   MapPin, 
   CheckCircle2, 
   ExternalLink,
   Github,
-  Sparkles
+  Sparkles,
+  Star,
+  GitFork,
+  Code2
 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
-  title: 'Portfolio & Journey | Innovateria',
-  description: 'Explore our technology timeline, career journey, and portfolio showcase at Innovateria.',
+  title: 'Education, Career Journey & Open Source Showcase | Innovateria',
+  description: 'Explore our technology timeline, career journey milestones, and open-source project portfolio.',
 };
 
 export default function PortfolioPage() {
   const timeline = getTimelineCMS();
-  const projects = getProjects();
+  const openSourceProjects = getOpenSourceProjectsCMS();
 
   const getIcon = (type: string) => {
     return type === 'education' ? GraduationCap : Briefcase;
@@ -38,7 +42,7 @@ export default function PortfolioPage() {
           Education & <span className="text-gradient-brand">Career Journey</span>
         </h1>
         <p className="text-sm text-gray-300 leading-relaxed">
-          The engineering experience and foundation behind Innovateria&apos;s software solutions.
+          The engineering experience, degrees, and foundation behind Innovateria&apos;s digital solutions.
         </p>
       </div>
 
@@ -86,7 +90,7 @@ export default function PortfolioPage() {
                     </p>
 
                     <ul className="space-y-1.5 pt-2 border-t border-white/10">
-                      {item.details.map((d, i) => (
+                      {(item.details || []).map((d, i) => (
                         <li key={i} className="text-xs text-gray-300 flex items-start space-x-2">
                           <CheckCircle2 size={12} className="text-brand-500 shrink-0 mt-0.5" />
                           <span>{d}</span>
@@ -96,7 +100,7 @@ export default function PortfolioPage() {
                   </div>
                 </div>
 
-                <div className="hidden md:flex w-10 h-10 rounded-full bg-[#131A29] border-2 border-brand-500 items-center justify-center text-brand-500 z-10 my-4 md:my-0 shadow-lg shadow-brand-500/20">
+                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-[#131A29] border-2 border-brand-500 items-center justify-center text-brand-500 z-10 shadow-lg shadow-brand-500/20">
                   <Icon size={18} />
                 </div>
 
@@ -107,80 +111,14 @@ export default function PortfolioPage() {
         </div>
       </div>
 
-      {/* Featured Projects Grid Showcase */}
-      <div className="pt-10 space-y-8 border-t border-white/10">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-          <div>
-            <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
-              GitHub Repositories Showcase
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-2">
-              Featured Software Projects
-            </h2>
-          </div>
-
-          <a 
-            href="https://github.com/Vnjvibhash/3D-Portfolio" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-5 py-2.5 rounded-full text-xs font-semibold shadow-lg hover:shadow-brand-500/30 transition-all"
-          >
-            <Sparkles size={14} />
-            <span>Explore 3D Portfolio Repo</span>
-            <ExternalLink size={12} />
-          </a>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
-            <div 
-              key={p.id} 
-              className="glass-card glass-card-hover rounded-2xl p-5 border border-white/10 flex flex-col justify-between space-y-4 group"
-            >
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-semibold text-brand-400 uppercase tracking-wider">
-                    {p.category}
-                  </span>
-                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded-full">
-                    {p.status}
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-bold text-white group-hover:text-brand-500 transition-colors">
-                  {p.title}
-                </h3>
-
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  {p.desc}
-                </p>
-              </div>
-
-              <div className="space-y-3 pt-3 border-t border-white/10">
-                <div className="flex flex-wrap gap-1.5">
-                  {p.techStack.map((t, i) => (
-                    <span key={i} className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-300">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                {p.github && (
-                  <a 
-                    href={p.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-brand-500 hover:text-white transition-colors pt-1"
-                  >
-                    <Github size={14} />
-                    <span>View Repository on GitHub</span>
-                    <ExternalLink size={12} />
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Open Source Showcase Section */}
+      <div className="pt-8">
+        <OpenSourceProjectsCarousel 
+          projects={openSourceProjects} 
+          title="Featured Open Source Projects"
+          subtitle="Public open source applications, libraries, and frameworks built & maintained by our team."
+          showExploreLink={false}
+        />
       </div>
 
     </div>

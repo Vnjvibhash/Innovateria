@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import ServiceIcon from '@/components/ServiceIcon';
 import {
   Phone,
   Mail,
@@ -12,8 +13,26 @@ import {
   Globe,
   Moon,
   Sun,
+  Smartphone,
+  Code2,
+  Globe2,
+  Palette,
+  TrendingUp,
+  HelpCircle,
+  Users,
+  Briefcase,
+  FolderKanban,
+  Zap,
+  ChevronRight,
+  Info
 } from 'lucide-react';
-import { dropdownGroups, type NavLinkItem } from '@/components/navigationData';
+
+interface DynamicServiceItem {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+}
 
 export default function Header() {
   const pathname = usePathname();
@@ -24,7 +43,19 @@ export default function Header() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const dropdownCloseTimerRef = useRef<number | null>(null);
 
+  // Dynamic CMS Header Data State
+  const [headerInfo, setHeaderInfo] = useState({
+    phone: '+91-7762974716',
+    email: 'innovateria.in@gmail.com',
+    agencyName: 'Innovateria',
+    portfolioUrl: 'https://vivekajee.in'
+  });
+  const [dynamicServices, setDynamicServices] = useState<DynamicServiceItem[]>([]);
+  const [dynamicProjects, setDynamicProjects] = useState<{ id: string; title: string; category: string }[]>([]);
+
   useEffect(() => {
+    fetchHeaderData();
+
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setIsScrolled(true);
@@ -42,6 +73,29 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const fetchHeaderData = async () => {
+    try {
+      const res = await fetch('/api/header-data');
+      const data = await res.json();
+      if (data.success) {
+        setHeaderInfo({
+          phone: data.phone || '+91-7762974716',
+          email: data.email || 'innovateria.in@gmail.com',
+          agencyName: data.agencyName || 'Innovateria',
+          portfolioUrl: data.portfolioUrl || 'https://vivekajee.in'
+        });
+        if (Array.isArray(data.services) && data.services.length > 0) {
+          setDynamicServices(data.services);
+        }
+        if (Array.isArray(data.projects) && data.projects.length > 0) {
+          setDynamicProjects(data.projects);
+        }
+      }
+    } catch (err) {
+      console.error('Error loading dynamic header data:', err);
+    }
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -84,23 +138,30 @@ export default function Header() {
 
   const isActive = (path: string) => pathname === path;
   const isInDropdown = (paths: string[]) => paths.includes(pathname);
-  const isWhoActive = isInDropdown(['/about', '/team', '/projects', '/portfolio', '/feature', '/faq']);
-  const isServicesActive = isInDropdown(['/mobile', '/software', '/web', '/logo']);
-  const isMarketingActive = isInDropdown(['/seo-services', '/digital-marketing']);
 
-  const renderDropdownLinks = (links: NavLinkItem[]) =>
-    links.map(({ href, label, icon: Icon }) => (
-      <Link
-        key={href}
-        href={href}
-        className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors"
-      >
-        <Icon size={16} className="text-brand-500 shrink-0" />
-        <span>{label}</span>
-      </Link>
-    ));
+  // Group paths
+  const whoPaths = ['/about', '/team', '/portfolio', '/feature', '/faq'];
 
   if (pathname?.startsWith('/admin')) return null;
+
+  // Fallback services list if CMS loading
+  const fallbackServices = [
+    { title: 'App Development', slug: 'mobile', icon: Smartphone },
+    { title: 'Software Engineering', slug: 'software', icon: Code2 },
+    { title: 'Web Development', slug: 'web', icon: Globe2 },
+    { title: 'Logo Designing', slug: 'logo', icon: Palette }
+  ];
+
+  const fallbackProjects = [
+    { id: '1', title: 'Enterprise D2C E-Commerce App', category: 'App Development' },
+    { id: '2', title: 'Microservices Backend & Cloud API', category: 'Software Engineering' },
+    { id: '3', title: 'Full-Stack SaaS Control Portal', category: 'Web Development' },
+    { id: '4', title: 'Native iOS & Android POS Solution', category: 'App Development' },
+    { id: '5', title: 'High-Scale Analytics Dashboard', category: 'Software Engineering' }
+  ];
+
+  const isServicesActive = isActive('/services') || dynamicServices.some(s => isActive(`/${s.slug}`)) || fallbackServices.some(s => isActive(`/${s.slug}`));
+  const isProjectsActive = isActive('/projects');
 
   return (
     <header
@@ -109,29 +170,29 @@ export default function Header() {
         isScrolled ? 'backdrop-blur-md border-b border-[color:var(--border-color)] shadow-2xl py-2' : 'backdrop-blur-sm border-b border-[color:var(--border-color)] py-3'
       }`}
     >
-      {/* Top Info Bar */}
+      {/* Dynamic Top Info Bar */}
       <div className={`hidden md:block transition-all duration-300 overflow-hidden ${
         isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-b-0 pointer-events-none' : 'max-h-12 opacity-100 pb-2 mb-2 border-b border-[color:var(--border-color)]'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xs text-gray-300">
           <div className="flex items-center space-x-6">
-            <a href="tel:+917762974716" className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
+            <a href={`tel:${headerInfo.phone}`} className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
               <Phone size={14} className="text-brand-500" />
-              <span>+91-7762974716</span>
+              <span>{headerInfo.phone}</span>
             </a>
-            <a href="mailto:innovateria.in@gmail.com" className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
+            <a href={`mailto:${headerInfo.email}`} className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
               <Mail size={14} className="text-brand-500" />
-              <span>innovateria.in@gmail.com</span>
+              <span>{headerInfo.email}</span>
             </a>
           </div>
           <div className="flex items-center space-x-3">
-            <span className="text-gray-400">Always Innovation is key to stay Relevant</span>
+            <span className="text-gray-400">Innovation is key to stay Relevant</span>
             <a 
-              href="https://vivekajee.in" 
+              href={headerInfo.portfolioUrl} 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center space-x-1 bg-gradient-brand text-white px-2.5 py-1 rounded text-xs font-medium transition-all hover:shadow-md hover:shadow-brand-500/20"
-              title="Visit Vivek Kumar's Personal 3D Portfolio"
+              title="Visit Personal 3D Portfolio"
             >
               <Globe size={12} />
               <span>3D Portfolio</span>
@@ -147,7 +208,7 @@ export default function Header() {
           <div className="relative w-28 sm:w-36 h-10 transition-transform group-hover:scale-105">
             <img
               src="/assets/img/logo.png"
-              alt="Innovateria Logo"
+              alt={`${headerInfo.agencyName} Logo`}
               className="h-10 w-auto object-contain"
             />
           </div>
@@ -162,30 +223,144 @@ export default function Header() {
             Home
           </Link>
 
-          {dropdownGroups.map(({ key, label, links, activePaths, widthClass }) => {
-            const groupActive = isInDropdown(activePaths);
+          {/* Who We Are Dropdown */}
+          <div
+            className="relative group/menu"
+            onMouseEnter={() => openDropdown('who')}
+            onMouseLeave={() => scheduleDropdownClose()}
+          >
+            <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${isInDropdown(whoPaths) ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
+              <span>Who We Are?</span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === 'who' ? 'rotate-180' : ''}`} />
+            </button>
+            <div
+              onMouseEnter={() => openDropdown('who')}
+              onMouseLeave={() => scheduleDropdownClose()}
+              className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 w-56 ${hoveredDropdown === 'who' ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
+            >
+              <Link href="/about" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors">
+                <Info size={16} className="text-brand-500 shrink-0" />
+                <span>About Us</span>
+              </Link>
+              <Link href="/team" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors">
+                <Users size={16} className="text-brand-500 shrink-0" />
+                <span>Our Team</span>
+              </Link>
+              <Link href="/portfolio" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors">
+                <Briefcase size={16} className="text-brand-500 shrink-0" />
+                <span>Portfolio</span>
+              </Link>
+              <Link href="/feature" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors">
+                <Zap size={16} className="text-brand-500 shrink-0" />
+                <span>Features</span>
+              </Link>
+              <Link href="/faq" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors">
+                <HelpCircle size={16} className="text-brand-500 shrink-0" />
+                <span>FAQs</span>
+              </Link>
+            </div>
+          </div>
 
-            return (
-              <div
-                key={key}
-                className="relative group/menu"
-                onMouseEnter={() => openDropdown(key)}
-                onMouseLeave={() => scheduleDropdownClose()}
-              >
-                <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${groupActive ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
-                  <span>{label}</span>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === key ? 'rotate-180' : ''}`} />
-                </button>
-                <div
-                  onMouseEnter={() => openDropdown(key)}
-                  onMouseLeave={() => scheduleDropdownClose()}
-                  className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 ${widthClass} ${hoveredDropdown === key ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
-                >
-                  {renderDropdownLinks(links)}
-                </div>
+          {/* DYNAMIC PROJECTS DROPDOWN */}
+          <div
+            className="relative group/menu"
+            onMouseEnter={() => openDropdown('projects')}
+            onMouseLeave={() => scheduleDropdownClose()}
+          >
+            <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${isProjectsActive ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
+              <span>Projects</span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === 'projects' ? 'rotate-180' : ''}`} />
+            </button>
+            <div
+              onMouseEnter={() => openDropdown('projects')}
+              onMouseLeave={() => scheduleDropdownClose()}
+              className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 w-72 ${hoveredDropdown === 'projects' ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
+            >
+              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-400 border-b border-white/10 mb-1">
+                Latest Agency Projects
               </div>
-            );
-          })}
+
+              {(dynamicProjects.length > 0 ? dynamicProjects : fallbackProjects).slice(0, 5).map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/projects/${p.id}`}
+                  className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors"
+                >
+                  <FolderKanban size={16} className="text-brand-500 shrink-0" />
+                  <div className="truncate">
+                    <span className="font-semibold block truncate">{p.title}</span>
+                    <span className="text-[10px] text-gray-400 block">{p.category}</span>
+                  </div>
+                </Link>
+              ))}
+
+              <div className="pt-2 border-t border-white/10 mt-1">
+                <Link
+                  href="/projects"
+                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold text-brand-400 hover:text-white hover:bg-brand-500/20 transition-all"
+                >
+                  <span>View All Projects ({dynamicProjects.length || 5})</span>
+                  <ChevronRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* DYNAMIC SERVICES DROPDOWN */}
+          <div
+            className="relative group/menu"
+            onMouseEnter={() => openDropdown('services')}
+            onMouseLeave={() => scheduleDropdownClose()}
+          >
+            <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${isServicesActive ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
+              <span>Services</span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === 'services' ? 'rotate-180' : ''}`} />
+            </button>
+            <div
+              onMouseEnter={() => openDropdown('services')}
+              onMouseLeave={() => scheduleDropdownClose()}
+              className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 w-64 ${hoveredDropdown === 'services' ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
+            >
+              {dynamicServices.length > 0 ? (
+                dynamicServices.slice(0, 5).map((s) => (
+                  <Link
+                    key={s.id}
+                    href={`/${s.slug}`}
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors"
+                  >
+                    <ServiceIcon title={s.title} size={16} className="text-brand-500 shrink-0" />
+                    <span className="truncate">{s.title}</span>
+                  </Link>
+                ))
+              ) : (
+                fallbackServices.slice(0, 5).map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <Link
+                      key={s.slug}
+                      href={`/${s.slug}`}
+                      className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors"
+                    >
+                      <Icon size={16} className="text-brand-500 shrink-0" />
+                      <span className="truncate">{s.title}</span>
+                    </Link>
+                  );
+                })
+              )}
+
+              <div className="pt-2 border-t border-white/10 mt-1">
+                <Link
+                  href="/services"
+                  className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold text-brand-400 hover:text-white hover:bg-brand-500/20 transition-all"
+                >
+                  <span>View All Services ({dynamicServices.length || 19})</span>
+                  <ChevronRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+
 
           <Link 
             href="/contact" 
@@ -238,7 +413,7 @@ export default function Header() {
           <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('who')}
-              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isWhoActive ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
+              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isInDropdown(whoPaths) ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
             >
               <span>Who We Are?</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'who' ? 'rotate-180' : ''}`} />
@@ -247,7 +422,6 @@ export default function Header() {
               <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
                 <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">About Us</Link>
                 <Link href="/team" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Our Team</Link>
-                <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Our Projects</Link>
                 <Link href="/portfolio" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Portfolio</Link>
                 <Link href="/feature" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Features</Link>
                 <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">FAQs</Link>
@@ -255,7 +429,32 @@ export default function Header() {
             )}
           </div>
 
-          {/* Mobile Services */}
+          {/* Dynamic Mobile Projects */}
+          <div className="border-t border-white/5 pt-2">
+            <button 
+              onClick={() => toggleDropdown('projects')}
+              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isProjectsActive ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
+            >
+              <span>Projects</span>
+              <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'projects' ? 'rotate-180' : ''}`} />
+            </button>
+            {activeDropdown === 'projects' && (
+              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
+                {(dynamicProjects.length > 0 ? dynamicProjects : fallbackProjects).slice(0, 5).map(p => (
+                  <Link key={p.id} href={`/projects/${p.id}`} onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500 truncate">
+                    {p.title}
+                  </Link>
+                ))}
+                <div className="pt-1.5 border-t border-white/10 mt-1">
+                  <Link href="/projects" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-brand-400 font-bold hover:text-white">
+                    View All Projects ({dynamicProjects.length || 5}) →
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Dynamic Mobile Services */}
           <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('services')}
@@ -266,30 +465,29 @@ export default function Header() {
             </button>
             {activeDropdown === 'services' && (
               <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
-                <Link href="/mobile" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">App Development</Link>
-                <Link href="/software" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Software Development</Link>
-                <Link href="/web" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Web Development</Link>
-                <Link href="/logo" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Logo Designing</Link>
+                {dynamicServices.length > 0 ? (
+                  dynamicServices.slice(0, 5).map(s => (
+                    <Link key={s.id} href={`/${s.slug}`} onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500 truncate">
+                      {s.title}
+                    </Link>
+                  ))
+                ) : (
+                  fallbackServices.slice(0, 5).map(s => (
+                    <Link key={s.slug} href={`/${s.slug}`} onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500 truncate">
+                      {s.title}
+                    </Link>
+                  ))
+                )}
+                <div className="pt-1.5 border-t border-white/10 mt-1">
+                  <Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-brand-400 font-bold hover:text-white">
+                    View All Services ({dynamicServices.length || 19}) →
+                  </Link>
+                </div>
               </div>
             )}
           </div>
 
-          {/* Mobile Marketing */}
-          <div className="border-t border-white/5 pt-2">
-            <button 
-              onClick={() => toggleDropdown('marketing')}
-              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isMarketingActive ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
-            >
-              <span>Our Marketing</span>
-              <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'marketing' ? 'rotate-180' : ''}`} />
-            </button>
-            {activeDropdown === 'marketing' && (
-              <div className="pl-4 space-y-2 py-1 text-xs text-gray-400 border-l border-white/10 ml-2">
-                <Link href="/seo-services" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">SEO Services</Link>
-                <Link href="/digital-marketing" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 hover:text-brand-500">Digital Marketing</Link>
-              </div>
-            )}
-          </div>
+
 
           <Link 
             href="/contact" 
@@ -309,11 +507,11 @@ export default function Header() {
               <span>Get Started</span>
             </Link>
             <div className="flex justify-around items-center text-xs text-gray-400 pt-1">
-              <a href="tel:+917762974716" className="flex items-center space-x-1.5 hover:text-brand-500">
+              <a href={`tel:${headerInfo.phone}`} className="flex items-center space-x-1.5 hover:text-brand-500">
                 <Phone size={14} className="text-brand-500" />
                 <span>Call Us</span>
               </a>
-              <a href="mailto:innovateria.in@gmail.com" className="flex items-center space-x-1.5 hover:text-brand-500">
+              <a href={`mailto:${headerInfo.email}`} className="flex items-center space-x-1.5 hover:text-brand-500">
                 <Mail size={14} className="text-brand-500" />
                 <span>Email Us</span>
               </a>

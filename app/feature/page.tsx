@@ -14,6 +14,8 @@ import {
   Cpu
 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Features & Capabilities | Innovateria',
   description: 'Discover key features, security, technology stack, and customizable software capabilities by Innovateria.',

@@ -116,8 +116,9 @@ export default function AdminFeaturesPage() {
               </div>
 
               <div className="flex justify-end space-x-2 pt-4 border-t border-white/10">
-                <button onClick={() => handleDeleteFeature(feat.id)} className="p-2 rounded-xl glass-card hover:bg-red-500/20 text-red-400">
+                <button onClick={() => handleDeleteFeature(feat.id)} className="px-3 py-1.5 rounded-xl text-xs font-semibold inline-flex items-center space-x-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 transition-all">
                   <Trash2 size={14} />
+                  <span>Delete</span>
                 </button>
               </div>
             </div>
