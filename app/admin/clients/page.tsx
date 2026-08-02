@@ -19,7 +19,7 @@ export default function AdminClientsPage() {
     phone: '',
     projectsCount: 1,
     totalSpent: '₹1,00,000',
-    avatar: '/assets/img/team-1.png',
+    avatar: '/assets/img/team/vivekajee.png',
     status: 'active' as Client['status']
   });
 
@@ -89,7 +89,7 @@ export default function AdminClientsPage() {
           phone: '',
           projectsCount: 1,
           totalSpent: '₹1,00,000',
-          avatar: '/assets/img/team-1.png',
+          avatar: '/assets/img/team/vivekajee.png',
           status: 'active'
         });
       }
@@ -252,7 +252,7 @@ export default function AdminClientsPage() {
                 <label className="block text-xs text-gray-300 mb-1">Client Avatar / Logo</label>
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 rounded-full overflow-hidden bg-[#0B0F17] border border-white/10 shrink-0">
-                    <img src={editingClient.avatar || '/assets/img/team-1.png'} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={editingClient.avatar || '/assets/img/team/vivekajee.png'} alt="Preview" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 space-y-1.5">
                     <label className="cursor-pointer inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-xl text-xs font-medium border border-white/10 transition-all">
@@ -273,7 +273,7 @@ export default function AdminClientsPage() {
                       type="text"
                       value={editingClient.avatar || ''}
                       onChange={(e) => setEditingClient({ ...editingClient, avatar: e.target.value })}
-                      placeholder="/assets/img/team-1.png"
+                      placeholder="/assets/img/team/vivekajee.png"
                       className="w-full px-3 py-1.5 rounded-xl bg-[#0B0F17] border border-white/10 text-white text-[11px]"
                     />
                   </div>
@@ -391,7 +391,7 @@ export default function AdminClientsPage() {
                       type="text"
                       value={newClient.avatar}
                       onChange={(e) => setNewClient({ ...newClient, avatar: e.target.value })}
-                      placeholder="/assets/img/team-1.png"
+                      placeholder="/assets/img/team/vivekajee.png"
                       className="w-full px-3 py-1.5 rounded-xl bg-[#0B0F17] border border-white/10 text-white text-[11px]"
                     />
                   </div>

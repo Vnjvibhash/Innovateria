@@ -46,6 +46,10 @@ export default function HomePage() {
       
       {/* ======= HERO SECTION ======= */}
       <section className="relative pb-4 sm:pb-8 overflow-hidden bg-grid-pattern">
+        <div 
+          className="absolute inset-0 bg-top bg-no-repeat bg-cover opacity-20 pointer-events-none mix-blend-screen"
+          style={{ backgroundImage: 'url(/assets/img/backgrounds/hero-bg.png)' }}
+        ></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,78,46,0.16),transparent_45%)]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 relative z-10">

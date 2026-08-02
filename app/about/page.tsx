@@ -19,7 +19,15 @@ export default function AboutPage() {
   const companyValues = getCompanyValuesCMS();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Map Background Layer */}
+      <div 
+        className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-20 pointer-events-none mix-blend-screen"
+        style={{ backgroundImage: 'url(/assets/img/backgrounds/map2.png)' }}
+      ></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F17]/60 via-transparent to-[#0B0F17] pointer-events-none"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
       
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -64,9 +72,9 @@ export default function AboutPage() {
         <div className="relative flex justify-center">
           <div className="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
             <img 
-              src="/assets/img/soft.png" 
+              src="/assets/img/services/soft.png" 
               alt="Innovateria Software Architecture" 
-              className="max-h-64 w-auto object-contain mx-auto"
+              className="max-h-64 w-auto object-contain mx-auto drop-shadow-2xl"
             />
           </div>
         </div>
@@ -135,6 +143,7 @@ export default function AboutPage() {
         </div>
       </div>
 
+      </div>
     </div>
   );
 }

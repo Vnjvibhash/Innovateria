@@ -18,7 +18,7 @@ export default function AdminTeamPage() {
     company: 'Innovateria',
     location: 'Bangalore, IN',
     bio: '',
-    image: '/assets/img/team-1.png',
+    image: '/assets/img/team/vivekajee.png',
     skills: '',
     github: '',
     linkedin: '',
@@ -89,7 +89,7 @@ export default function AdminTeamPage() {
       if (res.ok) {
         fetchTeam();
         setShowAddModal(false);
-        setForm({ name: '', role: '', company: 'Innovateria', location: 'Bangalore, IN', bio: '', image: '/assets/img/team-1.png', skills: '', github: '', linkedin: '', twitter: '', website: '' });
+        setForm({ name: '', role: '', company: 'Innovateria', location: 'Bangalore, IN', bio: '', image: '/assets/img/team/vivekajee.png', skills: '', github: '', linkedin: '', twitter: '', website: '' });
       }
     } catch (err) {
       console.error('Error creating team member:', err);
@@ -237,7 +237,7 @@ export default function AdminTeamPage() {
                 <label className="block text-xs text-gray-300 mb-1">Profile Photo</label>
                 <div className="flex items-center space-x-3">
                   <div className="w-14 h-14 rounded-full overflow-hidden bg-[#0B0F17] border border-white/10 shrink-0">
-                    <img src={editingMember.image || '/assets/img/team-1.png'} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={editingMember.image || '/assets/img/team/vivekajee.png'} alt="Preview" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 space-y-1.5">
                     <label className="cursor-pointer inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-xl text-xs font-medium border border-white/10 transition-all">
@@ -258,7 +258,7 @@ export default function AdminTeamPage() {
                       type="text"
                       value={editingMember.image}
                       onChange={(e) => setEditingMember({ ...editingMember, image: e.target.value })}
-                      placeholder="/assets/img/team-1.png"
+                      placeholder="/assets/img/team/vivekajee.png"
                       className="w-full px-3 py-1.5 rounded-xl bg-[#0B0F17] border border-white/10 text-white text-[11px]"
                     />
                   </div>
@@ -385,7 +385,7 @@ export default function AdminTeamPage() {
                       type="text"
                       value={form.image}
                       onChange={(e) => setForm({ ...form, image: e.target.value })}
-                      placeholder="/assets/img/team-1.png"
+                      placeholder="/assets/img/team/vivekajee.png"
                       className="w-full px-3 py-1.5 rounded-xl bg-[#0B0F17] border border-white/10 text-white text-[11px]"
                     />
                   </div>

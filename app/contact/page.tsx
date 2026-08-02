@@ -14,7 +14,15 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Map Background Layer */}
+      <div 
+        className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-20 pointer-events-none mix-blend-screen"
+        style={{ backgroundImage: 'url(/assets/img/backgrounds/map2.png)' }}
+      ></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B0F17]/60 via-transparent to-[#0B0F17] pointer-events-none"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
       
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -159,6 +167,7 @@ export default function ContactPage() {
 
       </div>
 
+      </div>
     </div>
   );
 }

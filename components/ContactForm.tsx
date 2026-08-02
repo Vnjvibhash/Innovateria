@@ -46,6 +46,11 @@ export default function ContactForm() {
 
   return (
     <div className="glass-card rounded-2xl p-5 sm:p-8 border border-white/10 shadow-2xl relative overflow-hidden">
+      {/* Background CTA image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none mix-blend-screen"
+        style={{ backgroundImage: 'url(/assets/img/backgrounds/cta-bg.jpg)' }}
+      ></div>
       <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
       <h3 className="text-xl font-bold text-white mb-2">Send Us a Message</h3>

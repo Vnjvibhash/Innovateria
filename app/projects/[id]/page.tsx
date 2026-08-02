@@ -43,7 +43,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const title = project?.title || openSourceItem?.title || 'Project Details';
   const category = project?.category || openSourceItem?.category || 'Software Engineering';
   const desc = project?.desc || openSourceItem?.description || '';
-  const image = project?.image || '/assets/img/android.png';
+  const image = project?.image || '/assets/img/services/soft.png';
   const techStack = project?.techStack || openSourceItem?.tags || [];
   const github = project?.github || openSourceItem?.githubUrl;
   const liveDemo = openSourceItem?.liveDemoUrl;
