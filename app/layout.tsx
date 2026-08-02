@@ -58,6 +58,8 @@ const themeInitScript = `
   })();
 `;
 
+import MainContentShell from '@/components/MainContentShell';
+
 export default function RootLayout({
   children,
 }: {
@@ -73,9 +75,9 @@ export default function RootLayout({
         <Script id="website-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <Header />
         <SocialBar />
-        <main className="flex-grow pt-20 sm:pt-24 min-h-[100dvh] w-full max-w-full overflow-x-hidden">
+        <MainContentShell>
           {children}
-        </main>
+        </MainContentShell>
         <Footer />
         <BackToTop />
       </body>
