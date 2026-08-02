@@ -101,11 +101,11 @@ export default function FeaturedProjectsCarousel({ projects }: FeaturedProjectsC
           >
             <div>
               {/* Image Header */}
-              <div className="relative w-full h-44 bg-[#0B0F17] overflow-hidden border-b border-white/10">
+              <div className="relative w-full h-48 bg-[#0B0F17] overflow-hidden border-b border-white/10">
                 <img
-                  src={p.image || '/assets/img/android.png'}
+                  src={p.image || '/assets/img/services/soft.png'}
                   alt={p.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover object-center min-w-full min-h-full group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-transparent to-black/40"></div>
 
