@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { 
+import {
+  type LucideIcon,
   Phone, 
   Mail, 
   ChevronDown, 
@@ -27,12 +27,49 @@ import {
   Sun
 } from 'lucide-react';
 
+type NavLinkItem = {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+};
+
+type DropdownGroup = {
+  key: string;
+  label: string;
+  links: NavLinkItem[];
+  isActive: boolean;
+  widthClass: string;
+};
+
+const whoWeAreLinks: NavLinkItem[] = [
+  { href: '/about', label: 'About Us', icon: Info },
+  { href: '/team', label: 'Our Team', icon: Users },
+  { href: '/projects', label: 'Our Projects', icon: FolderKanban },
+  { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
+  { href: '/feature', label: 'Features', icon: Sparkles },
+  { href: '/faq', label: 'FAQs', icon: HelpCircle },
+];
+
+const servicesLinks: NavLinkItem[] = [
+  { href: '/mobile', label: 'App Development', icon: Smartphone },
+  { href: '/software', label: 'Software Development', icon: Code2 },
+  { href: '/web', label: 'Web Development', icon: Globe2 },
+  { href: '/logo', label: 'Logo Designing', icon: Palette },
+];
+
+const marketingLinks: NavLinkItem[] = [
+  { href: '/seo-services', label: 'SEO Services', icon: Search },
+  { href: '/digital-marketing', label: 'Digital Marketing', icon: TrendingUp },
+];
+
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const dropdownCloseTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +104,54 @@ export default function Header() {
     setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
   };
 
+  const clearDropdownCloseTimer = () => {
+    if (dropdownCloseTimerRef.current) {
+      window.clearTimeout(dropdownCloseTimerRef.current);
+      dropdownCloseTimerRef.current = null;
+    }
+  };
+
+  const openDropdown = (name: string) => {
+    clearDropdownCloseTimer();
+    setHoveredDropdown(name);
+  };
+
+  const scheduleDropdownClose = () => {
+    clearDropdownCloseTimer();
+    dropdownCloseTimerRef.current = window.setTimeout(() => {
+      setHoveredDropdown(null);
+    }, 180);
+  };
+
+  useEffect(() => {
+    return () => {
+      clearDropdownCloseTimer();
+    };
+  }, []);
+
   const isActive = (path: string) => pathname === path;
+  const isInDropdown = (paths: string[]) => paths.includes(pathname);
+  const isWhoActive = isInDropdown(['/about', '/team', '/projects', '/portfolio', '/feature', '/faq']);
+  const isServicesActive = isInDropdown(['/mobile', '/software', '/web', '/logo']);
+  const isMarketingActive = isInDropdown(['/seo-services', '/digital-marketing']);
+
+  const renderDropdownLinks = (links: NavLinkItem[]) =>
+    links.map(({ href, label, icon: Icon }) => (
+      <Link
+        key={href}
+        href={href}
+        className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] hover:bg-brand-500/20 transition-colors"
+      >
+        <Icon size={16} className="text-brand-500 shrink-0" />
+        <span>{label}</span>
+      </Link>
+    ));
+
+  const dropdownGroups: DropdownGroup[] = [
+    { key: 'who', label: 'Who We Are?', links: whoWeAreLinks, isActive: isWhoActive, widthClass: 'w-56' },
+    { key: 'services', label: 'Services', links: servicesLinks, isActive: isServicesActive, widthClass: 'w-60' },
+    { key: 'marketing', label: 'Our Marketing', links: marketingLinks, isActive: isMarketingActive, widthClass: 'w-56' },
+  ];
 
   return (
     <header
@@ -112,10 +196,10 @@ export default function Header() {
         {/* Brand Logo */}
         <Link href="/" className="flex items-center space-x-3 group">
           <div className="relative w-28 sm:w-36 h-10 transition-transform group-hover:scale-105">
-            <img 
-              src="/assets/img/logo.png" 
-              alt="Innovateria Logo" 
-              className="h-10 w-auto object-contain" 
+            <img
+              src="/assets/img/logo.png"
+              alt="Innovateria Logo"
+              className="h-10 w-auto object-contain"
             />
           </div>
         </Link>
@@ -129,83 +213,26 @@ export default function Header() {
             Home
           </Link>
 
-          {/* Who We Are Dropdown */}
-          <div className="relative group">
-            <button className="flex items-center space-x-1 py-2 text-gray-200 hover:text-brand-500 transition-colors">
-              <span>Who We Are?</span>
-              <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
-            </button>
-            <div className="absolute left-0 mt-1 w-56 glass-card rounded-xl shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 border border-white/10">
-              <Link href="/about" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Info size={16} className="text-brand-500" />
-                <span>About Us</span>
-              </Link>
-              <Link href="/team" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Users size={16} className="text-brand-500" />
-                <span>Our Team</span>
-              </Link>
-              <Link href="/projects" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <FolderKanban size={16} className="text-brand-500" />
-                <span>Our Projects</span>
-              </Link>
-              <Link href="/portfolio" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Briefcase size={16} className="text-brand-500" />
-                <span>Portfolio</span>
-              </Link>
-              <Link href="/feature" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Sparkles size={16} className="text-brand-500" />
-                <span>Features</span>
-              </Link>
-              <Link href="/faq" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <HelpCircle size={16} className="text-brand-500" />
-                <span>FAQs</span>
-              </Link>
+          {dropdownGroups.map(({ key, label, links, isActive: groupActive, widthClass }) => (
+            <div
+              key={key}
+              className="relative group/menu"
+              onMouseEnter={() => openDropdown(key)}
+              onMouseLeave={() => scheduleDropdownClose()}
+            >
+              <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${groupActive ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
+                <span>{label}</span>
+                <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === key ? 'rotate-180' : ''}`} />
+              </button>
+              <div
+                onMouseEnter={() => openDropdown(key)}
+                onMouseLeave={() => scheduleDropdownClose()}
+                className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 ${widthClass} ${hoveredDropdown === key ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
+              >
+                {renderDropdownLinks(links)}
+              </div>
             </div>
-          </div>
-
-          {/* Services Dropdown */}
-          <div className="relative group">
-            <button className="flex items-center space-x-1 py-2 text-gray-200 hover:text-brand-500 transition-colors">
-              <span>Services</span>
-              <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
-            </button>
-            <div className="absolute left-0 mt-1 w-60 glass-card rounded-xl shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 border border-white/10">
-              <Link href="/mobile" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Smartphone size={16} className="text-brand-500" />
-                <span>App Development</span>
-              </Link>
-              <Link href="/software" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Code2 size={16} className="text-brand-500" />
-                <span>Software Development</span>
-              </Link>
-              <Link href="/web" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Globe2 size={16} className="text-brand-500" />
-                <span>Web Development</span>
-              </Link>
-              <Link href="/logo" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Palette size={16} className="text-brand-500" />
-                <span>Logo Designing</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Our Marketing Dropdown */}
-          <div className="relative group">
-            <button className="flex items-center space-x-1 py-2 text-gray-200 hover:text-brand-500 transition-colors">
-              <span>Our Marketing</span>
-              <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
-            </button>
-            <div className="absolute left-0 mt-1 w-56 glass-card rounded-xl shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 border border-white/10">
-              <Link href="/seo-services" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <Search size={16} className="text-brand-500" />
-                <span>SEO Services</span>
-              </Link>
-              <Link href="/digital-marketing" className="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs text-gray-300 hover:text-white hover:bg-brand-500/20 transition-colors">
-                <TrendingUp size={16} className="text-brand-500" />
-                <span>Digital Marketing</span>
-              </Link>
-            </div>
-          </div>
+          ))}
 
           <Link 
             href="/contact" 
@@ -258,7 +285,7 @@ export default function Header() {
           <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('who')}
-              className="flex justify-between items-center w-full py-2.5 text-sm font-medium text-gray-300"
+              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isWhoActive ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
             >
               <span>Who We Are?</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'who' ? 'rotate-180' : ''}`} />
@@ -279,7 +306,7 @@ export default function Header() {
           <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('services')}
-              className="flex justify-between items-center w-full py-2.5 text-sm font-medium text-gray-300"
+              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isServicesActive ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
             >
               <span>Services</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
@@ -298,7 +325,7 @@ export default function Header() {
           <div className="border-t border-white/5 pt-2">
             <button 
               onClick={() => toggleDropdown('marketing')}
-              className="flex justify-between items-center w-full py-2.5 text-sm font-medium text-gray-300"
+              className={`flex justify-between items-center w-full py-2.5 text-sm font-medium ${isMarketingActive ? 'text-brand-500 font-semibold' : 'text-gray-300'}`}
             >
               <span>Our Marketing</span>
               <ChevronDown size={16} className={`transform transition-transform ${activeDropdown === 'marketing' ? 'rotate-180' : ''}`} />
