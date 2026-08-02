@@ -56,13 +56,13 @@ export default function SocialBar() {
             href={item.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group flex items-center h-11 w-11 hover:w-36 bg-[#131A29]/90 backdrop-blur-md border border-l-0 border-white/10 text-gray-300 rounded-r-2xl transition-all duration-300 ease-out hover:text-white ${item.hoverClass} shadow-lg overflow-hidden shrink-0`}
+            className={`group flex items-center h-11 w-11 hover:w-36 bg-[#0D131F]/95 backdrop-blur-lg border border-l-0 border-white/20 text-white rounded-r-2xl transition-all duration-300 ease-out hover:text-white ${item.hoverClass} shadow-2xl overflow-hidden shrink-0`}
             title={item.name}
           >
-            <div className="w-11 h-11 flex items-center justify-center shrink-0">
+            <div className="w-11 h-11 flex items-center justify-center shrink-0 text-white">
               <IconComponent size={18} className="transition-transform duration-300 group-hover:scale-110" />
             </div>
-            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-bold whitespace-nowrap pr-3 tracking-wide">
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs font-extrabold text-white whitespace-nowrap pr-3 tracking-wide">
               {item.name}
             </span>
           </a>

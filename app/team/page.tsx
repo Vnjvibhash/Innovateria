@@ -39,10 +39,14 @@ export default function TeamPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
         {teamMembers.map((member) => (
           <div key={member.id} className="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 text-center space-y-4 relative overflow-hidden group">
-            <div className="w-28 h-28 mx-auto rounded-full overflow-hidden border-2 border-brand-500/40 p-1 bg-[#131A29]">
-              <div className="w-full h-full rounded-full bg-brand-500/20 flex items-center justify-center text-brand-500 font-extrabold text-xl">
-                {member.name.substring(0, 2).toUpperCase()}
-              </div>
+            <div className="w-28 h-28 mx-auto rounded-full overflow-hidden border-2 border-brand-500/40 p-1 bg-[#131A29] shrink-0">
+              {member.image ? (
+                <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full" />
+              ) : (
+                <div className="w-full h-full rounded-full bg-brand-500/20 flex items-center justify-center text-brand-500 font-extrabold text-xl">
+                  {member.name.substring(0, 2).toUpperCase()}
+                </div>
+              )}
             </div>
 
             <div className="space-y-1">
