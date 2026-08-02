@@ -81,10 +81,10 @@ export default function HomePage() {
   ];
 
   const portfolioSamples = [
-    { title: 'Android App Suite', category: 'App Development', image: '/assets/img/android.png', link: '/portfolio' },
-    { title: 'Modern E-Commerce Portal', category: 'Web Development', image: '/assets/img/pweb.png', link: '/portfolio' },
-    { title: 'Enterprise ERP System', category: 'Software Development', image: '/assets/img/soft.png', link: '/portfolio' },
-    { title: 'Organic SEO & Growth', category: 'SEO Services', image: '/assets/img/g-seo.png', link: '/portfolio' }
+    { title: 'Shop-Orbit 🛍️', category: 'Flutter E-Commerce', image: '/assets/img/android.png', link: 'https://github.com/Vnjvibhash/Shop-Orbit' },
+    { title: 'BuddyExpense 💰', category: 'Finance & Splitter', image: '/assets/img/soft.png', link: 'https://github.com/Vnjvibhash/BuddyExpense' },
+    { title: 'SoulScripter ✍️', category: 'React Writing App', image: '/assets/img/pweb.png', link: 'https://github.com/Vnjvibhash/SoulScripter' },
+    { title: 'iDVault OCR 🛡️', category: 'Identity & Security', image: '/assets/img/g-seo.png', link: 'https://github.com/Vnjvibhash/iDVault' }
   ];
 
   return (
@@ -346,10 +346,17 @@ export default function HomePage() {
               <div className="p-4 space-y-2 bg-[color:var(--card-bg)]">
                 <span className="text-[10px] uppercase font-bold text-brand-500 tracking-wider">{p.category}</span>
                 <h3 className="text-sm font-bold text-[color:var(--text-primary)] group-hover:text-brand-500 transition-colors">{p.title}</h3>
-                <Link href={p.link} className="inline-flex items-center space-x-1 text-xs text-[color:var(--card-muted-text)] group-hover:text-[color:var(--text-primary)] pt-1">
-                  <span>View Details</span>
-                  <ChevronRight size={12} />
-                </Link>
+                {p.link.startsWith('http') ? (
+                  <a href={p.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center space-x-1 text-xs text-[color:var(--card-muted-text)] group-hover:text-[color:var(--text-primary)] pt-1">
+                    <span>View Repository</span>
+                    <ChevronRight size={12} />
+                  </a>
+                ) : (
+                  <Link href={p.link} className="inline-flex items-center space-x-1 text-xs text-[color:var(--card-muted-text)] group-hover:text-[color:var(--text-primary)] pt-1">
+                    <span>View Details</span>
+                    <ChevronRight size={12} />
+                  </Link>
+                )}
               </div>
             </div>
           ))}

@@ -1,5 +1,23 @@
 import Link from 'next/link';
-import { GraduationCap, Briefcase, University, Laptop, Calendar, MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
+import { 
+  GraduationCap, 
+  Briefcase, 
+  University, 
+  Laptop, 
+  Calendar, 
+  MapPin, 
+  CheckCircle2, 
+  ArrowRight,
+  Github,
+  ExternalLink,
+  ShoppingBag,
+  Wallet,
+  Pill,
+  PenTool,
+  ShieldCheck,
+  Car,
+  Sparkles
+} from 'lucide-react';
 
 export const metadata = {
   title: 'Portfolio & Journey | Innovateria',
@@ -67,8 +85,59 @@ export default function PortfolioPage() {
     }
   ];
 
+  const featuredProjects = [
+    {
+      title: 'Shop-Orbit 🛍️',
+      category: 'Mobile E-Commerce',
+      tech: ['Flutter', 'Firebase', 'Dart'],
+      desc: 'Modern cross-platform shopping platform with cart, wishlist, and payment integration.',
+      github: 'https://github.com/Vnjvibhash/Shop-Orbit',
+      icon: ShoppingBag
+    },
+    {
+      title: 'BuddyExpense 💰',
+      category: 'Finance & Expense Tracker',
+      tech: ['Flutter', 'Firebase', 'Dart'],
+      desc: 'Smart expense tracking app for friends and groups to split shared costs.',
+      github: 'https://github.com/Vnjvibhash/BuddyExpense',
+      icon: Wallet
+    },
+    {
+      title: 'MediMinder 💊',
+      category: 'Healthcare Companion',
+      tech: ['Flutter', 'Firebase', 'Notifications'],
+      desc: 'Health companion reminding users to take medicines with dosage logs.',
+      github: 'https://github.com/Vnjvibhash/MediMinder',
+      icon: Pill
+    },
+    {
+      title: 'SoulScripter ✍️',
+      category: 'Creative Writing Platform',
+      tech: ['React', 'Firebase', 'JavaScript'],
+      desc: 'Distraction-free literature platform for poets and storytellers.',
+      github: 'https://github.com/Vnjvibhash/SoulScripter',
+      icon: PenTool
+    },
+    {
+      title: 'iDVault – Aadhaar OCR 🛡️',
+      category: 'Identity Security',
+      tech: ['Flutter', 'Firebase', 'OCR'],
+      desc: 'Aadhaar document scanner and manager with OCR data extraction.',
+      github: 'https://github.com/Vnjvibhash/iDVault',
+      icon: ShieldCheck
+    },
+    {
+      title: 'Rangi Cabs 🚕',
+      category: 'Cab Booking Web System',
+      tech: ['HTML5', 'Bootstrap', 'jQuery'],
+      desc: 'Responsive travel booking system with interactive location forms.',
+      github: 'https://github.com/Vnjvibhash/RangiCabs',
+      icon: Car
+    }
+  ];
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10 sm:space-y-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12 sm:space-y-20">
       
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -147,6 +216,83 @@ export default function PortfolioPage() {
 
                 {/* Empty spacer for grid alignment */}
                 <div className="hidden md:block w-1/2"></div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Featured Projects Grid Showcase */}
+      <div className="pt-10 space-y-8 border-t border-white/10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+          <div>
+            <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
+              GitHub Repositories Showcase
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-2">
+              Featured Software Projects
+            </h2>
+          </div>
+
+          <a 
+            href="https://github.com/Vnjvibhash/3D-Portfolio" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="inline-flex items-center space-x-2 bg-gradient-brand text-white px-5 py-2.5 rounded-full text-xs font-semibold shadow-lg hover:shadow-brand-500/30 transition-all"
+          >
+            <Sparkles size={14} />
+            <span>Explore 3D Portfolio Repo</span>
+            <ExternalLink size={12} />
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProjects.map((p, idx) => {
+            const Icon = p.icon;
+            return (
+              <div 
+                key={idx} 
+                className="glass-card glass-card-hover rounded-2xl p-5 border border-white/10 flex flex-col justify-between space-y-4 group"
+              >
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                      <Icon size={20} />
+                    </div>
+                    <span className="text-[10px] font-semibold text-brand-400 uppercase tracking-wider">
+                      {p.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-white group-hover:text-brand-500 transition-colors">
+                    {p.title}
+                  </h3>
+
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    {p.desc}
+                  </p>
+                </div>
+
+                <div className="space-y-3 pt-3 border-t border-white/10">
+                  <div className="flex flex-wrap gap-1.5">
+                    {p.tech.map((t, i) => (
+                      <span key={i} className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-300">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <a 
+                    href={p.github} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-brand-500 hover:text-white transition-colors pt-1"
+                  >
+                    <Github size={14} />
+                    <span>View Repository on GitHub</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </div>
               </div>
             );
           })}
