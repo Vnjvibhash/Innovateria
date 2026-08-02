@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Target, Eye, CheckCircle2, ArrowRight } from 'lucide-react';
+import { getCompanyValuesCMS } from '@/lib/crm-store';
+import { Target, Eye, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 
 export const metadata = {
   title: 'About Innovateria | Digital Agency in India',
@@ -13,8 +14,10 @@ export const metadata = {
 };
 
 export default function AboutPage() {
+  const companyValues = getCompanyValuesCMS();
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
       
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -57,13 +60,35 @@ export default function AboutPage() {
         </div>
 
         <div className="relative flex justify-center">
-          <div className="glass-card rounded-3xl p-6 border border-white/10">
+          <div className="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
             <img 
-              src="/assets/img/hero-img.png" 
-              alt="About Innovateria" 
-              className="w-full h-auto object-contain rounded-2xl"
+              src="/assets/img/soft.png" 
+              alt="Innovateria Software Architecture" 
+              className="max-h-64 w-auto object-contain mx-auto"
             />
           </div>
+        </div>
+      </div>
+
+      {/* Core Values Dynamic Grid */}
+      <div className="space-y-8 pt-6">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
+            Our Principles
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Agency Core Values</h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {companyValues.map((val, idx) => (
+            <div key={idx} className="glass-card glass-card-hover rounded-2xl p-6 border border-white/10 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500">
+                <Sparkles size={20} />
+              </div>
+              <h3 className="text-lg font-bold text-white">{val.title}</h3>
+              <p className="text-xs text-gray-300 leading-relaxed">{val.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -75,7 +100,7 @@ export default function AboutPage() {
           </div>
           <h3 className="text-xl font-bold text-white">Our Mission</h3>
           <p className="text-xs text-gray-300 leading-relaxed">
-            To empower organizations worldwide through innovative software engineering, intuitive user experiences, and measurable digital growth strategies.
+            To empower organizations with transformative software products, mobile applications, and digital marketing strategies that increase operating efficiency and drive market leadership.
           </p>
         </div>
 

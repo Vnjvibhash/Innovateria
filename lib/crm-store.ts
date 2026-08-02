@@ -96,6 +96,41 @@ export interface PortfolioItemCMS {
   desc: string;
 }
 
+export interface TimelineCMS {
+  id: string;
+  period: string;
+  title: string;
+  company?: string;
+  institution?: string;
+  location: string;
+  type: 'education' | 'experience';
+  iconName: string;
+  details: string[];
+}
+
+export interface HeroStatCMS {
+  label: string;
+  value: string;
+  desc: string;
+}
+
+export interface TechStackCMS {
+  name: string;
+  category: string;
+  image: string;
+}
+
+export interface CoreValueCMS {
+  title: string;
+  desc: string;
+}
+
+export interface ProcessStepCMS {
+  step: string;
+  title: string;
+  desc: string;
+}
+
 export interface AgencySettingsCMS {
   agencyName: string;
   adminEmail: string;
@@ -121,12 +156,16 @@ export interface CMSJSONDatabase {
   faqs: FAQItemCMS[];
   leads: Lead[];
   clients: Client[];
+  timeline: TimelineCMS[];
+  heroStats: HeroStatCMS[];
+  techStack: TechStackCMS[];
+  values: CoreValueCMS[];
+  processSteps: ProcessStepCMS[];
   settings: AgencySettingsCMS;
 }
 
 const JSON_FILE_PATH = path.join(process.cwd(), 'data', 'cms-data.json');
 
-// Helper to load JSON file from disk safely
 function loadJSONData(): CMSJSONDatabase {
   try {
     if (fs.existsSync(JSON_FILE_PATH)) {
@@ -141,6 +180,11 @@ function loadJSONData(): CMSJSONDatabase {
         faqs: Array.isArray(parsed.faqs) ? parsed.faqs : [],
         leads: Array.isArray(parsed.leads) ? parsed.leads : [],
         clients: Array.isArray(parsed.clients) ? parsed.clients : [],
+        timeline: Array.isArray(parsed.timeline) ? parsed.timeline : [],
+        heroStats: Array.isArray(parsed.heroStats) ? parsed.heroStats : [],
+        techStack: Array.isArray(parsed.techStack) ? parsed.techStack : [],
+        values: Array.isArray(parsed.values) ? parsed.values : [],
+        processSteps: Array.isArray(parsed.processSteps) ? parsed.processSteps : [],
         settings: parsed.settings || {
           agencyName: 'Innovateria Software Solutions',
           adminEmail: 'admin@innovateria.in',
@@ -162,7 +206,6 @@ function loadJSONData(): CMSJSONDatabase {
     console.error('Error reading data/cms-data.json:', err);
   }
 
-  // Fallback initial data
   return {
     services: [],
     team: [],
@@ -172,6 +215,11 @@ function loadJSONData(): CMSJSONDatabase {
     faqs: [],
     leads: [],
     clients: [],
+    timeline: [],
+    heroStats: [],
+    techStack: [],
+    values: [],
+    processSteps: [],
     settings: {
       agencyName: 'Innovateria Software Solutions',
       adminEmail: 'admin@innovateria.in',
@@ -190,7 +238,6 @@ function loadJSONData(): CMSJSONDatabase {
   };
 }
 
-// Helper to write JSON file to disk
 function saveJSONData(data: CMSJSONDatabase) {
   try {
     const dir = path.dirname(JSON_FILE_PATH);
@@ -203,7 +250,6 @@ function saveJSONData(data: CMSJSONDatabase) {
   }
 }
 
-// Global Memory Cache synchronized with JSON file
 declare global {
   var _crmStore: (CMSJSONDatabase & { adminPasscode: string }) | undefined;
 }
@@ -220,6 +266,11 @@ if (!global._crmStore) {
     faqs: Array.isArray(diskData.faqs) ? diskData.faqs : [],
     leads: Array.isArray(diskData.leads) ? diskData.leads : [],
     clients: Array.isArray(diskData.clients) ? diskData.clients : [],
+    timeline: Array.isArray(diskData.timeline) ? diskData.timeline : [],
+    heroStats: Array.isArray(diskData.heroStats) ? diskData.heroStats : [],
+    techStack: Array.isArray(diskData.techStack) ? diskData.techStack : [],
+    values: Array.isArray(diskData.values) ? diskData.values : [],
+    processSteps: Array.isArray(diskData.processSteps) ? diskData.processSteps : [],
     adminPasscode: diskData.settings?.passcode || '123456'
   };
 }
@@ -236,15 +287,32 @@ function persistState() {
     faqs: crmStore.faqs || [],
     leads: crmStore.leads || [],
     clients: crmStore.clients || [],
+    timeline: crmStore.timeline || [],
+    heroStats: crmStore.heroStats || [],
+    techStack: crmStore.techStack || [],
+    values: crmStore.values || [],
+    processSteps: crmStore.processSteps || [],
     settings: crmStore.settings
   });
 }
 
-// Leads CRUD
-export function getLeads(): Lead[] {
-  return Array.isArray(crmStore.leads) ? crmStore.leads : [];
-}
+// Getters
+export function getLeads(): Lead[] { return Array.isArray(crmStore.leads) ? crmStore.leads : []; }
+export function getProjects(): ProjectCRM[] { return Array.isArray(crmStore.projects) ? crmStore.projects : []; }
+export function getClients(): Client[] { return Array.isArray(crmStore.clients) ? crmStore.clients : []; }
+export function getServicesCMS(): ServiceCMS[] { return Array.isArray(crmStore.services) ? crmStore.services : []; }
+export function getTeamCMS(): TeamMemberCMS[] { return Array.isArray(crmStore.team) ? crmStore.team : []; }
+export function getFAQsCMS(): FAQItemCMS[] { return Array.isArray(crmStore.faqs) ? crmStore.faqs : []; }
+export function getFeaturesCMS(): FeatureCMS[] { return Array.isArray(crmStore.features) ? crmStore.features : []; }
+export function getPortfolioCMS(): PortfolioItemCMS[] { return Array.isArray(crmStore.portfolio) ? crmStore.portfolio : []; }
+export function getTimelineCMS(): TimelineCMS[] { return Array.isArray(crmStore.timeline) ? crmStore.timeline : []; }
+export function getHeroStatsCMS(): HeroStatCMS[] { return Array.isArray(crmStore.heroStats) ? crmStore.heroStats : []; }
+export function getTechStackCMS(): TechStackCMS[] { return Array.isArray(crmStore.techStack) ? crmStore.techStack : []; }
+export function getCompanyValuesCMS(): CoreValueCMS[] { return Array.isArray(crmStore.values) ? crmStore.values : []; }
+export function getProcessStepsCMS(): ProcessStepCMS[] { return Array.isArray(crmStore.processSteps) ? crmStore.processSteps : []; }
+export function getSettingsCMS(): AgencySettingsCMS { return crmStore.settings; }
 
+// Mutators
 export function addLead(data: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'status'> & { status?: Lead['status'] }): Lead {
   if (!Array.isArray(crmStore.leads)) crmStore.leads = [];
   const newLead: Lead = {
@@ -282,11 +350,6 @@ export function deleteLead(id: string): boolean {
   return crmStore.leads.length < len;
 }
 
-// Projects CRUD
-export function getProjects(): ProjectCRM[] {
-  return Array.isArray(crmStore.projects) ? crmStore.projects : [];
-}
-
 export function addProject(project: Omit<ProjectCRM, 'id'>): ProjectCRM {
   if (!Array.isArray(crmStore.projects)) crmStore.projects = [];
   const newProj: ProjectCRM = { ...project, id: `proj-${Date.now()}` };
@@ -312,22 +375,12 @@ export function deleteProject(id: string): boolean {
   return crmStore.projects.length < len;
 }
 
-// Clients CRUD
-export function getClients(): Client[] {
-  return Array.isArray(crmStore.clients) ? crmStore.clients : [];
-}
-
 export function addClient(client: Omit<Client, 'id' | 'createdAt'>): Client {
   if (!Array.isArray(crmStore.clients)) crmStore.clients = [];
   const newClient: Client = { ...client, id: `client-${Date.now()}`, createdAt: new Date().toISOString().split('T')[0] };
   crmStore.clients.unshift(newClient);
   persistState();
   return newClient;
-}
-
-// Services CMS CRUD
-export function getServicesCMS(): ServiceCMS[] {
-  return Array.isArray(crmStore.services) ? crmStore.services : [];
 }
 
 export function addServiceCMS(service: Omit<ServiceCMS, 'id'>): ServiceCMS {
@@ -355,11 +408,6 @@ export function deleteServiceCMS(id: string): boolean {
   return crmStore.services.length < len;
 }
 
-// Team CMS CRUD
-export function getTeamCMS(): TeamMemberCMS[] {
-  return Array.isArray(crmStore.team) ? crmStore.team : [];
-}
-
 export function addTeamMemberCMS(member: Omit<TeamMemberCMS, 'id'>): TeamMemberCMS {
   if (!Array.isArray(crmStore.team)) crmStore.team = [];
   const newMember: TeamMemberCMS = { ...member, id: `team-${Date.now()}` };
@@ -383,11 +431,6 @@ export function deleteTeamMemberCMS(id: string): boolean {
   crmStore.team = crmStore.team.filter(t => t.id !== id);
   persistState();
   return crmStore.team.length < len;
-}
-
-// FAQs CMS CRUD
-export function getFAQsCMS(): FAQItemCMS[] {
-  return Array.isArray(crmStore.faqs) ? crmStore.faqs : [];
 }
 
 export function addFAQCMS(faq: Omit<FAQItemCMS, 'id'>): FAQItemCMS {
@@ -415,11 +458,6 @@ export function deleteFAQCMS(id: string): boolean {
   return crmStore.faqs.length < len;
 }
 
-// Features CMS CRUD
-export function getFeaturesCMS(): FeatureCMS[] {
-  return Array.isArray(crmStore.features) ? crmStore.features : [];
-}
-
 export function addFeatureCMS(feature: Omit<FeatureCMS, 'id'>): FeatureCMS {
   if (!Array.isArray(crmStore.features)) crmStore.features = [];
   const newFeat: FeatureCMS = { ...feature, id: `feat-${Date.now()}` };
@@ -443,11 +481,6 @@ export function deleteFeatureCMS(id: string): boolean {
   crmStore.features = crmStore.features.filter(f => f.id !== id);
   persistState();
   return crmStore.features.length < len;
-}
-
-// Portfolio CMS CRUD
-export function getPortfolioCMS(): PortfolioItemCMS[] {
-  return Array.isArray(crmStore.portfolio) ? crmStore.portfolio : [];
 }
 
 export function addPortfolioCMS(item: Omit<PortfolioItemCMS, 'id'>): PortfolioItemCMS {
@@ -475,11 +508,6 @@ export function deletePortfolioCMS(id: string): boolean {
   return crmStore.portfolio.length < len;
 }
 
-// Settings CRUD
-export function getSettingsCMS(): AgencySettingsCMS {
-  return crmStore.settings;
-}
-
 export function updateSettingsCMS(updates: Partial<AgencySettingsCMS>): AgencySettingsCMS {
   crmStore.settings = { ...crmStore.settings, ...updates };
   if (updates.passcode) crmStore.adminPasscode = updates.passcode;
@@ -487,7 +515,6 @@ export function updateSettingsCMS(updates: Partial<AgencySettingsCMS>): AgencySe
   return crmStore.settings;
 }
 
-// Dashboard Stats
 export function getCRMStats() {
   const leads = getLeads();
   const projects = getProjects();
