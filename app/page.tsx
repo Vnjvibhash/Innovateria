@@ -199,9 +199,12 @@ export default function HomePage() {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Technologies We Excel In</h2>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9 gap-4">
           {techStack.map((t, idx) => (
-            <div key={idx} className="glass-card glass-card-hover p-4 rounded-2xl border border-white/10 text-center space-y-2 group">
+            <div key={idx} className="glass-card glass-card-hover p-4 rounded-2xl border border-white/10 text-center space-y-2.5 group flex flex-col items-center justify-center">
+              <div className="w-10 h-10 flex items-center justify-center">
+                <img src={t.image} alt={t.name} className="max-h-10 max-w-10 w-auto object-contain drop-shadow-lg" style={{ background: 'transparent' }} />
+              </div>
               <span className="text-xs font-bold text-white group-hover:text-brand-500 transition-colors block">{t.name}</span>
               <span className="text-[10px] text-gray-400 block">{t.category}</span>
             </div>
