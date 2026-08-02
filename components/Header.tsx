@@ -4,63 +4,16 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  type LucideIcon,
-  Phone, 
-  Mail, 
-  ChevronDown, 
-  Menu, 
-  X, 
-  Globe, 
-  Smartphone, 
-  Code2, 
-  Globe2, 
-  Palette, 
-  Search, 
-  TrendingUp, 
-  Users, 
-  Briefcase, 
-  FolderKanban, 
-  Sparkles, 
-  HelpCircle, 
-  Info, 
-  Moon, 
-  Sun
+  Phone,
+  Mail,
+  ChevronDown,
+  Menu,
+  X,
+  Globe,
+  Moon,
+  Sun,
 } from 'lucide-react';
-
-type NavLinkItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-};
-
-type DropdownGroup = {
-  key: string;
-  label: string;
-  links: NavLinkItem[];
-  isActive: boolean;
-  widthClass: string;
-};
-
-const whoWeAreLinks: NavLinkItem[] = [
-  { href: '/about', label: 'About Us', icon: Info },
-  { href: '/team', label: 'Our Team', icon: Users },
-  { href: '/projects', label: 'Our Projects', icon: FolderKanban },
-  { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
-  { href: '/feature', label: 'Features', icon: Sparkles },
-  { href: '/faq', label: 'FAQs', icon: HelpCircle },
-];
-
-const servicesLinks: NavLinkItem[] = [
-  { href: '/mobile', label: 'App Development', icon: Smartphone },
-  { href: '/software', label: 'Software Development', icon: Code2 },
-  { href: '/web', label: 'Web Development', icon: Globe2 },
-  { href: '/logo', label: 'Logo Designing', icon: Palette },
-];
-
-const marketingLinks: NavLinkItem[] = [
-  { href: '/seo-services', label: 'SEO Services', icon: Search },
-  { href: '/digital-marketing', label: 'Digital Marketing', icon: TrendingUp },
-];
+import { dropdownGroups, type NavLinkItem } from '@/components/navigationData';
 
 export default function Header() {
   const pathname = usePathname();
@@ -147,12 +100,6 @@ export default function Header() {
       </Link>
     ));
 
-  const dropdownGroups: DropdownGroup[] = [
-    { key: 'who', label: 'Who We Are?', links: whoWeAreLinks, isActive: isWhoActive, widthClass: 'w-56' },
-    { key: 'services', label: 'Services', links: servicesLinks, isActive: isServicesActive, widthClass: 'w-60' },
-    { key: 'marketing', label: 'Our Marketing', links: marketingLinks, isActive: isMarketingActive, widthClass: 'w-56' },
-  ];
-
   return (
     <header
       style={{ backgroundColor: 'var(--header-bg)' }}
@@ -213,26 +160,30 @@ export default function Header() {
             Home
           </Link>
 
-          {dropdownGroups.map(({ key, label, links, isActive: groupActive, widthClass }) => (
-            <div
-              key={key}
-              className="relative group/menu"
-              onMouseEnter={() => openDropdown(key)}
-              onMouseLeave={() => scheduleDropdownClose()}
-            >
-              <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${groupActive ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
-                <span>{label}</span>
-                <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === key ? 'rotate-180' : ''}`} />
-              </button>
+          {dropdownGroups.map(({ key, label, links, activePaths, widthClass }) => {
+            const groupActive = isInDropdown(activePaths);
+
+            return (
               <div
+                key={key}
+                className="relative group/menu"
                 onMouseEnter={() => openDropdown(key)}
                 onMouseLeave={() => scheduleDropdownClose()}
-                className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 ${widthClass} ${hoveredDropdown === key ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
               >
-                {renderDropdownLinks(links)}
+                <button className={`flex items-center space-x-1 py-2 transition-colors hover:text-brand-500 ${groupActive ? 'text-brand-500 font-semibold' : 'text-[color:var(--text-secondary)]'}`}>
+                  <span>{label}</span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${hoveredDropdown === key ? 'rotate-180' : ''}`} />
+                </button>
+                <div
+                  onMouseEnter={() => openDropdown(key)}
+                  onMouseLeave={() => scheduleDropdownClose()}
+                  className={`absolute left-0 top-full mt-2 rounded-xl border border-[color:var(--border-color)] bg-[color:var(--card-bg)] p-2 transition-all duration-200 shadow-2xl shadow-[color:var(--shadow-color)] z-50 ${widthClass} ${hoveredDropdown === key ? 'opacity-100 visible translate-y-0 pointer-events-auto' : 'opacity-0 invisible translate-y-2 pointer-events-none'}`}
+                >
+                  {renderDropdownLinks(links)}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           <Link 
             href="/contact" 
