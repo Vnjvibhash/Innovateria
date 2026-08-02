@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { Target, Eye, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'About Us | Innovateria',
-  description: 'Learn about Innovateria, our vision, team, and commitment to innovation in mobile, software, web, and digital marketing.',
+  title: 'About Innovateria | Digital Agency in India',
+  description: 'Learn how Innovateria builds high-impact Android apps, enterprise software, modern websites, SEO strategies, and digital marketing solutions.',
+  alternates: { canonical: 'https://innovateria.in/about' },
+  openGraph: {
+    title: 'About Innovateria | Digital Agency in India',
+    description: 'Discover Innovateria’s mission, values, and expertise in app development, software engineering, web design, and growth marketing.',
+    url: 'https://innovateria.in/about',
+  },
 };
 
 export default function AboutPage() {

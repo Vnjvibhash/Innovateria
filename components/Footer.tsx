@@ -3,7 +3,7 @@ import { Phone, Mail, MessageCircle, Twitter, Facebook, Instagram, Linkedin, Glo
 
 export default function Footer() {
   return (
-    <footer className="bg-[#070A11] border-t border-white/10 text-gray-400 pt-16 pb-8 relative overflow-hidden">
+    <footer style={{ backgroundColor: 'var(--footer-bg)' }} className="border-t border-[color:var(--border-color)] text-gray-400 pt-16 pb-8 relative overflow-hidden">
       {/* Glow highlight */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-70"></div>
 
@@ -33,7 +33,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail size={14} className="text-brand-500 shrink-0" />
-                <span>info@innovateria.in</span>
+                <span>innovateria.in@gmail.com</span>
               </div>
             </div>
 

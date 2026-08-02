@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'App Development Services | Innovateria',
-  description: 'Native Android and cross-platform mobile app development solutions engineered by Innovateria.',
+  title: 'Android App Development Services | Innovateria',
+  description: 'Innovateria builds native Android and cross-platform mobile apps with secure architecture, smooth UI, and business-focused features.',
+  alternates: { canonical: 'https://innovateria.in/mobile' },
+  openGraph: {
+    title: 'Android App Development Services | Innovateria',
+    description: 'Build high-performance mobile apps with Innovateria’s Android and cross-platform development services.',
+    url: 'https://innovateria.in/mobile',
+  },
 };
 
 export default function MobilePage() {

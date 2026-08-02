@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'SEO Services | Innovateria',
-  description: 'Technical SEO, keyword ranking, and organic traffic growth solutions by Innovateria.',
+  title: 'SEO Services India | Innovateria',
+  description: 'Innovateria offers technical SEO, keyword strategy, on-page optimization, and content growth services to improve rankings.',
+  alternates: { canonical: 'https://innovateria.in/seo-services' },
+  openGraph: {
+    title: 'SEO Services India | Innovateria',
+    description: 'Improve search rankings and organic traffic with Innovateria’s data-driven SEO services.',
+    url: 'https://innovateria.in/seo-services',
+  },
 };
 
 export default function SeoServicesPage() {

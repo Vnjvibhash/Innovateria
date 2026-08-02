@@ -88,7 +88,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="space-y-24 pb-16">
+    <div className="space-y-16 sm:space-y-20 lg:space-y-24 pb-12 sm:pb-16">
       
       {/* ======= HERO SECTION ======= */}
       <section className="relative pb-16 sm:pb-24 overflow-hidden bg-grid-pattern">
@@ -105,7 +105,7 @@ export default function HomePage() {
                 <span className="truncate">Always Innovation Is Key To Stay Relevant</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05]">
                 Transforming Ideas Into <span className="text-gradient-brand">Digital Solutions</span>
               </h1>
 
@@ -113,7 +113,7 @@ export default function HomePage() {
                 Innovateria provides high-performance Android App Development, Enterprise Software Engineering, Custom Web Systems, and Strategic Digital Marketing to scale your business.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
                 <Link
                   href="/contact"
                   className="group w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-gradient-brand text-white px-7 sm:px-8 py-3.5 rounded-full font-semibold text-xs sm:text-sm shadow-xl shadow-brand-500/25 hover:shadow-brand-500/40 transition-all transform hover:-translate-y-0.5"
@@ -130,7 +130,7 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              <div className="pt-6 border-t border-white/10 flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 text-xs text-gray-400">
+              <div className="pt-6 border-t border-white/10 flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-6 text-[11px] sm:text-xs text-gray-400">
                 <div className="flex items-center space-x-2">
                   <CheckCircle2 size={16} className="text-brand-500 shrink-0" />
                   <span>On-Time Delivery</span>
@@ -164,7 +164,7 @@ export default function HomePage() {
 
       {/* ======= METRICS BANNER ======= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-        <div className="glass-card rounded-[2rem] p-4 sm:p-8 border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center shadow-2xl shadow-brand-500/10">
+        <div className="glass-card rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-8 border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-8 text-center shadow-2xl shadow-brand-500/10">
           {metrics.map((m, idx) => {
             const Icon = m.icon;
             return (
@@ -322,10 +322,10 @@ export default function HomePage() {
 
       {/* ======= PORTFOLIO SHOWCASE ======= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-white/10 pb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-[color:var(--border-color)] pb-6">
           <div>
             <span className="text-xs font-bold text-brand-500 uppercase tracking-widest">Our Work</span>
-            <h2 className="text-3xl font-bold text-white tracking-tight mt-1">Featured Projects</h2>
+            <h2 className="text-3xl font-bold text-[color:var(--text-primary)] tracking-tight mt-1">Featured Projects</h2>
           </div>
           <Link href="/portfolio" className="inline-flex items-center space-x-2 text-xs font-semibold text-brand-500 hover:underline">
             <span>View Full Portfolio</span>
@@ -335,18 +335,18 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {portfolioSamples.map((p, idx) => (
-            <div key={idx} className="glass-card glass-card-hover rounded-[1.5rem] overflow-hidden border border-white/10 group flex flex-col justify-between">
-              <div className="relative h-48 bg-[#131A29] p-4 flex items-center justify-center overflow-hidden">
+            <div key={idx} className="glass-card glass-card-hover rounded-[1.5rem] overflow-hidden border border-[color:var(--border-color)] group flex flex-col justify-between" style={{ backgroundColor: 'var(--card-bg)', boxShadow: '0 12px 30px 0 var(--shadow-color)' }}>
+              <div className="relative h-48 bg-[color:var(--card-inner-bg)] p-4 flex items-center justify-center overflow-hidden">
                 <img 
                   src={p.image} 
                   alt={p.title} 
                   className="max-h-36 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="p-4 space-y-2 bg-[#0E1422]">
+              <div className="p-4 space-y-2 bg-[color:var(--card-bg)]">
                 <span className="text-[10px] uppercase font-bold text-brand-500 tracking-wider">{p.category}</span>
-                <h3 className="text-sm font-bold text-white group-hover:text-brand-500 transition-colors">{p.title}</h3>
-                <Link href={p.link} className="inline-flex items-center space-x-1 text-xs text-gray-400 group-hover:text-white pt-1">
+                <h3 className="text-sm font-bold text-[color:var(--text-primary)] group-hover:text-brand-500 transition-colors">{p.title}</h3>
+                <Link href={p.link} className="inline-flex items-center space-x-1 text-xs text-[color:var(--card-muted-text)] group-hover:text-[color:var(--text-primary)] pt-1">
                   <span>View Details</span>
                   <ChevronRight size={12} />
                 </Link>
@@ -388,7 +388,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-white">Instant Email Consultation</h4>
-                  <p className="text-xs text-gray-400">info@innovateria.in</p>
+                  <p className="text-xs text-gray-400">innovateria.in@gmail.com</p>
                 </div>
               </div>
             </div>

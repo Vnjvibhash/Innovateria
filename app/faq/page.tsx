@@ -11,7 +11,7 @@ export default function FaqPage() {
   const faqs = [
     {
       q: 'How can I buy or order software solutions from Innovateria?',
-      a: 'You can request software development by filling out our Contact Form or emailing info@innovateria.in with your project requirements. Our technical team will respond within 24 hours with a detailed scope of work and quotation. Payment can be processed via direct bank wire transfer, online card payments, or UPI.'
+      a: 'You can request software development by filling out our Contact Form or emailing innovateria.in@gmail.com with your project requirements. Our technical team will respond within 24 hours with a detailed scope of work and quotation. Payment can be processed via direct bank wire transfer, online card payments, or UPI.'
     },
     {
       q: 'Can I try a live demo before placing an order?',

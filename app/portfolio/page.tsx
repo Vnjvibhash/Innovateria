@@ -68,14 +68,14 @@ export default function PortfolioPage() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10 sm:space-y-16">
       
       {/* Header Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <span className="text-xs font-bold text-brand-500 uppercase tracking-widest bg-brand-500/10 px-3.5 py-1.5 rounded-full border border-brand-500/20">
           Career & Technology Track
         </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
           Education & <span className="text-gradient-brand">Career Journey</span>
         </h1>
         <p className="text-sm text-gray-300 leading-relaxed">

@@ -42,7 +42,7 @@ export default function RefundPolicyPage() {
 
         <h3 className="text-sm font-bold text-white pt-2">Resolution Process</h3>
         <p>
-          If you encounter any technical issues, discrepancies, or scope questions during development, please reach out to our team at info@innovateria.in or +91 77629 74716 so we can address your concerns immediately.
+          If you encounter any technical issues, discrepancies, or scope questions during development, please reach out to our team at innovateria.in@gmail.com or +91 77629 74716 so we can address your concerns immediately.
         </p>
       </div>
     </div>

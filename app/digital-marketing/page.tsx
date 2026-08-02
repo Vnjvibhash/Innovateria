@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { TrendingUp, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Digital Marketing Services | Innovateria',
-  description: 'Targeted PPC, social media growth, lead generation, and digital marketing strategies by Innovateria.',
+  title: 'Digital Marketing Agency | Innovateria',
+  description: 'Innovateria provides PPC, social media, lead generation, and performance marketing services to grow your brand online.',
+  alternates: { canonical: 'https://innovateria.in/digital-marketing' },
+  openGraph: {
+    title: 'Digital Marketing Agency | Innovateria',
+    description: 'Drive growth with Innovateria’s strategic digital marketing campaigns and analytics-driven results.',
+    url: 'https://innovateria.in/digital-marketing',
+  },
 };
 
 export default function DigitalMarketingPage() {

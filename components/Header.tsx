@@ -22,7 +22,9 @@ import {
   FolderKanban, 
   Sparkles, 
   HelpCircle, 
-  Info 
+  Info, 
+  Moon, 
+  Sun
 } from 'lucide-react';
 
 export default function Header() {
@@ -30,6 +32,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,23 +42,43 @@ export default function Header() {
         setIsScrolled(false);
       }
     };
+
+    const savedTheme = window.localStorage.getItem('innovateria-theme') as 'dark' | 'light' | null;
+    const preferredTheme = savedTheme ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(preferredTheme);
+    document.documentElement.setAttribute('data-theme', preferredTheme);
+    document.documentElement.style.colorScheme = preferredTheme;
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem('innovateria-theme', theme);
+  }, [theme]);
 
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name);
   };
 
+  const toggleTheme = () => {
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  };
+
   const isActive = (path: string) => pathname === path;
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-[#0B0F17]/95 backdrop-blur-md border-b border-white/10 shadow-2xl py-2' : 'bg-[#0B0F17]/80 backdrop-blur-sm border-b border-white/5 py-3'
-    }`}>
+    <header
+      style={{ backgroundColor: 'var(--header-bg)' }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'backdrop-blur-md border-b border-[color:var(--border-color)] shadow-2xl py-2' : 'backdrop-blur-sm border-b border-[color:var(--border-color)] py-3'
+      }`}
+    >
       {/* Top Info Bar */}
       <div className={`hidden md:block transition-all duration-300 overflow-hidden ${
-        isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-b-0 pointer-events-none' : 'max-h-12 opacity-100 pb-2 mb-2 border-b border-white/10'
+        isScrolled ? 'max-h-0 opacity-0 pb-0 mb-0 border-b-0 pointer-events-none' : 'max-h-12 opacity-100 pb-2 mb-2 border-b border-[color:var(--border-color)]'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xs text-gray-300">
           <div className="flex items-center space-x-6">
@@ -63,9 +86,9 @@ export default function Header() {
               <Phone size={14} className="text-brand-500" />
               <span>+91-7762974716</span>
             </a>
-            <a href="mailto:info@innovateria.in" className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
+            <a href="mailto:innovateria.in@gmail.com" className="flex items-center space-x-2 hover:text-brand-500 transition-colors">
               <Mail size={14} className="text-brand-500" />
-              <span>info@innovateria.in</span>
+              <span>innovateria.in@gmail.com</span>
             </a>
           </div>
           <div className="flex items-center space-x-3">
@@ -193,7 +216,16 @@ export default function Header() {
         </nav>
 
         {/* CTA Button & Mobile Toggle */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <button
+            onClick={toggleTheme}
+            className="hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/10 text-gray-200 transition-colors hover:bg-white/20 hover:text-white"
+            aria-label="Toggle theme"
+            title="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
           <Link 
             href="/contact" 
             className="hidden sm:inline-flex items-center space-x-2 bg-gradient-brand text-white px-4 py-2 rounded-full text-xs font-semibold hover:shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5"
@@ -301,7 +333,7 @@ export default function Header() {
                 <Phone size={14} className="text-brand-500" />
                 <span>Call Us</span>
               </a>
-              <a href="mailto:info@innovateria.in" className="flex items-center space-x-1.5 hover:text-brand-500">
+              <a href="mailto:innovateria.in@gmail.com" className="flex items-center space-x-1.5 hover:text-brand-500">
                 <Mail size={14} className="text-brand-500" />
                 <span>Email Us</span>
               </a>

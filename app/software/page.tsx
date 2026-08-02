@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Enterprise Software Development | Innovateria',
-  description: 'Tailored enterprise software, ERP, CRM, and custom backend systems by Innovateria.',
+  title: 'Custom Software Development | Innovateria',
+  description: 'Innovateria creates tailored enterprise software, ERP, CRM, and backend systems for growing businesses.',
+  alternates: { canonical: 'https://innovateria.in/software' },
+  openGraph: {
+    title: 'Custom Software Development | Innovateria',
+    description: 'Modern enterprise software, automation, and business workflow systems built by Innovateria.',
+    url: 'https://innovateria.in/software',
+  },
 };
 
 export default function SoftwarePage() {

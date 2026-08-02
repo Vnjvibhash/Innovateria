@@ -2,8 +2,14 @@ import ContactForm from '@/components/ContactForm';
 import { Phone, Mail, MapPin, Clock, MessageCircle, Globe } from 'lucide-react';
 
 export const metadata = {
-  title: 'Contact Us | Innovateria',
-  description: 'Get in touch with Innovateria for software development, app engineering, web solutions, or digital marketing.',
+  title: 'Contact Innovateria | App, Web & SEO Experts',
+  description: 'Contact Innovateria for Android app development, custom software, web development, logo design, SEO, and digital marketing services.',
+  alternates: { canonical: 'https://innovateria.in/contact' },
+  openGraph: {
+    title: 'Contact Innovateria | App, Web & SEO Experts',
+    description: 'Get in touch with Innovateria for custom digital solutions and business growth support.',
+    url: 'https://innovateria.in/contact',
+  },
 };
 
 export default function ContactPage() {
@@ -52,13 +58,13 @@ export default function ContactPage() {
                 </div>
               </a>
 
-              <a href="mailto:info@innovateria.in" className="flex items-start space-x-4 text-gray-300 hover:text-brand-500 transition-colors">
+              <a href="mailto:innovateria.in@gmail.com" className="flex items-start space-x-4 text-gray-300 hover:text-brand-500 transition-colors">
                 <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-500 shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>
                   <strong className="block text-white font-semibold mb-0.5">Email Address</strong>
-                  <span>info@innovateria.in</span>
+                  <span>innovateria.in@gmail.com</span>
                 </div>
               </a>
 

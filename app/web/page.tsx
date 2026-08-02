@@ -2,8 +2,14 @@ import Link from 'next/link';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Web Development Services | Innovateria',
-  description: 'Next.js, React, Laravel, and modern web application development engineered by Innovateria.',
+  title: 'Web Development Company | Innovateria',
+  description: 'Innovateria builds modern Next.js, React, and Laravel websites and web apps with fast performance and SEO-ready architecture.',
+  alternates: { canonical: 'https://innovateria.in/web' },
+  openGraph: {
+    title: 'Web Development Company | Innovateria',
+    description: 'Launch responsive, modern, and SEO-friendly websites with Innovateria’s web development services.',
+    url: 'https://innovateria.in/web',
+  },
 };
 
 export default function WebPage() {

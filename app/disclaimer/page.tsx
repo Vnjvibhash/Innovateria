@@ -38,7 +38,7 @@ export default function DisclaimerPage() {
 
         <h3 className="text-sm font-bold text-white pt-2">Payment Security Advisory</h3>
         <p>
-          Payments for software development or technical consulting must only be made using the official bank details or secure online payment gateway links provided directly by authorized Innovateria representatives (+91 77629 74716 / info@innovateria.in).
+          Payments for software development or technical consulting must only be made using the official bank details or secure online payment gateway links provided directly by authorized Innovateria representatives (+91 77629 74716 / innovateria.in@gmail.com).
         </p>
       </div>
     </div>

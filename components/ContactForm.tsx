@@ -83,7 +83,7 @@ export default function ContactForm() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="e.g. John Doe"
-              className="w-full px-4 py-2.5 rounded-xl bg-[#0B0F17]/80 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-[color:var(--text-primary)] text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
             />
           </div>
 
@@ -95,7 +95,7 @@ export default function ContactForm() {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="e.g. john@example.com"
-              className="w-full px-4 py-2.5 rounded-xl bg-[#0B0F17]/80 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-[color:var(--text-primary)] text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
             />
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function ContactForm() {
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               placeholder="10-digit mobile number"
-              className="w-full px-4 py-2.5 rounded-xl bg-[#0B0F17]/80 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-[color:var(--text-primary)] text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
             />
           </div>
 
@@ -123,7 +123,7 @@ export default function ContactForm() {
               value={formData.subject}
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
               placeholder="e.g. App Development Inquiry"
-              className="w-full px-4 py-2.5 rounded-xl bg-[#0B0F17]/80 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-[color:var(--text-primary)] text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
             />
           </div>
         </div>
@@ -136,7 +136,7 @@ export default function ContactForm() {
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             placeholder="Tell us about your project or requirement..."
-            className="w-full px-4 py-2.5 rounded-xl bg-[#0B0F17]/80 border border-white/10 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors resize-none"
+            className="w-full px-4 py-2.5 rounded-xl bg-[color:var(--bg-secondary)] border border-[color:var(--border-color)] text-[color:var(--text-primary)] text-xs placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors resize-none"
           ></textarea>
         </div>
 
