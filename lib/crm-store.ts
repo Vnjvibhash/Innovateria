@@ -126,12 +126,37 @@ export interface CMSJSONDatabase {
 
 const JSON_FILE_PATH = path.join(process.cwd(), 'data', 'cms-data.json');
 
-// Helper to load JSON file from disk
+// Helper to load JSON file from disk safely
 function loadJSONData(): CMSJSONDatabase {
   try {
     if (fs.existsSync(JSON_FILE_PATH)) {
       const raw = fs.readFileSync(JSON_FILE_PATH, 'utf-8');
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      return {
+        services: Array.isArray(parsed.services) ? parsed.services : [],
+        team: Array.isArray(parsed.team) ? parsed.team : [],
+        projects: Array.isArray(parsed.projects) ? parsed.projects : [],
+        portfolio: Array.isArray(parsed.portfolio) ? parsed.portfolio : [],
+        features: Array.isArray(parsed.features) ? parsed.features : [],
+        faqs: Array.isArray(parsed.faqs) ? parsed.faqs : [],
+        leads: Array.isArray(parsed.leads) ? parsed.leads : [],
+        clients: Array.isArray(parsed.clients) ? parsed.clients : [],
+        settings: parsed.settings || {
+          agencyName: 'Innovateria Software Solutions',
+          adminEmail: 'admin@innovateria.in',
+          phone: '+91-7762974716',
+          address: 'Bangalore & Mysore, India',
+          passcode: '123456',
+          socials: {
+            github: 'https://github.com/VnjVibhash',
+            facebook: 'https://facebook.com/Vivekajee',
+            whatsapp: 'https://wa.me/917762974716',
+            twitter: 'https://twitter.com/Vnjvibhash',
+            linkedin: 'https://linkedin.com/in/Vivekajee',
+            instagram: 'https://instagram.com/Vivekajee'
+          }
+        }
+      };
     }
   } catch (err) {
     console.error('Error reading data/cms-data.json:', err);
@@ -187,7 +212,15 @@ if (!global._crmStore) {
   const diskData = loadJSONData();
   global._crmStore = {
     ...diskData,
-    adminPasscode: diskData.settings.passcode || '123456'
+    services: Array.isArray(diskData.services) ? diskData.services : [],
+    team: Array.isArray(diskData.team) ? diskData.team : [],
+    projects: Array.isArray(diskData.projects) ? diskData.projects : [],
+    portfolio: Array.isArray(diskData.portfolio) ? diskData.portfolio : [],
+    features: Array.isArray(diskData.features) ? diskData.features : [],
+    faqs: Array.isArray(diskData.faqs) ? diskData.faqs : [],
+    leads: Array.isArray(diskData.leads) ? diskData.leads : [],
+    clients: Array.isArray(diskData.clients) ? diskData.clients : [],
+    adminPasscode: diskData.settings?.passcode || '123456'
   };
 }
 
@@ -195,24 +228,25 @@ export const crmStore = global._crmStore;
 
 function persistState() {
   saveJSONData({
-    services: crmStore.services,
-    team: crmStore.team,
-    projects: crmStore.projects,
-    portfolio: crmStore.portfolio,
-    features: crmStore.features,
-    faqs: crmStore.faqs,
-    leads: crmStore.leads,
-    clients: crmStore.clients,
+    services: crmStore.services || [],
+    team: crmStore.team || [],
+    projects: crmStore.projects || [],
+    portfolio: crmStore.portfolio || [],
+    features: crmStore.features || [],
+    faqs: crmStore.faqs || [],
+    leads: crmStore.leads || [],
+    clients: crmStore.clients || [],
     settings: crmStore.settings
   });
 }
 
 // Leads CRUD
 export function getLeads(): Lead[] {
-  return crmStore.leads;
+  return Array.isArray(crmStore.leads) ? crmStore.leads : [];
 }
 
 export function addLead(data: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'status'> & { status?: Lead['status'] }): Lead {
+  if (!Array.isArray(crmStore.leads)) crmStore.leads = [];
   const newLead: Lead = {
     id: `lead-${Date.now()}`,
     name: data.name,
@@ -232,6 +266,7 @@ export function addLead(data: Omit<Lead, 'id' | 'createdAt' | 'updatedAt' | 'sta
 }
 
 export function updateLead(id: string, updates: Partial<Lead>): Lead | null {
+  if (!Array.isArray(crmStore.leads)) crmStore.leads = [];
   const index = crmStore.leads.findIndex(l => l.id === id);
   if (index === -1) return null;
   crmStore.leads[index] = { ...crmStore.leads[index], ...updates, updatedAt: new Date().toISOString() };
@@ -240,6 +275,7 @@ export function updateLead(id: string, updates: Partial<Lead>): Lead | null {
 }
 
 export function deleteLead(id: string): boolean {
+  if (!Array.isArray(crmStore.leads)) crmStore.leads = [];
   const len = crmStore.leads.length;
   crmStore.leads = crmStore.leads.filter(l => l.id !== id);
   persistState();
@@ -248,10 +284,11 @@ export function deleteLead(id: string): boolean {
 
 // Projects CRUD
 export function getProjects(): ProjectCRM[] {
-  return crmStore.projects;
+  return Array.isArray(crmStore.projects) ? crmStore.projects : [];
 }
 
 export function addProject(project: Omit<ProjectCRM, 'id'>): ProjectCRM {
+  if (!Array.isArray(crmStore.projects)) crmStore.projects = [];
   const newProj: ProjectCRM = { ...project, id: `proj-${Date.now()}` };
   crmStore.projects.unshift(newProj);
   persistState();
@@ -259,6 +296,7 @@ export function addProject(project: Omit<ProjectCRM, 'id'>): ProjectCRM {
 }
 
 export function updateProject(id: string, updates: Partial<ProjectCRM>): ProjectCRM | null {
+  if (!Array.isArray(crmStore.projects)) crmStore.projects = [];
   const index = crmStore.projects.findIndex(p => p.id === id);
   if (index === -1) return null;
   crmStore.projects[index] = { ...crmStore.projects[index], ...updates };
@@ -267,6 +305,7 @@ export function updateProject(id: string, updates: Partial<ProjectCRM>): Project
 }
 
 export function deleteProject(id: string): boolean {
+  if (!Array.isArray(crmStore.projects)) crmStore.projects = [];
   const len = crmStore.projects.length;
   crmStore.projects = crmStore.projects.filter(p => p.id !== id);
   persistState();
@@ -275,10 +314,11 @@ export function deleteProject(id: string): boolean {
 
 // Clients CRUD
 export function getClients(): Client[] {
-  return crmStore.clients;
+  return Array.isArray(crmStore.clients) ? crmStore.clients : [];
 }
 
 export function addClient(client: Omit<Client, 'id' | 'createdAt'>): Client {
+  if (!Array.isArray(crmStore.clients)) crmStore.clients = [];
   const newClient: Client = { ...client, id: `client-${Date.now()}`, createdAt: new Date().toISOString().split('T')[0] };
   crmStore.clients.unshift(newClient);
   persistState();
@@ -287,10 +327,11 @@ export function addClient(client: Omit<Client, 'id' | 'createdAt'>): Client {
 
 // Services CMS CRUD
 export function getServicesCMS(): ServiceCMS[] {
-  return crmStore.services;
+  return Array.isArray(crmStore.services) ? crmStore.services : [];
 }
 
 export function addServiceCMS(service: Omit<ServiceCMS, 'id'>): ServiceCMS {
+  if (!Array.isArray(crmStore.services)) crmStore.services = [];
   const newSrv: ServiceCMS = { ...service, id: `srv-${Date.now()}` };
   crmStore.services.push(newSrv);
   persistState();
@@ -298,6 +339,7 @@ export function addServiceCMS(service: Omit<ServiceCMS, 'id'>): ServiceCMS {
 }
 
 export function updateServiceCMS(id: string, updates: Partial<ServiceCMS>): ServiceCMS | null {
+  if (!Array.isArray(crmStore.services)) crmStore.services = [];
   const idx = crmStore.services.findIndex(s => s.id === id);
   if (idx === -1) return null;
   crmStore.services[idx] = { ...crmStore.services[idx], ...updates };
@@ -306,6 +348,7 @@ export function updateServiceCMS(id: string, updates: Partial<ServiceCMS>): Serv
 }
 
 export function deleteServiceCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.services)) crmStore.services = [];
   const len = crmStore.services.length;
   crmStore.services = crmStore.services.filter(s => s.id !== id);
   persistState();
@@ -314,10 +357,11 @@ export function deleteServiceCMS(id: string): boolean {
 
 // Team CMS CRUD
 export function getTeamCMS(): TeamMemberCMS[] {
-  return crmStore.team;
+  return Array.isArray(crmStore.team) ? crmStore.team : [];
 }
 
 export function addTeamMemberCMS(member: Omit<TeamMemberCMS, 'id'>): TeamMemberCMS {
+  if (!Array.isArray(crmStore.team)) crmStore.team = [];
   const newMember: TeamMemberCMS = { ...member, id: `team-${Date.now()}` };
   crmStore.team.push(newMember);
   persistState();
@@ -325,6 +369,7 @@ export function addTeamMemberCMS(member: Omit<TeamMemberCMS, 'id'>): TeamMemberC
 }
 
 export function updateTeamMemberCMS(id: string, updates: Partial<TeamMemberCMS>): TeamMemberCMS | null {
+  if (!Array.isArray(crmStore.team)) crmStore.team = [];
   const idx = crmStore.team.findIndex(t => t.id === id);
   if (idx === -1) return null;
   crmStore.team[idx] = { ...crmStore.team[idx], ...updates };
@@ -333,6 +378,7 @@ export function updateTeamMemberCMS(id: string, updates: Partial<TeamMemberCMS>)
 }
 
 export function deleteTeamMemberCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.team)) crmStore.team = [];
   const len = crmStore.team.length;
   crmStore.team = crmStore.team.filter(t => t.id !== id);
   persistState();
@@ -341,10 +387,11 @@ export function deleteTeamMemberCMS(id: string): boolean {
 
 // FAQs CMS CRUD
 export function getFAQsCMS(): FAQItemCMS[] {
-  return crmStore.faqs;
+  return Array.isArray(crmStore.faqs) ? crmStore.faqs : [];
 }
 
 export function addFAQCMS(faq: Omit<FAQItemCMS, 'id'>): FAQItemCMS {
+  if (!Array.isArray(crmStore.faqs)) crmStore.faqs = [];
   const newFaq: FAQItemCMS = { ...faq, id: `faq-${Date.now()}` };
   crmStore.faqs.push(newFaq);
   persistState();
@@ -352,6 +399,7 @@ export function addFAQCMS(faq: Omit<FAQItemCMS, 'id'>): FAQItemCMS {
 }
 
 export function updateFAQCMS(id: string, updates: Partial<FAQItemCMS>): FAQItemCMS | null {
+  if (!Array.isArray(crmStore.faqs)) crmStore.faqs = [];
   const idx = crmStore.faqs.findIndex(f => f.id === id);
   if (idx === -1) return null;
   crmStore.faqs[idx] = { ...crmStore.faqs[idx], ...updates };
@@ -360,6 +408,7 @@ export function updateFAQCMS(id: string, updates: Partial<FAQItemCMS>): FAQItemC
 }
 
 export function deleteFAQCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.faqs)) crmStore.faqs = [];
   const len = crmStore.faqs.length;
   crmStore.faqs = crmStore.faqs.filter(f => f.id !== id);
   persistState();
@@ -368,10 +417,11 @@ export function deleteFAQCMS(id: string): boolean {
 
 // Features CMS CRUD
 export function getFeaturesCMS(): FeatureCMS[] {
-  return crmStore.features;
+  return Array.isArray(crmStore.features) ? crmStore.features : [];
 }
 
 export function addFeatureCMS(feature: Omit<FeatureCMS, 'id'>): FeatureCMS {
+  if (!Array.isArray(crmStore.features)) crmStore.features = [];
   const newFeat: FeatureCMS = { ...feature, id: `feat-${Date.now()}` };
   crmStore.features.push(newFeat);
   persistState();
@@ -379,6 +429,7 @@ export function addFeatureCMS(feature: Omit<FeatureCMS, 'id'>): FeatureCMS {
 }
 
 export function updateFeatureCMS(id: string, updates: Partial<FeatureCMS>): FeatureCMS | null {
+  if (!Array.isArray(crmStore.features)) crmStore.features = [];
   const idx = crmStore.features.findIndex(f => f.id === id);
   if (idx === -1) return null;
   crmStore.features[idx] = { ...crmStore.features[idx], ...updates };
@@ -387,6 +438,7 @@ export function updateFeatureCMS(id: string, updates: Partial<FeatureCMS>): Feat
 }
 
 export function deleteFeatureCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.features)) crmStore.features = [];
   const len = crmStore.features.length;
   crmStore.features = crmStore.features.filter(f => f.id !== id);
   persistState();
@@ -395,10 +447,11 @@ export function deleteFeatureCMS(id: string): boolean {
 
 // Portfolio CMS CRUD
 export function getPortfolioCMS(): PortfolioItemCMS[] {
-  return crmStore.portfolio;
+  return Array.isArray(crmStore.portfolio) ? crmStore.portfolio : [];
 }
 
 export function addPortfolioCMS(item: Omit<PortfolioItemCMS, 'id'>): PortfolioItemCMS {
+  if (!Array.isArray(crmStore.portfolio)) crmStore.portfolio = [];
   const newItem: PortfolioItemCMS = { ...item, id: `port-${Date.now()}` };
   crmStore.portfolio.push(newItem);
   persistState();
@@ -406,6 +459,7 @@ export function addPortfolioCMS(item: Omit<PortfolioItemCMS, 'id'>): PortfolioIt
 }
 
 export function updatePortfolioCMS(id: string, updates: Partial<PortfolioItemCMS>): PortfolioItemCMS | null {
+  if (!Array.isArray(crmStore.portfolio)) crmStore.portfolio = [];
   const idx = crmStore.portfolio.findIndex(p => p.id === id);
   if (idx === -1) return null;
   crmStore.portfolio[idx] = { ...crmStore.portfolio[idx], ...updates };
@@ -414,6 +468,7 @@ export function updatePortfolioCMS(id: string, updates: Partial<PortfolioItemCMS
 }
 
 export function deletePortfolioCMS(id: string): boolean {
+  if (!Array.isArray(crmStore.portfolio)) crmStore.portfolio = [];
   const len = crmStore.portfolio.length;
   crmStore.portfolio = crmStore.portfolio.filter(p => p.id !== id);
   persistState();
@@ -434,9 +489,9 @@ export function updateSettingsCMS(updates: Partial<AgencySettingsCMS>): AgencySe
 
 // Dashboard Stats
 export function getCRMStats() {
-  const leads = crmStore.leads;
-  const projects = crmStore.projects;
-  const clients = crmStore.clients;
+  const leads = getLeads();
+  const projects = getProjects();
+  const clients = getClients();
 
   const totalLeads = leads.length;
   const newLeads = leads.filter(l => l.status === 'new').length;

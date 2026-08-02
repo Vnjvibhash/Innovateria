@@ -29,9 +29,14 @@ export default function AdminServicesPage() {
       setLoading(true);
       const res = await fetch('/api/admin/services');
       const data = await res.json();
-      if (data.success) setServices(data.services);
+      if (data.success && Array.isArray(data.services)) {
+        setServices(data.services);
+      } else {
+        setServices([]);
+      }
     } catch (err) {
       console.error('Error fetching services:', err);
+      setServices([]);
     } finally {
       setLoading(false);
     }
@@ -112,7 +117,7 @@ export default function AdminServicesPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((srv) => (
+          {(services || []).map((srv) => (
             <div key={srv.id} className="glass-card glass-card-hover rounded-3xl p-6 border border-white/10 flex flex-col justify-between space-y-4">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
